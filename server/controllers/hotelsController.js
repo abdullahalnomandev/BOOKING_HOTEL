@@ -1,5 +1,5 @@
 import Hotel from "../models/hotelesModel.js";
-import { AppError } from "../utils/appError.js";
+import AppError from "../utils/appError.js";
 
 const createHotel = async (req, res, next) => {
   const newHotel = new Hotel(req.body);
@@ -7,7 +7,7 @@ const createHotel = async (req, res, next) => {
     await newHotel.save();
     res.status(200).send(newHotel);
   } catch (errors) {
-    console.log(errors);
+    next(new AppError(errors,404));
   }
 };
 
@@ -32,7 +32,8 @@ const getHotels = async (req, res, next) => {
       data: { allHotels }
     });
   } catch (errors) {
-    next(AppError(errors.message||'Not Found',404));
+    // next(AppError(errors.message||'Not Found',404));
+    next(new AppError(errors || "Not Found", 404));
   }
 };
 

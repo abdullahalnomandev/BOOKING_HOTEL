@@ -1,10 +1,10 @@
 import express from 'express';
-import { createHotel, getHotels, updateHotel } from "../controllers/hotelsController.js";
+import {  createHotel, getHotels, updateHotel } from "../controllers/hotelsController.js";
 
-export const router = express.Router();
+ const router = express.Router();
 
 
-router.post('/',createHotel);
+router.post('/post',createHotel);
 router.get('/',getHotels);
 router.patch('/:id',updateHotel);
 

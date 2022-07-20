@@ -5,19 +5,24 @@ import mongoose from "mongoose";
 import HotelRoutes from './routes/hotelsRoutes.js';
 import cors from 'cors';
 const app = express();
-import { AppError } from './utils/appError.js';
 import globalErrorHandler from './controllers/errorController.js';
-
-// Routes 
-app.use('/api/hotels',HotelRoutes)
+import  AuthRoutes  from "./routes/authRoutes.js";
+import AppError from "./utils/appError.js";
 
 // Middleware 
 app.use(cors({origin: '*'}));
 app.use(express.json());
 
+// Routes 
+app.use('/api/hotels',HotelRoutes)
+app.use('/api/auth',AuthRoutes);
+
+
+
 // Error Handler 
 app.all('*',(req,res,next)=>{
-  next(AppError(`Can't find ${req.originalUrl} on this server`, 404));
+  // next(AppError(`Can't find ${req.originalUrl} on this server`, 404));
+  next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 })
 app.use(globalErrorHandler)
 
@@ -32,7 +37,6 @@ const connection = async () => {
     console.log(error);
   }
 };
-
 
 app.listen(5000 || process.env.PORT, () => {
   connection();
