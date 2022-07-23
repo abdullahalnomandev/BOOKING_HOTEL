@@ -33,6 +33,10 @@ const UserSchema = mongoose.Schema({
     required: [true, "Please confirm your confirm password "],
     minlength: [8, "Confirm password must be at least 8 characters"],
     
+  },
+  isAdmin:{
+    type: String,
+    default: false,
   }
 });
 

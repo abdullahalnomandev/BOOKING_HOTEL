@@ -8,10 +8,12 @@ const app = express();
 import globalErrorHandler from './controllers/errorController.js';
 import  AuthRoutes  from "./routes/authRoutes.js";
 import AppError from "./utils/appError.js";
+import cookieParser from "cookie-parser";
 
 // Middleware 
 app.use(cors({origin: '*'}));
 app.use(express.json());
+app.use(cookieParser());
 
 // Routes 
 app.use('/api/hotels',HotelRoutes)
