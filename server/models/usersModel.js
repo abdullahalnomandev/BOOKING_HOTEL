@@ -6,7 +6,6 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: [true, "Please tell us your name"]
   },
-
   email: {
     type: String,
     lowercase: true,
@@ -27,7 +26,6 @@ const UserSchema = mongoose.Schema({
     required: [true, "Please provide a password"],
     minlength: [8, "Password must be at least 8 characters"]
   },
-  
   passwordConfirm: {
     type: String,
     required: [true, "Please confirm your confirm password "],
@@ -35,7 +33,7 @@ const UserSchema = mongoose.Schema({
     
   },
   isAdmin:{
-    type: String,
+    type: Boolean,
     default: false,
   }
 });

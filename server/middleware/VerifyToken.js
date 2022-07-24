@@ -14,22 +14,25 @@ import AppError from "../utils/appError.js";
     });
 }
 
-const verifyUser = (req,res,next) => {
-    verifyToken(req, res,()=>{
-        if (req.user._id === req.params.id || req.user.isAdmin) {
-          next();
-        } else {
-          if (err) return next(new AppError("You are not authorize!", 403));
-        }
-    });
-}
+ const verifyUser = (req, res,next) => {
+  verifyToken(req, res,() => {
+    if (req.user.id === req.params.id) {
+      console.log(req.user);
+      next();
+    } else {
+       return next(new AppError("You are not authorize!", 403));
 
-const verifyAdmin = (req, res, next) => {
+    }
+  });
+};
+
+
+ const verifyAdmin = (req, res, next) => {
   verifyToken(req, res, () => {
     if (req.user.isAdmin) {
       next();
     } else {
-      if (err) return next(new AppError("You are not authorize!", 403));
+       return next(new AppError("You are not authorize!", 403));
     }
   });
 };
