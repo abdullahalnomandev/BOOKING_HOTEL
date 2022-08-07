@@ -1,0 +1,26 @@
+.ant-card.ant-card-bordered.city-card {
+    position: relative;
+}
+.city-card{
+    cursor: pointer;
+}
+
+.city-content {
+    position: absolute;
+    bottom: 40px;
+    left: 34px;
+    right: 0;
+  margin: auto;
+}
+
+.city-content h2 {
+    color: white;
+    font-weight: 700;
+    font-size: 30px;
+}
+
+.city-content h4 {
+    color: white;
+    font-size: 19px;
+    margin-top: -14px;
+}

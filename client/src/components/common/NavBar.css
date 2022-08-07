@@ -1,0 +1,8 @@
+.items a {
+    padding: 0 21px;
+    color: black;
+    font-weight: inherit;
+}
+.ant-page-header.ant-page-header-ghost {
+    padding: 16px 0;
+}

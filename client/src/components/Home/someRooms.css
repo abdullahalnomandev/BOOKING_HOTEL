@@ -1,0 +1,27 @@
+.head-content {
+    text-align: center;
+    padding: 30px 0;
+}
+
+.head-content h1 {
+    font-family: ui-serif;
+    font-size: 31px;
+}
+
+.head-content img {
+    margin-bottom: 10px;
+}
+
+.head-content p {
+    font-size: 15px;
+    font-family: serif;
+    font-size: 16px;
+}
+.car-footer.align-center {
+    display: flex;
+    justify-content: space-between;
+
+}
+.shift{
+    color: gray;
+}

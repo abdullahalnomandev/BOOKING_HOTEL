@@ -1,4 +1,128 @@
-*{
+* {
   padding: 0;
   margin: 0;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+.btn-primary {
+  color: #fc5959;
+  padding: 7px 19px;
+  background: no-repeat;
+  border: 2px solid #fe5d5d;
+  border-radius: 3px;
+  transition: 0.3s;
+}
+.btn-primary:hover {
+  background-color: #fe5d5d;
+  color: white;
+  transition: 0.3s;
+  cursor: pointer;
+}
+.btn-primary-full {
+  color: white;
+  padding: 7px 19px;
+  background: #fe5d5d;
+  border: 2px solid #fe5d5d;
+  border-radius: 3px;
+  transition: 0.3s;
+}
+.btn-primary-full:hover {
+  color: #fe5d5d;
+  padding: 7px 19px;
+  background: none;
+  border: 2px solid #fe5d5d;
+  border-radius: 3px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  color: #3AC4FA;
+  padding: 7px 10px;
+  background: no-repeat;
+  border: 2px solid #3AC4FA;
+  border-radius: 3px;
+  transition: 0.3s;
+  font-size: 14px;
+  font-weight: bold;
+}
+.btn-secondary:hover {
+  background-color: #3AC4FA;
+  color: white;
+  transition: 0.3s;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+
+}
+span.ant-input-affix-wrapper.ant-input-affix-wrapper-lg {
+  background: transparent;
+  border: none;
+}
+
+input#city {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #717375;
+  color: #aab8ca;
+}
+.ant-input-focused,
+.ant-input:focus {
+  outline: 0;
+  box-shadow: 0 0 0 2px rgba(255, 0, 0, 0) !important ;
+}
+
+.ant-picker.ant-picker-large.ant-picker-focused {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #717375;
+  color: #aab8ca;
+}
+
+.ant-picker.ant-picker-large {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #717375;
+  color: #aab8ca;
+}
+.ant-picker-focused {
+  box-shadow: 0 0 0 2px rgba(255, 0, 0, 0) !important ;
+}
+.ant-picker-focused,
+.ant-picker:hover {
+  border-color: #40a9ff00 !important;
+  border-right-width: 1px;
+  border-bottom: 2px solid #717375 !important;
+}
+.ant-picker-suffix {
+  color: white !important;
+}
+.ant-picker-input > input {
+  color: #aab8ca !important;
+}
+/* DROPDOWN  */
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  background-color: transparent !important;
+  border: none !important;
+  color: #aab8ca;
+  border-bottom: 2px solid #717375 !important;
+    box-shadow: 0 0 0 2px rgba(255, 0, 0, 0) !important ;
+
+}
+.ant-select-single.ant-select-open .ant-select-selection-item {
+  color: white;
+}
+span.ant-select-arrow{
+  color: white;
+}
+.d-flex{
+  display: flex;
+}
+.justify-between{
+  justify-content: space-between;
+}
+.align-center{
+  align-items: center;
 }

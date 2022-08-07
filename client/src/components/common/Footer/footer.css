@@ -1,0 +1,44 @@
+.footer{
+    background-color: #313A45;
+    padding: 15px 5%;
+}
+.footer h4 {
+    color: white;
+    font-family: fangsong;
+    font-size: 23px;
+    font-weight: 900;
+    padding-bottom: 20px;
+}
+
+.list ul li {
+    list-style: none;
+    color: white;
+    font-size: 15px;
+    font-family: revert;
+}
+
+.list {
+    display: flex;
+    align-items: center;
+    gap: 12%;
+    line-height: 35px;
+}
+
+.first-part-of-footer {
+    padding-top: 20px;
+    color: white;
+}
+
+.first-part-of-footer p {
+    font-size: 17px;
+    line-height: 28px;
+    font-family: system-ui;
+}
+
+.fText {
+    width: 450px;
+    margin: auto;
+    color: white;
+    font-size: 15px;
+    padding-top: 15px;
+}

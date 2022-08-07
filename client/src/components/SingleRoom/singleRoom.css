@@ -1,0 +1,57 @@
+.room-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 15px 0px;
+}
+
+.room-wrapper h4 {
+    font-size: 22px;
+    font-family: ui-monospace;
+    font-weight: revert;
+}
+
+.room-wrapper p {
+    display: inline;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.room-wrapper h5 {
+    color: green;
+    font-weight: bold;
+    font-size: 22px;
+    font-family: unset;
+}
+.left-bok-content h3 {
+    font-size: 25px;
+    font-weight: revert;
+    color: #3e3939;
+}
+
+.left-bok-content p {
+    font-size: 16px;
+    font-weight: inherit;
+    font-family: system-ui;
+    padding-right: 20px;
+}
+
+.book-card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #706a6a;
+}
+
+.ant-card-body h1 {
+    font-weight: revert;
+}
+
+.ant-card-body .book-amount {
+    font-weight: initial;
+    color: #484343;
+}
+
+.ant-card-body p {
+    color: #5a5656;
+}

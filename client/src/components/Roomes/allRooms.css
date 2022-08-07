@@ -1,0 +1,54 @@
+
+.ulStyle {
+  list-style: none;
+  display: flex;
+  justify-content: center
+}
+
+.listStyle {
+  margin: 0px 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: goldenRod;
+  color: #fff
+}
+
+.activeListCssStyle {
+  margin: 0px 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #af320b;
+  color: #fff
+}
+
+.prevNextBtn {
+  margin: 0px 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: gray;
+  color: #fff
+}
+
+
+.input-range p {
+    color: #aab8ca;
+}
+.range {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 150px;
+    gap: 3px;
+    margin-top: -15px;
+}
+.ant-form input[type=range] {
+    display: block;
+    width: 100%;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+.range h5 {
+    color: #aab8ca;
+    font-size: 15px;
+    font-weight: bolder;
+}
