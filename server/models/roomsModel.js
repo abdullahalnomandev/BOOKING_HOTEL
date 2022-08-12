@@ -14,8 +14,8 @@ const roomSchema = mongoose.Schema({
   maxPeople:{
     type: Number,
     min:[1,'People at least one'],
-    max:[3,'People at must be below 3'],
-    required:[true,'A room must be people']
+    max:[3,'People at must be below 3 ' ],
+    required:[true,'A room must be peoples']
   },
   price: {
     type: Number,
