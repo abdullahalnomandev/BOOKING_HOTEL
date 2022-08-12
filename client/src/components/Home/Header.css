@@ -2,12 +2,24 @@
   .image-logo {
     margin-top: 30%;
   }
+  .small{
+    display: block;
+  }
+  .large{
+    display: none;
+  }
 }
 
 /* On screens that are 600px wide or less, the background color is olive */
 @media screen and (min-width: 1400px) {
   .image-logo {
     margin-top: 22%;
+  }
+    .small{
+    display: none;
+  }
+  .large{
+    display: block;
   }
 }
 .carousel-button button {

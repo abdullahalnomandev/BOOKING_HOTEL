@@ -97,7 +97,7 @@ const Header = () => {
         </div>
       </div>
 
-      <Form onFinish={onFinish} layout="vertical">
+      <Form onFinish={onFinish} layout="vertical" className="small">
         <div
           className="book-form"
           style={{
@@ -146,22 +146,7 @@ const Header = () => {
             </Select>
           </Form.Item>
 
-          <Form.Item
-            style={{ width: "20%", marginTop: "1%", maxHeight: "100%" }}
-            name="child"
-          >
-            <Select
-              labelInValue
-              defaultValue={{
-                value: "1child",
-                label: "1CHILD"
-              }}
-            >
-              <Option value="1adult">1 CHILD</Option>
-              <Option value="2adult">2 CHILD</Option>
-              <Option value="3adult">3 CHILD</Option>
-            </Select>
-          </Form.Item>
+    
           <div>
             {" "}
             <button
@@ -178,7 +163,7 @@ const Header = () => {
           </div>
         </div>
       </Form>
-      {/* <Form onFinish={onFinish} layout="vertical">
+      <Form onFinish={onFinish} layout="vertical" className="large">
         <div
           className="book-form"
           style={{
@@ -284,7 +269,7 @@ const Header = () => {
             </button>
           </div>
         </div>
-      </Form> */}
+      </Form>
 
       <div className="carousel" style={{ zIndex: 5, position: "relative" }}>
         <Carousel autoplay>
