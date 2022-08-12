@@ -5,11 +5,17 @@ import { Card, Col, Row } from 'antd';
 import { useCallback } from 'react';
 import ImageViewer from "react-simple-image-viewer";
 import BookingRoomModal from './BookingRoomModal';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { getData } from '../../Api/commonServices';
+import { GET_ROOM } from '../../Api/ApiConstant';
 
 const SingleRoom = () => {
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
   const [isBookingModalVisible, setIsBookingModalVisible] = useState(false);
+
+  const{id}= useParams()
 
   console.log(currentImage);
   const images = [
@@ -38,7 +44,7 @@ const SingleRoom = () => {
       img: "https://premiumlayers.com/html/hotelbooking/img/room-image-nine.png"
     },
   ];
-
+const [room, setRoom] = useState({})
   const openImageViewer = useCallback((index) => {
     setCurrentImage(index);
     setIsViewerOpen(true);
@@ -48,6 +54,19 @@ const SingleRoom = () => {
     setCurrentImage(0);
     setIsViewerOpen(false);
   };
+
+ console.log('ROOM',room)
+    useEffect(() => {
+      const getRoomDetails = async () => {
+        try {
+          const { data } = await getData(GET_ROOM, {id:id});
+          setRoom(data.roomDetails[0]);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      getRoomDetails();
+    }, [id]);
   return (
     <>
       <BookingRoomModal
@@ -58,7 +77,8 @@ const SingleRoom = () => {
         <Row className="room-wrapper">
           <Col md={{ span: 18 }} xs={{ span: 24 }}>
             <div>
-              <h4>Austin David Hotel</h4>
+              {id}
+              <h4>Austin David Hotel ({room.title})</h4>
               <GoLocation />
               <p>Dhaka Bangladesh</p>
               <h5>

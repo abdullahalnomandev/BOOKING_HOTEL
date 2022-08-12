@@ -4,8 +4,8 @@ import './footer.css';
 const Footer = () => {
     return (
       <>
-        <div className="search">
-
+        <div className="search" >
+          <h1></h1>
         </div>
 
         <div className="footer">

@@ -1,5 +1,6 @@
 import { Checkbox, Col, Modal, Row } from "antd";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const BookingRoomModal = ({
   isBookingModalVisible,
@@ -40,7 +41,7 @@ const onChange = (checkedValues) => {
       disabled: false
     }
   ];
-
+const navigate= useNavigate();
   return (
     <div>
       <Modal
@@ -107,7 +108,11 @@ const onChange = (checkedValues) => {
             </Checkbox.Group>
           </Col>
         </Row>
-        <button className="btn-secondary " style={{ width: "100%" }}>
+        <button className="btn-secondary " style={{ width: "100%" }} onClick={()=>{
+          alert("Login ,Register system coming.... ");
+          setIsBookingModalVisible(false);
+          navigate('/login')
+        }}>
           Reserve Now !
         </button>{" "}
       </Modal>

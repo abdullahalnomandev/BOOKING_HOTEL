@@ -9,10 +9,11 @@ import rangpur from "../../assets/rangpur.jpg";
 import maymnsing from "../../assets/moymang.jpg";
 import borisal from "../../assets/borisal.jpg";
 import './City.css'
+import { useNavigate } from "react-router-dom";
 const Citys = () => {
   const citys = [
     { id: 1, image: dhaka, name: "Dhaka", properties: 10 },
-    { id: 2, image: Chittagong, name: "	Chittagong", properties: 90 },
+    { id: 2, image: Chittagong, name: "Chittagong", properties: 90 },
     { id: 3, image: Rajshahi, name: "Rajshahi", properties: 70 },
     { id: 4, image: Khulna, name: "Khulna", properties: 10 },
     { id: 5, image: sylhet, name: "Sylhet", properties: 60 },
@@ -20,6 +21,15 @@ const Citys = () => {
     { id: 7, image: maymnsing, name: "Mymensingh", properties: 10 },
     { id: 8, image: borisal, name: "Barisal", properties: 20 }
   ];
+
+    const navigate= useNavigate()
+
+  const handleMoveCity=(id,name,city)=>{
+    const cityInfo={
+      id,name
+    }
+    navigate("/hoteles",{state:cityInfo});
+  }
   return (
     <div
       style={{
@@ -49,7 +59,7 @@ const Citys = () => {
             md={{ span: 8 }}
             lg={{ span: 6 }}
           >
-            <div className="city-card">
+            <div className="city-card" onClick={()=>handleMoveCity(id,name)}>
               <div
                 style={{
                   // background: `url(${image})`,

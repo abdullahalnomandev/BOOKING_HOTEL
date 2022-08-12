@@ -2,7 +2,7 @@ import { API } from "./ApiInterceptor";
 
 
 // USERS
- const getData =  (api_url) =>  API.get(api_url);
+ const getData =  (api_url,body) =>  API.post(api_url,body);
 //  const getData = async (URL) => await API.get(URL);
 //  const createPost = (newPost) => API.post("/posts", newPost);
 //  const updatePost = (id, updatePost) =>  API.patch(`posts/${id}`, updatePost);

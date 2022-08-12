@@ -14,22 +14,23 @@ const createHotel = async (req, res, next) => {
 const getHotels = async (req, res, next) => {
 
   try {
-    const queryObject = {...req.query};
-    const page =   queryObject.page * 1 || 1;
-    const limit =  queryObject.limit * 1 || 100;
-    const skip = (page - 1)*limit;
+    // const queryObject = {...req.query};
+    // const page =   queryObject.page * 1 || 1;
+    // const limit =  queryObject.limit * 1 || 100;
+    // const skip = (page - 1)*limit;
 
-    if(queryObject.page){
-      const numHotels = await Hotel.countDocuments();
-      if(skip>numHotels) throw new Error('This page does not exist');
-    }
+    // if(queryObject.page){
+    //   const numHotels = await Hotel.countDocuments();
+    //   if(skip>numHotels) next(new AppError("This page does not exist"));
+    // }
 
-    const allHotels = await Hotel.find().skip(skip).limit(limit);
+    // const allHotels = await Hotel.find().skip(skip).limit(limit);
+    const allHotels = await Hotel.find({city:req.body.city})
     
     res.status(200).json({
       status: "success",
       results: allHotels.length,
-      data: { allHotels }
+      hotels: { allHotels }
     });
   } catch (errors) {
     // next(AppError(errors.message||'Not Found',404));
@@ -38,18 +39,29 @@ const getHotels = async (req, res, next) => {
 };
 
 const updateHotel = async (req, res, next) => {
-  const updateHotelItem = req.body;
+    const hotelId = req.body.hotelId;
 
-  try {
-    const updateHotel = await Hotel.findByIdAndUpdate(
-      req.params.id,
-      updateHotelItem,
-      { upsert: true }
-    );
-    res.status(200).send(updateHotel);
-  } catch (errors) {
-    console.log(errors);
-  }
+    try {
+      await Hotel.findByIdAndUpdate(hotelId, { rooms: req.body.rooms },{ upsert: true });
+      res.status(200).json({message:'success'})
+    } catch (errors) {
+      next(new AppError(errors));
+    }
+  // const updateHotelItem = req.body;
+
+  // try {
+  //   const updateHotel = await Hotel.findByIdAndUpdate(
+  //     req.params.id,
+  //     updateHotelItem,
+  //     { upsert: true }
+  //   );
+  //   res.status(200).send(updateHotel);
+  // } catch (errors) {
+  //   console.log(errors);
+  // }
 };
 
 export { createHotel, getHotels, updateHotel };
+
+
+

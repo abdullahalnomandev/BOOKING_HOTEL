@@ -96,7 +96,89 @@ const Header = () => {
           <NavBar />
         </div>
       </div>
+
       <Form onFinish={onFinish} layout="vertical">
+        <div
+          className="book-form"
+          style={{
+            zIndex: 100,
+            position: "absolute",
+            margin: "0 5%",
+            width: "90%"
+          }}
+        >
+          <div className="title">
+            <h5>BOOK YOUR </h5>
+            <h2>ROOMS</h2>
+          </div>
+
+          <Form.Item
+            name="city"
+            rules={[
+              {
+                required: true,
+                message: "Please input a hotel name!"
+              }
+            ]}
+          >
+            <Input size="large" placeholder="Search hotel" />
+          </Form.Item>
+          <Form.Item name="arrival">
+            <DatePicker size="large" placeholder="ARRIVAL" />
+          </Form.Item>
+
+    
+
+          <Form.Item
+            style={{ width: "20%", marginTop: "1%", maxHeight: "100%" }}
+            name="adult"
+          >
+            <Select
+              labelInValue
+              defaultValue={{
+                value: "1adult",
+                label: "1ADULT"
+              }}
+            >
+              <Option value="1adult">1 ADULT</Option>
+              <Option value="2adult">2 ADULT</Option>
+              <Option value="3adult">3 ADULT</Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            style={{ width: "20%", marginTop: "1%", maxHeight: "100%" }}
+            name="child"
+          >
+            <Select
+              labelInValue
+              defaultValue={{
+                value: "1child",
+                label: "1CHILD"
+              }}
+            >
+              <Option value="1adult">1 CHILD</Option>
+              <Option value="2adult">2 CHILD</Option>
+              <Option value="3adult">3 CHILD</Option>
+            </Select>
+          </Form.Item>
+          <div>
+            {" "}
+            <button
+              className="animated-button1 "
+              type="primary"
+              htmlType="submit"
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              Search
+            </button>
+          </div>
+        </div>
+      </Form>
+      {/* <Form onFinish={onFinish} layout="vertical">
         <div
           className="book-form"
           style={{
@@ -202,7 +284,7 @@ const Header = () => {
             </button>
           </div>
         </div>
-      </Form>
+      </Form> */}
 
       <div className="carousel" style={{ zIndex: 5, position: "relative" }}>
         <Carousel autoplay>

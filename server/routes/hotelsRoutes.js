@@ -4,7 +4,7 @@ import {  createHotel, getHotels, updateHotel } from "../controllers/hotelsContr
  const router = express.Router();
 
 router.post('/post',createHotel);
-router.get('/',getHotels);
-router.patch('/:id',updateHotel);
+router.post('/',getHotels);
+router.patch('/',updateHotel);
 
 export default router;

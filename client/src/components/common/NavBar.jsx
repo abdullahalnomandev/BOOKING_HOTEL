@@ -20,8 +20,12 @@ const NavBar = () => {
           <Link to="#">CUSTOMER</Link>
           <Link to="#">ADMIN</Link>
         </div>,
-        <button className="btn-primary-full">Login</button>,
-        <button className="btn-primary">Register</button>
+        <Link to="/login">
+          <button className="btn-primary-full">Login</button>,
+        </Link>,
+        <Link to="/login">
+          <button className="btn-primary">Register</button>
+        </Link>
       ]}
     />
   );
