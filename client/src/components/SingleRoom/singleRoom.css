@@ -55,3 +55,16 @@
 .ant-card-body p {
     color: #5a5656;
 }
+.room-number p{
+    color: #5a5656;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    padding: 7px 0px;
+    cursor: pointer;
+    background: rgb(87 159 57);
+
+}
+input[type="checkbox"] {
+    display: none;
+}

@@ -1,4 +1,4 @@
-import { Card, Col, Collapse, Row } from "antd";
+import { Col, Row } from "antd";
 import React from "react";
 import dhaka from "../../assets/dhaka.jpg";
 import Chittagong from "../../assets/chatagong.jpg";
@@ -62,7 +62,6 @@ const Citys = () => {
             <div className="city-card" onClick={()=>handleMoveCity(id,name)}>
               <div
                 style={{
-                  // background: `url(${image})`,
                   backgroundImage: ` linear-gradient(to bottom, rgba(245, 246, 252, 0.52), #00000070),     url(${image})`,
                   height: "200px",
                   width: "100%",

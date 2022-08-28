@@ -1,0 +1,25 @@
+.hmbger {
+color: #111;
+font-size: 29px;
+float: right;
+ cursor: pointer;
+ 
+
+}
+.sidebar-container{
+    width: 15%;
+}
+
+@media screen and (max-width: 768px) {
+  .hmbger {
+    color: #111;
+    font-size: 29px;
+    float: left;
+    margin-right: 10px;
+    padding-left: 12px;
+    cursor: pointer;
+  }
+  .sidebar-container{
+    width: 100%;
+}
+}

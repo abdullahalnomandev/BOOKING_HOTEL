@@ -1,91 +1,24 @@
-import React, { useState } from "react";
-import {
-  Button,
-  Carousel,
-  Col,
-  DatePicker,
-  Descriptions,
-  Dropdown,
-  Form,
-  Image,
-  Input,
-  Menu,
-  PageHeader,
-  Row,
-  Select,
-  Space,
-  Typography
-} from "antd";
+import React from "react";
+import { Carousel, Col, DatePicker, Form, Row, Select } from "antd";
 import "./Header.css";
-import slider1 from "../../assets/slider-one.jpg";
-import { BiHotel } from "react-icons/bi";
-import { IoIosWoman } from "react-icons/io";
-import { TiDelete } from "react-icons/ti";
-import NavBar from "../common/NavBar";
+import NavBar from "../common/NavBar/NavBar";
 import { useNavigate } from "react-router-dom";
-const { Title, Text } = Typography;
-const { RangePicker } = DatePicker;
+import { useBookingContext } from "../../context/BookingContext";
 const { Option } = Select;
 
 const Header = () => {
-  const [memberAndHotelCount, setMemberAndHotelCount] = useState({
-    adult: 2,
-    children: 0,
-    room: 1
-  });
-  const [isDropDownVisible, setIsDropDownVisible] = useState(false);
   const navigate = useNavigate();
+
+  const [form] = Form.useForm();
+    const {booking, setBooking } = useBookingContext();
+
   const onFinish = (values) => {
     console.log("Success:", values);
-    navigate("/rooms");
-  };
-
-  const handleIncrease = (type) => {
-    console.log(type);
-    if (type === "adult") {
-      setMemberAndHotelCount({
-        ...memberAndHotelCount,
-        adult: memberAndHotelCount.adult + 1
-      });
-    }
-    if (type === "children") {
-      setMemberAndHotelCount({
-        ...memberAndHotelCount,
-        children: memberAndHotelCount.children + 1
-      });
-    }
-    if (type === "room") {
-      setMemberAndHotelCount({
-        ...memberAndHotelCount,
-        room: memberAndHotelCount.room + 1
-      });
-    }
-  };
-  const handleDecrease = (type) => {
-    if (memberAndHotelCount.adult > 1) {
-      if (type === "adult") {
-        setMemberAndHotelCount({
-          ...memberAndHotelCount,
-          adult: memberAndHotelCount.adult - 1
-        });
-      }
-    }
-    if (memberAndHotelCount.room > 1) {
-      if (type === "room") {
-        setMemberAndHotelCount({
-          ...memberAndHotelCount,
-          room: memberAndHotelCount.room - 1
-        });
-      }
-    }
-    if (memberAndHotelCount.children > 0) {
-      if (type === "children") {
-        setMemberAndHotelCount({
-          ...memberAndHotelCount,
-          children: memberAndHotelCount.children - 1
-        });
-      }
-    }
+    const cityInfo = {
+      name: values.city
+    };
+    setBooking(values)
+    navigate("/hoteles", { state: cityInfo });
   };
 
 
@@ -97,73 +30,17 @@ const Header = () => {
         </div>
       </div>
 
-      <Form onFinish={onFinish} layout="vertical" className="small">
-        <div
-          className="book-form"
-          style={{
-            zIndex: 100,
-            position: "absolute",
-            margin: "0 5%",
-            width: "90%"
-          }}
-        >
-          <div className="title">
-            <h5>BOOK YOUR </h5>
-            <h2>ROOMS</h2>
-          </div>
-
-          <Form.Item
-            name="city"
-            rules={[
-              {
-                required: true,
-                message: "Please input a hotel name!"
-              }
-            ]}
-          >
-            <Input size="large" placeholder="Search hotel" />
-          </Form.Item>
-          <Form.Item name="arrival">
-            <DatePicker size="large" placeholder="ARRIVAL" />
-          </Form.Item>
-
-    
-
-          <Form.Item
-            style={{ width: "20%", marginTop: "1%", maxHeight: "100%" }}
-            name="adult"
-          >
-            <Select
-              labelInValue
-              defaultValue={{
-                value: "1adult",
-                label: "1ADULT"
-              }}
-            >
-              <Option value="1adult">1 ADULT</Option>
-              <Option value="2adult">2 ADULT</Option>
-              <Option value="3adult">3 ADULT</Option>
-            </Select>
-          </Form.Item>
-
-    
-          <div>
-            {" "}
-            <button
-              className="animated-button1 "
-              type="primary"
-              htmlType="submit"
-            >
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              Search
-            </button>
-          </div>
-        </div>
-      </Form>
-      <Form onFinish={onFinish} layout="vertical" className="large">
+      <Form
+        initialValues={{
+          adult: booking.adult,
+          room: booking.room,
+          child: booking.child,
+        }}
+        form={form}
+        onFinish={onFinish}
+        layout="vertical"
+        className="large"
+      >
         <div
           className="book-form"
           style={{
@@ -180,18 +57,39 @@ const Header = () => {
           <div className="book-forms">
             <div style={{ display: "flex", gap: "10px" }}>
               <Form.Item
+                style={{ width: "20%", marginTop: "1%", maxHeight: "100%" }}
                 name="city"
                 rules={[
                   {
                     required: true,
-                    message: "Please input a hotel name!"
+                    message: "Select your city!"
                   }
                 ]}
               >
-                <Input size="large" placeholder="Search hotel" />
+                <Select
+                  showSearch
+                  placeholder="Search city"
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.children.includes(input)
+                  }
+                  filterSort={(optionA, optionB) =>
+                    optionA.children
+                      .toLowerCase()
+                      .localeCompare(optionB.children.toLowerCase())
+                  }
+                >
+                  <Option value="dhaka">Dhaka</Option>
+                  <Option value="chittagong">Chittagong</Option>
+                  <Option value="rajshahi">Rajshahi</Option>
+                  <Option value="khulna">Khulna</Option>
+                  <Option value="sylhet">Sylhet</Option>
+                  <Option value="rangpur">Rangpur</Option>
+                  <Option value="mymensingh">Mymensingh</Option>
+                  <Option value="barisal">Barisal</Option>
+                </Select>
               </Form.Item>
-              <Form.Item
-                name="arrival"  >
+              <Form.Item name="arrival">
                 <DatePicker size="large" placeholder="ARRIVAL" />
               </Form.Item>
               <Form.Item
@@ -207,14 +105,9 @@ const Header = () => {
               </Form.Item>
               <Form.Item
                 style={{ width: "20%", marginTop: "1%", maxHeight: "100%" }}
-                name="room"  >
-                <Select
-                  labelInValue
-                  defaultValue={{
-                    value: "1room",
-                    label: "1ROOM"
-                  }}
-                >
+                name="room"
+              >
+                <Select  >
                   <Option value="1room">1 ROOM</Option>
                   <Option value="2room">2 ROOM</Option>
                   <Option value="3room">3 ROOM</Option>
@@ -223,14 +116,9 @@ const Header = () => {
 
               <Form.Item
                 style={{ width: "20%", marginTop: "1%", maxHeight: "100%" }}
-                name="adult"   >
-                <Select
-                  labelInValue
-                  defaultValue={{
-                    value: "1adult",
-                    label: "1ADULT"
-                  }}
-                >
+                name="adult"
+              >
+                <Select >
                   <Option value="1adult">1 ADULT</Option>
                   <Option value="2adult">2 ADULT</Option>
                   <Option value="3adult">3 ADULT</Option>
@@ -239,17 +127,12 @@ const Header = () => {
 
               <Form.Item
                 style={{ width: "20%", marginTop: "1%", maxHeight: "100%" }}
-                name="child" >
-                <Select
-                  labelInValue
-                  defaultValue={{
-                    value: "1child",
-                    label: "1CHILD"
-                  }}
-                >
-                  <Option value="1adult">1 CHILD</Option>
-                  <Option value="2adult">2 CHILD</Option>
-                  <Option value="3adult">3 CHILD</Option>
+                name="child"
+              >
+                <Select>
+                  <Option value="0child">0 CHILD</Option>
+                  <Option value="1child">1 CHILD</Option>
+                  <Option value="2child">2 CHILD</Option>
                 </Select>
               </Form.Item>
             </div>

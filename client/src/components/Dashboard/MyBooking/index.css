@@ -1,0 +1,17 @@
+.my-booking table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.my-booking th {
+    background-color: #3AC4FA;
+    color: #ffff;
+}
+
+.my-booking th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.my-booking tr:hover {background-color: #3ac4fa6b;}

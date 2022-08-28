@@ -1,50 +1,26 @@
-import React, { useState } from 'react';
-import {GoLocation} from 'react-icons/go';
-import './singleRoom.css';
-import { Card, Col, Row } from 'antd';
-import { useCallback } from 'react';
+import React, { useState } from "react";
+import { GoLocation } from "react-icons/go";
+import "./singleRoom.css";
+import { Card, Col, Row } from "antd";
+import { useCallback } from "react";
 import ImageViewer from "react-simple-image-viewer";
-import BookingRoomModal from './BookingRoomModal';
-import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
-import { getData } from '../../Api/commonServices';
-import { GET_ROOM } from '../../Api/ApiConstant';
+import BookingRoomModal from "./BookingRoomModal";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { getData } from "../../Api/commonServices";
+import { GET_ROOM, GET_SINGLE_HOTEL_DETAILS } from "../../Api/ApiConstant";
+import useAuth from "../../hooks/useAuth";
 
 const SingleRoom = () => {
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
   const [isBookingModalVisible, setIsBookingModalVisible] = useState(false);
 
-  const{id}= useParams()
+  const { id, hotelId } = useParams();
 
   console.log(currentImage);
-  const images = [
-    {
-      id: 1,
-      img: "https://premiumlayers.com/html/hotelbooking/img/room-image-five.png"
-    },
-    {
-      id: 2,
-      img: "https://premiumlayers.com/html/hotelbooking/img/room-image-nine.png"
-    },
-    {
-      id: 3,
-      img: "https://premiumlayers.com/html/hotelbooking/img/room-image-thirteen.jpg"
-    },
-    {
-      id: 4,
-      img: "https://premiumlayers.com/html/hotelbooking/img/room-image-eight.png"
-    },
-    {
-      id: 5,
-      img: "https://premiumlayers.com/html/hotelbooking/img/room-image-five.png"
-    },
-    {
-      id: 6,
-      img: "https://premiumlayers.com/html/hotelbooking/img/room-image-nine.png"
-    },
-  ];
-const [room, setRoom] = useState({})
+  const [room, setRoom] = useState({});
+  const [hotel, setHotel] = useState({});
   const openImageViewer = useCallback((index) => {
     setCurrentImage(index);
     setIsViewerOpen(true);
@@ -55,32 +31,68 @@ const [room, setRoom] = useState({})
     setIsViewerOpen(false);
   };
 
- console.log('ROOM',room)
-    useEffect(() => {
-      const getRoomDetails = async () => {
-        try {
-          const { data } = await getData(GET_ROOM, {id:id});
-          setRoom(data.roomDetails[0]);
-        } catch (err) {
-          console.log(err);
-        }
-      };
-      getRoomDetails();
-    }, [id]);
+  useEffect(() => {
+    const getRoomDetails = async () => {
+      try {
+        const {
+          data: { roomDetails }
+        } = await getData(GET_ROOM, { id });
+        console.log("singleRoom", roomDetails);
+        setRoom(roomDetails);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getRoomDetails();
+
+    const getHotelDetails = async () => {
+      try {
+        const {
+          data: { hotel }
+        } = await getData(GET_SINGLE_HOTEL_DETAILS, { hotelId });
+        setHotel(hotel);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getHotelDetails();
+  }, [hotelId]);
+
+  const {isLogin}=useAuth();
+
+  const navigate = useNavigate();
+  const handleShowModal = () => {
+    if(isLogin){
+    setIsBookingModalVisible(true);
+    }
+    else{
+      navigate('/auth/register');
+    }
+  };
+
+  const handleClick =()=>{
+     setIsBookingModalVisible(true);
+     
+  }
+
   return (
     <>
       <BookingRoomModal
         isBookingModalVisible={isBookingModalVisible}
         setIsBookingModalVisible={setIsBookingModalVisible}
+        room={room}
+        hotel={hotel}
       />
       <div className="singleRoom">
         <Row className="room-wrapper">
           <Col md={{ span: 18 }} xs={{ span: 24 }}>
             <div>
               {id}
-              <h4>Austin David Hotel ({room.title})</h4>
+              <h4>
+                {hotel.name} ({room.title})
+              </h4>
               <GoLocation />
-              <p>Dhaka Bangladesh</p>
+              <p>{hotel.address}</p>
               <h5>
                 Book a stay over $150 at this property and get a free airport
                 taxi.
@@ -92,7 +104,7 @@ const [room, setRoom] = useState({})
               <button
                 className="animated-button1 "
                 style={{ padding: "10px 10px" }}
-                onClick={() => setIsBookingModalVisible(true)}
+                onClick={handleShowModal}
               >
                 <span></span>
                 <span></span>
@@ -106,7 +118,7 @@ const [room, setRoom] = useState({})
         <div>
           {isViewerOpen && (
             <ImageViewer
-              src={images.map(({ img }) => img)}
+              src={room?.photos?.map((img) => img)}
               currentIndex={currentImage}
               onClose={closeImageViewer}
               disableScroll={false}
@@ -120,7 +132,7 @@ const [room, setRoom] = useState({})
           )}
         </div>
         <Row gutter={[12, 12]} style={{ marginBottom: "20px" }}>
-          {images.map(({ img }, index) => (
+          {room?.photos?.map((img, index) => (
             <Col
               md={{ span: 8 }}
               xs={{ span: 24 }}
@@ -139,31 +151,21 @@ const [room, setRoom] = useState({})
         <Row style={{ paddingBottom: "20px" }} gutter={[24, 24]}>
           <Col xs={{ span: 24 }} md={{ span: 18 }}>
             <div className="left-bok-content">
-              <h3>Experience world-class service </h3>
-              <p>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto
-                ipsam nesciunt itaque in recusandae aspernatur voluptate dolores
-                quam beatae, debitis cupiditate, sapiente laborum sint, pariatur
-                soluta aut eveniet adipisci reprehenderit.
-              </p>
+              <h3>{hotel.title} </h3>
+              <p>{hotel.desc}</p>
             </div>
           </Col>
           <Col xs={{ span: 24 }} md={{ span: 6 }}>
             <Card className="book-card">
               <h3>Perfect for 2 night stay !</h3>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Molestias voluptates blanditiis labore neque earum praesentium
-                dolore temporibus possimus excepturi eius! Lorem ipsum dolor sit
-                amet, consectetur adipisicing elit. At, sit?
-              </p>
+              <p>{hotel.desc}</p>
               <h1>
                 $300 <span className="book-amount">(2 night)</span>
               </h1>
               <button
                 className="animated-button1 "
                 style={{ padding: "10px 10px" }}
-                onClick={() => setIsBookingModalVisible(true)}
+                onClick={handleClick}
               >
                 <span></span>
                 <span></span>

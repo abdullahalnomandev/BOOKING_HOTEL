@@ -1,79 +1,15 @@
 import {
-  Button,
   Card,
   Col,
-  DatePicker,
-  Form,
-  Image,
-  Input,
-  InputNumber,
-  PageHeader,
   Row,
-  Select,
-  Slider
 } from "antd";
-import React, { useCallback, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import NavBar from "../common/NavBar";
-import Header from "../Home/Header";
-import Item from "antd/lib/list/Item";
-import { Pagination } from "easy-pagination-1";
+import React, {  useEffect, useState } from "react";
+import {  useLocation, useNavigate } from "react-router-dom";
+import NavBar from "../common/NavBar/NavBar";
 import Footer from "../common/Footer/Footer";
-import axios from "axios";
-import useFetch from "./../../hooks/useFetch";
-import { GET_HOTELS, GET_ROOMS } from "../../Api/ApiConstant";
+import { GET_HOTELS } from "../../Api/ApiConstant";
 import { getData } from "../../Api/commonServices";
-const { Option } = Select;
-const rooms = [
-  {
-    id: 1,
-    title: "Deluxe Rom",
-    price: 200,
-    img: "https://premiumlayers.com/html/hotelbooking/img/room-image-five.png"
-  },
-  {
-    id: 2,
-    title: "Double Room",
-    price: 200,
-    img: "https://premiumlayers.com/html/hotelbooking/img/room-image-nine.png"
-  },
-  {
-    id: 3,
-    title: "Single Room",
-    price: 200,
-    img: "https://premiumlayers.com/html/hotelbooking/img/room-image-thirteen.jpg"
-  },
-  {
-    id: 4,
-    title: "Kids  Room",
-    price: 200,
-    img: "https://premiumlayers.com/html/hotelbooking/img/room-image-eight.png"
-  },
-  {
-    id: 5,
-    title: "Deluxe Rom",
-    price: 200,
-    img: "https://premiumlayers.com/html/hotelbooking/img/room-image-five.png"
-  },
-  {
-    id: 6,
-    title: "Double Room",
-    price: 200,
-    img: "https://premiumlayers.com/html/hotelbooking/img/room-image-nine.png"
-  },
-  {
-    id: 7,
-    title: "Single Room",
-    price: 200,
-    img: "https://premiumlayers.com/html/hotelbooking/img/room-image-thirteen.jpg"
-  },
-  {
-    id: 8,
-    title: "Kids  Room",
-    price: 200,
-    img: "https://premiumlayers.com/html/hotelbooking/img/room-image-eight.png"
-  }
-];
+
 const AllHotels = () => {
 
   const [hotels, setHotels] = useState([]);
@@ -85,7 +21,6 @@ const AllHotels = () => {
 
       try {
         const { data } = await getData(GET_HOTELS, {city:name.toLowerCase()});
-        console.log('hotel',data.hotels.allHotels);
         setHotels(data.hotels.allHotels);
       } catch (err) {
         console.log(err);
@@ -138,7 +73,6 @@ const AllHotels = () => {
               >
                 <Card>
                   <img
-                    // preview={false}
                     style={{
                       width: "100%",
                       height: "200px",

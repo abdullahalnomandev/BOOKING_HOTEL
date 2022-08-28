@@ -1,70 +1,32 @@
-import { Button, Card, Col, DatePicker, Form, Image, Input, InputNumber, PageHeader, Row, Select, Slider } from 'antd';
-import React, { useCallback, useEffect, useState } from 'react';
+import {  Card, Col, Form, Image, Row, Select } from 'antd';
+import React, {  useEffect, useState } from 'react';
 import { Link,  useLocation } from 'react-router-dom';
-import NavBar from '../common/NavBar';
-import Header from '../Home/Header';
-import Item from 'antd/lib/list/Item';
+import NavBar from '../common/NavBar/NavBar';
 import './allRooms.css'
 import { Pagination } from "easy-pagination-1"; 
 import Footer from '../common/Footer/Footer';
-import axios from 'axios';
-import useFetch from './../../hooks/useFetch';
-import { GET_ROOMS, GET_ROOMS_BY_ID } from '../../Api/ApiConstant';
+import {  GET_ROOMS_BY_Hotel_ID } from '../../Api/ApiConstant';
 import { getData } from '../../Api/commonServices';
+import { useBookingContext } from '../../context/BookingContext';
 const { Option } = Select;
-  const rooms = [
-    {
-      id: 1,
-      title: "Deluxe Rom",
-      price: 200,
-      img: "https://premiumlayers.com/html/hotelbooking/img/room-image-five.png"
-    },
-    {
-      id: 2,
-      title: "Double Room",
-      price: 200,
-      img: "https://premiumlayers.com/html/hotelbooking/img/room-image-nine.png"
-    },
-    {
-      id: 3,
-      title: "Single Room",
-      price: 200,
-      img: "https://premiumlayers.com/html/hotelbooking/img/room-image-thirteen.jpg"
-    },
-    {
-      id: 4,
-      title: "Kids  Room",
-      price: 200,
-      img: "https://premiumlayers.com/html/hotelbooking/img/room-image-eight.png"
-    },
-    {
-      id: 5,
-      title: "Deluxe Rom",
-      price: 200,
-      img: "https://premiumlayers.com/html/hotelbooking/img/room-image-five.png"
-    },
-    {
-      id: 6,
-      title: "Double Room",
-      price: 200,
-      img: "https://premiumlayers.com/html/hotelbooking/img/room-image-nine.png"
-    },
-    {
-      id: 7,
-      title: "Single Room",
-      price: 200,
-      img: "https://premiumlayers.com/html/hotelbooking/img/room-image-thirteen.jpg"
-    },
-    {
-      id: 8,
-      title: "Kids  Room",
-      price: 200,
-      img: "https://premiumlayers.com/html/hotelbooking/img/room-image-eight.png"
-    }
-  ];
+
 const AllRooms = () => {
+  const { booking, setBooking } = useBookingContext();
   const onFinish = (values) => {
     console.log("Success:", values);
+  };
+
+  const handleChange = (value,key) => {
+    console.log(booking);
+    if(key==='room'){
+      setBooking({...booking,room:value});
+    }
+     if (key === "adult") {
+       setBooking({ ...booking, adult: value });
+     }
+      if (key === "child") {
+        setBooking({ ...booking, child: value });
+      }
   };
 
   const showPerPage = 5;
@@ -75,46 +37,24 @@ const AllRooms = () => {
 
   const { state:hotelID } = useLocation();
 
-  // // GET_ROOMS_BY_ID
-  // useEffect(() => {
-  //   const getPost = async () => {
-  //     const filterData = {
-  //       hotelId: hotelID,
-  //       lowestPrice: inputRange,
-  //       heightPrice: 500
-  //     };
-  //     try {
-  //       const { data } = await getData(GET_ROOMS_BY_ID, filterData);
-  //       setRooms(data.rooms);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   getPost();
-  // }, [hotelID,inputRange]);
-
-  // GET_ROOMS
+  // GET_ROOMS_BY_ID
   useEffect(() => {
     const getPost = async () => {
       const filterData = {
+        hotelId: hotelID,
         lowestPrice: inputRange,
         heightPrice: 500
       };
       try {
-        const { data } = await getData(GET_ROOMS, filterData);
-        setRooms(data.rooms);
+        const { data } = await getData(GET_ROOMS_BY_Hotel_ID, filterData);
+        setRooms(data?.rooms);
       } catch (err) {
         console.log(err);
       }
     };
     getPost();
-  }, [inputRange]);
+  }, [hotelID,inputRange]);
 
-  const { paginationList, paginationListView } = Pagination(
-    rooms,
-    currentPage,
-    showPerPage
-  );
 
   return (
     <>
@@ -129,7 +69,15 @@ const AllRooms = () => {
             alt=""
           />
         </div>
-        <Form onFinish={onFinish} layout="vertical">
+        <Form
+          initialValues={{
+            adult: booking.adult,
+            room: booking.room,
+            child: booking.child
+          }}
+          onFinish={onFinish}
+          layout="vertical"
+        >
           <div className="book-form">
             <div className="title">
               <h5>BOOK YOUR </h5>
@@ -145,13 +93,7 @@ const AllRooms = () => {
                   }}
                   name="room"
                 >
-                  <Select
-                    labelInValue
-                    defaultValue={{
-                      value: "1room",
-                      label: "1ROOM"
-                    }}
-                  >
+                  <Select onChange={(e) => handleChange(e, "room")}>
                     <Option value="1room">1 ROOM</Option>
                     <Option value="2room">2 ROOM</Option>
                     <Option value="3room">3 ROOM</Option>
@@ -166,13 +108,7 @@ const AllRooms = () => {
                   }}
                   name="adult"
                 >
-                  <Select
-                    labelInValue
-                    defaultValue={{
-                      value: "1adult",
-                      label: "1ADULT"
-                    }}
-                  >
+                  <Select onChange={(e) => handleChange(e, "adult")}>
                     <Option value="1adult">1 ADULT</Option>
                     <Option value="2adult">2 ADULT</Option>
                     <Option value="3adult">3 ADULT</Option>
@@ -187,16 +123,10 @@ const AllRooms = () => {
                   }}
                   name="child"
                 >
-                  <Select
-                    labelInValue
-                    defaultValue={{
-                      value: "1child",
-                      label: "1CHILD"
-                    }}
-                  >
-                    <Option value="1adult">1 CHILD</Option>
-                    <Option value="2adult">2 CHILD</Option>
-                    <Option value="3adult">3 CHILD</Option>
+                  <Select onChange={(e) => handleChange(e, "child")}>
+                    <Option value="0child">0 CHILD</Option>
+                    <Option value="1child">1 CHILD</Option>
+                    <Option value="2child">2 CHILD</Option>
                   </Select>
                 </Form.Item>
                 <div className="input-range">
@@ -233,8 +163,15 @@ const AllRooms = () => {
           </div>
         </Form>
         <div className="rooms" style={{ margin: "3% 0" }}>
+          {rooms.length < 1 && (
+            <div style={{ width: "400px", margin: "auto" }}>
+              <h1 style={{ color: "red" }}>
+                Sorry, No Rooms Available ! &#127979;
+              </h1>
+            </div>
+          )}
           <Row gutter={[14, 14]}>
-            {rooms?.map(({ _id, photo, title, price }) => (
+            {rooms?.map(({ _id, photo, title, price, hotelId }) => (
               <Col
                 key={_id}
                 xs={{ span: 24 }}
@@ -257,7 +194,7 @@ const AllRooms = () => {
                       </h4>
                     </div>
                     <div>
-                      <Link to={`/room/${_id}`}>
+                      <Link to={`/room/${_id}/${hotelID}`}>
                         <button className="btn-secondary">
                           See Availability
                         </button>

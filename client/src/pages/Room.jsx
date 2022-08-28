@@ -1,6 +1,6 @@
 import React from "react";
 import Footer from "../components/common/Footer/Footer";
-import NavBar from "../components/common/NavBar";
+import NavBar from "../components/common/NavBar/NavBar";
 import SingleRoom from "../components/SingleRoom/SingleRoom";
 
 const Room = () => {

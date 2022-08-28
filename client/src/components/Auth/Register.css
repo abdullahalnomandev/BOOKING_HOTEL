@@ -1,0 +1,49 @@
+.auth .login-and-sign-up {
+  margin-bottom: 5%;
+}
+.auth h1 {
+  color: #000000b8;
+  text-align: center;
+  font-weight: 700;
+  font-size: 25px;
+}
+
+a.sign-up-text {
+  font-weight: inherit;
+}
+.auth p {
+  font-size: 15px;
+  color: black;
+  text-align: center;
+}
+input#email {
+  padding: 10px;
+}
+input#password {
+  padding: 7px 5px;
+}
+input#passwordConfirm {
+  padding: 7px 5px;
+}
+input#name {
+  padding: 10px;
+}
+input#img {
+    width: 0;
+    height: 0;
+}
+.avatar-profile {
+    text-align: center;
+    position: relative;
+}
+
+.avatar-profile img {
+    border: 2px solid #4daaff;
+    cursor: pointer;
+}
+.svg-avatar {
+    width: 80px;
+    margin: auto;
+    margin-top: -55px;
+    margin-bottom: 36px;
+}

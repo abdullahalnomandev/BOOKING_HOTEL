@@ -1,0 +1,12 @@
+@media screen and (min-width: 992px) {
+ .update_password{
+    width: 50%;
+ }
+}
+
+/* On screens that are 600px or less, set the background color to olive */
+@media screen and (max-width: 600px) {
+ .update_password{
+    width: 100%;
+ }
+}

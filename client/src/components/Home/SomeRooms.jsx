@@ -1,8 +1,6 @@
 import React from 'react';
 import './someRooms.css';
 import { Card, Col, Image, Row } from 'antd';
-import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
 const SomeRooms = () => {
     const rooms = [
       {

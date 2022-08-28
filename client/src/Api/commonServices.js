@@ -3,7 +3,8 @@ import { API } from "./ApiInterceptor";
 
 // USERS
  const getData =  (api_url,body) =>  API.post(api_url,body);
-//  const getData = async (URL) => await API.get(URL);
+ const patchData= (api_url,body) =>  API.patch(api_url,body);
+ const postData = (api_url,body) =>  API.post(api_url,body);
 //  const createPost = (newPost) => API.post("/posts", newPost);
 //  const updatePost = (id, updatePost) =>  API.patch(`posts/${id}`, updatePost);
 //  const deletePost = (id) => API.delete(`posts/${id}`);
@@ -16,4 +17,4 @@ export { getData };
  const signIn = (fromData) => API.post("/user/signIn", fromData);
  const signUp = (fromData) => API.post("/user/signUp", fromData);
 
-export {signIn, signUp} ;
+export { signIn, signUp, patchData, postData };
