@@ -3,24 +3,16 @@ import Room from "../models/roomsModel.js";
 import AppError from "../utils/appError.js";
 
 const createRoom = async (req, res, next) => {
-  console.log(req.body);
-  const id = req.body.hotelId;
+  console.log(req.body.hotelId);
+  const hotelId = req.body.hotelId;
   try {
     const newRoom = await Room.create(req.body);
 
     try {
-      await Hotel.findByIdAndUpdate();
-    } catch (errors) {
-      next(new AppError(errors));
+      await Hotel.findByIdAndUpdate(hotelId, { $push: { rooms: newRoom._id } });
+    } catch (error) {
+      next(error);
     }
-
-    //    try {
-    //      await Hotel.findByIdAndUpdate(hotelId, {
-    //        $push: { rooms: savedRoom._id }
-    //      });
-    //    } catch (error) {
-    //      next(error);
-    //    }
     res.status(200).json(newRoom);
   } catch (errors) {
     next(new AppError(errors));
@@ -45,10 +37,10 @@ const getRooms = async (req, res) => {
   }
 };
 
-const roomDetails = async (req, res) => {
+const roomDetails = async (req, res,next) => {
   const id = req.body.id;
   try {
-    const roomDetails = await Room.find({ _id: id });
+    const roomDetails = await Room.findById(id);
     res.status(200).json({
       status: "success",
       roomDetails: roomDetails
@@ -58,16 +50,21 @@ const roomDetails = async (req, res) => {
   }
 };
 
-const getRoomsByHotel = async (req, res,next) => {
-  
-  console.log(req.body);
+const getRoomsByHotel = async (req, res, next) => {
+  const lowPrice = req.body.lowestPrice;
+  const heighPrice = req.body.heightPrice;
+
   try {
-    const hotel =await Hotel.findById(req.body.hotelId);
-    const rooms = await Promise.all(
-      hotel.rooms.map((room) => {
-        return Room.find(room);
+    const hotel = await Hotel.findById(req.body.hotelId);
+    const roomId = await Promise.all(
+      hotel?.rooms?.map((room) => {
+        return room;
       })
     );
+    const rooms = await Room.find({
+      _id: roomId,
+      price: { $gte: lowPrice, $lte: heighPrice }
+    });
 
     res.status(200).json({
       status: "success",
@@ -79,4 +76,32 @@ const getRoomsByHotel = async (req, res,next) => {
   }
 };
 
-export { createRoom, getRooms, roomDetails, getRoomsByHotel };
+
+
+// UPDATE
+const updateRoomAvailability = async (req, res,next) => {
+ 
+  const { dates } = req.body;
+  const { roomId } = req.body;
+  console.log("id", roomId, "dates", dates);
+  
+  try {
+
+    await Room.updateOne(
+      { "roomNumbers._id": roomId },
+      {
+        $push: { "roomNumbers.$.unavailableDates": dates }
+      }
+    );
+    res.status(200).json({message:'Room updated successfully'});
+  } catch (error) {
+    next(error);
+  }
+};
+export {
+  createRoom,
+  getRooms,
+  roomDetails,
+  getRoomsByHotel,
+  updateRoomAvailability
+};

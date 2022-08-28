@@ -25,11 +25,11 @@ const roomSchema = mongoose.Schema({
   },
   photo:{
     type:String,
-    required:[true,'Please upload a photo']
+    // required:[true,'Please upload a photo']
   },
   photos:[String],
   roomNumbers:[{number:Number,unavailableDates:{type:[Date]}}]
-
+    
 });
 
 export default mongoose.model("Room", roomSchema);

@@ -4,8 +4,8 @@ const hotelSchema = mongoose.Schema({
   name: {
     type: String,
     required: [true, "A hotel must have a Name"],
-    maxlength: [100, "A hotel email must less  or equal than 100 characters"],
-    minlength: [10, "A hotel email must more  or equal than 10 characters"]
+    maxlength: [100, "A hotel name must less  or equal than 100 characters"],
+    minlength: [10, "A hotel name must more  or equal than 10 characters"]
   },
   type: {
     type: String,
@@ -14,10 +14,6 @@ const hotelSchema = mongoose.Schema({
       values: ["hotel"],
       message: "Difficulty is either: hotel, restaurant"
     }
-  },
-  district: {
-    type: String,
-    required: [true, "A hotel must have a district"]
   },
   city: {
     type: String,
@@ -40,12 +36,6 @@ const hotelSchema = mongoose.Schema({
     type: String,
     required: [true, "Please upload a hotel image"]
   },
-  rating: {
-    type: Number,
-    min: [0, "Rating must be above1.0"],
-    max: [5, "Rating must be below 5.0"]
-  },
-
   rooms: {
     type: [String]
   }
