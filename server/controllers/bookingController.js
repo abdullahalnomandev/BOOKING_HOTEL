@@ -4,6 +4,7 @@ import AppError from "../utils/appError.js";
 const createBooking = async (req, res, next) => {
   const {
     name,
+    date,
     phone,
     address,
     userId,
@@ -17,6 +18,7 @@ const createBooking = async (req, res, next) => {
   } = req.body;
   const singleBooking = {
     name,
+    date,
     address,
     phone,
     userId,

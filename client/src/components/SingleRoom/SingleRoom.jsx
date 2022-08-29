@@ -87,13 +87,12 @@ const SingleRoom = () => {
         <Row className="room-wrapper">
           <Col md={{ span: 18 }} xs={{ span: 24 }}>
             <div>
-              {id}
-              <h4>
+              <h1 style={{fontFamily:'fantasy'}}>
                 {hotel.name} ({room.title})
-              </h4>
+              </h1>
               <GoLocation />
               <p>{hotel.address}</p>
-              <h5>
+              <h5 style={{ color: "#627e89", fontFamily: "cursive" }}>
                 Book a stay over $150 at this property and get a free airport
                 taxi.
               </h5>
@@ -103,7 +102,10 @@ const SingleRoom = () => {
             <div>
               <button
                 className="animated-button1 "
-                style={{ padding: "10px 10px" }}
+                style={{
+                  padding: "20px 10px",
+                  background: "#fe5d5d"
+                }}
                 onClick={handleShowModal}
               >
                 <span></span>
@@ -112,6 +114,14 @@ const SingleRoom = () => {
                 <span></span>
                 Reserve or Book Now !
               </button>
+            </div>
+          </Col>
+        </Row>
+        <Row style={{ paddingBottom: "20px" }} gutter={[24, 24]}>
+          <Col xs={{ span: 24 }} md={{ span: 24 }}>
+            <div className="left-bok-content">
+              {/* <h3>{hotel.title} </h3> */}
+              {/* <p>{hotel.desc}</p> */}
             </div>
           </Col>
         </Row>
@@ -136,6 +146,7 @@ const SingleRoom = () => {
             <Col
               md={{ span: 8 }}
               xs={{ span: 24 }}
+              lg={{ span: 6 }}
               sm={{ span: 12 }}
               key={index + 1}
             >
@@ -147,34 +158,6 @@ const SingleRoom = () => {
               />
             </Col>
           ))}
-        </Row>
-        <Row style={{ paddingBottom: "20px" }} gutter={[24, 24]}>
-          <Col xs={{ span: 24 }} md={{ span: 18 }}>
-            <div className="left-bok-content">
-              <h3>{hotel.title} </h3>
-              <p>{hotel.desc}</p>
-            </div>
-          </Col>
-          <Col xs={{ span: 24 }} md={{ span: 6 }}>
-            <Card className="book-card">
-              <h3>Perfect for 2 night stay !</h3>
-              <p>{hotel.desc}</p>
-              <h1>
-                $300 <span className="book-amount">(2 night)</span>
-              </h1>
-              <button
-                className="animated-button1 "
-                style={{ padding: "10px 10px" }}
-                onClick={handleClick}
-              >
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                Reserve or Book Now !
-              </button>
-            </Card>
-          </Col>
         </Row>
       </div>
     </>

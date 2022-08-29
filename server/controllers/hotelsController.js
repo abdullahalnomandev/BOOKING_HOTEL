@@ -13,17 +13,7 @@ const createHotel = async (req, res, next) => {
 
 const getHotels = async (req, res, next) => {
   try {
-    // const queryObject = {...req.query};
-    // const page =   queryObject.page * 1 || 1;
-    // const limit =  queryObject.limit * 1 || 100;
-    // const skip = (page - 1)*limit;
-
-    // if(queryObject.page){
-    //   const numHotels = await Hotel.countDocuments();
-    //   if(skip>numHotels) next(new AppError("This page does not exist"));
-    // }
-
-    // const allHotels = await Hotel.find().skip(skip).limit(limit);
+  
     const allHotels = await Hotel.find({ city: req.body.city });
 
     res.status(200).json({
@@ -32,7 +22,6 @@ const getHotels = async (req, res, next) => {
       hotels: { allHotels }
     });
   } catch (errors) {
-    // next(AppError(errors.message||'Not Found',404));
     next(new AppError(errors || "Not Found", 404));
   }
 };

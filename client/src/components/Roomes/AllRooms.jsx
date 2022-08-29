@@ -3,7 +3,7 @@ import React, {  useEffect, useState } from 'react';
 import { Link,  useLocation } from 'react-router-dom';
 import NavBar from '../common/NavBar/NavBar';
 import './allRooms.css'
-import { Pagination } from "easy-pagination-1"; 
+import ReactPaginate from "react-paginate";
 import Footer from '../common/Footer/Footer';
 import {  GET_ROOMS_BY_Hotel_ID } from '../../Api/ApiConstant';
 import { getData } from '../../Api/commonServices';
@@ -29,33 +29,39 @@ const AllRooms = () => {
       }
   };
 
-  const showPerPage = 5;
-  const [currentPage, setCurrentPage] = useState(1);
 
   const [inputRange, setInputRange] = useState(100);
   const [rooms, setRooms] = useState([]);
-
   const { state:hotelID } = useLocation();
-
+  const [totalPage, setTotalPage] = useState(null);
+  const [paginationLimit, setPaginationLimit] = useState(5)
+  const [page, setPage] = useState(1)
   // GET_ROOMS_BY_ID
   useEffect(() => {
     const getPost = async () => {
       const filterData = {
         hotelId: hotelID,
         lowestPrice: inputRange,
-        heightPrice: 500
+        heightPrice: 500,
+        page: page,
+        limit: paginationLimit
       };
       try {
         const { data } = await getData(GET_ROOMS_BY_Hotel_ID, filterData);
+        setTotalPage(data.result);
         setRooms(data?.rooms);
       } catch (err) {
         console.log(err);
       }
     };
     getPost();
-  }, [hotelID,inputRange]);
+  }, [hotelID,inputRange,page]);
+
+  // PAGINATION 
+console.log(page);
 
 
+  const paginationCount = Math.ceil(totalPage / paginationLimit);
   return (
     <>
       <div style={{ background: "white", padding: "0 5%" }}>
@@ -206,44 +212,22 @@ const AllRooms = () => {
             ))}
           </Row>
         </div>
-        {/* <div className="pagination" style={{ margin: "10% 0" }}>
 
-          <ul className="ulStyle">
-            {currentPage > 1 && (
-              <li
-                onClick={() => setCurrentPage(currentPage - 1)}
-                className="prevNextBtn"
-              >
-                <a>Prev</a>
-              </li>
-            )}
-            {paginationListView.map((paginateData, index) => (
-              <li
-                key={index + 1}
-                onClick={() =>
-                  typeof paginateData == "number" &&
-                  setCurrentPage(paginateData)
-                }
-                className={
-                  paginateData == currentPage
-                    ? "activeListCssStyle"
-                    : "listStyle"
-                }
-              >
-                <a>{paginateData}</a>
-              </li>
+        {/* PAGINATION  */}
+
+        <div style={{ textAlign: "center" }}>
+          <div class="pagination">
+            <a href="#">&laquo; Previous</a>
+            {new Array(paginationCount).fill("").map((item, index) => (
+
+                <>
+                  <a onClick={() => setPage(index + 1)}>{index + 1}</a>
+                </>
             ))}
 
-            {paginationList.length !== currentPage && (
-              <li
-                onClick={() => setCurrentPage(currentPage + 1)}
-                className="prevNextBtn"
-              >
-                <a>Next</a>
-              </li>
-            )}
-          </ul>
-        </div> */}
+            <a href="#">Next &raquo;</a>
+          </div>
+        </div>
       </div>
       <Footer />
     </>

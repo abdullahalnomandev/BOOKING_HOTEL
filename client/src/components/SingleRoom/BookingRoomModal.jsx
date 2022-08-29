@@ -104,7 +104,6 @@ const BookingRoomModal = ({
       if (!isLogin) {
         navigate("/login");
       }
-
     }
   };
 
@@ -119,14 +118,17 @@ const BookingRoomModal = ({
   const { name, phone, address, id } = useAuth();
 
   const createNewBooking = async (bookingData) => {
-    console.log(bookingData)
+    console.log(bookingData);
     try {
       const { data } = await postData(CREATE_BOOKING, bookingData);
-      if(data){
-        swal(`Congratulations, ${name.split(' ')[0]}`, "You Booking Success!", "success");
-         setIsBookingModalVisible(false);
-         navigate("/dashboard/my-bookings");
-
+      if (data) {
+        swal(
+          `Congratulations, ${name.split(" ")[0]}`,
+          "You Booking Success!",
+          "success"
+        );
+        setIsBookingModalVisible(false);
+        navigate("/dashboard/my-bookings");
       }
     } catch (error) {
       console.log(error);
@@ -146,6 +148,7 @@ const BookingRoomModal = ({
 
     const booking = {
       name: name,
+      date:new Date(),
       phone: values.phone,
       address: values.address,
       userId: id,
@@ -157,7 +160,9 @@ const BookingRoomModal = ({
       roomName: room.title,
       roomNumbers: allRoom
     };
-    createNewBooking(booking);
+    if (selectedRooms.length > 0) {
+      createNewBooking(booking);
+    }
   };
 
   return (

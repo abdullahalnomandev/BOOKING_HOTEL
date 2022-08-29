@@ -50,10 +50,15 @@ const roomDetails = async (req, res,next) => {
   }
 };
 
+// get room by Hotel 
 const getRoomsByHotel = async (req, res, next) => {
   const lowPrice = req.body.lowestPrice;
   const heighPrice = req.body.heightPrice;
 
+    const page = req.body.page * 1 || 1;
+    const limit = req.body.limit * 1 || 100;
+    const skip = (page-1) * limit;
+  
   try {
     const hotel = await Hotel.findById(req.body.hotelId);
     const roomId = await Promise.all(
@@ -61,14 +66,19 @@ const getRoomsByHotel = async (req, res, next) => {
         return room;
       })
     );
+     const numRoom = await Room.countDocuments({   _id: roomId,
+      price: { $gte: lowPrice, $lte: heighPrice }});
+    if (page) {
+      if (skip > numRoom) next(new AppError("This page does not exist"));
+    }
     const rooms = await Room.find({
       _id: roomId,
       price: { $gte: lowPrice, $lte: heighPrice }
-    });
+    }).skip(skip).limit(limit);
 
     res.status(200).json({
       status: "success",
-      result: rooms.length,
+      result: numRoom,
       rooms
     });
   } catch (errors) {
