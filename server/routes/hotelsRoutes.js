@@ -3,6 +3,11 @@ import {  createHotel, getAllCityHotels, getHotels, getSingleHotel, updateHotel 
 
  const router = express.Router();
 
+ /** 
+ *@api {post} /Post Hotels
+ *@apiPermissions {post} /Post
+ */
+
 router.post('/post',createHotel);
 router.post('/allCityHotels',getAllCityHotels);
 router.post('/',getHotels);

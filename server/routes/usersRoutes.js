@@ -1,5 +1,10 @@
 import express from 'express';
-import { getAllUsers, updateProfile,getUserProfile } from "../controllers/usersController.js";
+import {
+  getAllUsers,
+  updateProfile,
+  getUserProfile,
+  updatePassword
+} from "../controllers/usersController.js";
 
 const router = express.Router();
 
@@ -7,6 +12,7 @@ const router = express.Router();
 router.post('/allUsers',getAllUsers)
 router.post('/profile',getUserProfile)
 router.patch('/updateProfile',updateProfile)
+router.patch('/updatePassword',updatePassword)
 
 
 

@@ -24,6 +24,7 @@ const CREATE_BOOKING = "/api/booking/addBooking";
  const GET_USERS = "/api/users/allUsers";
  const GET_USER_PROFILE = "/api/users/profile";
  const UPDATE_PROFILE = "/api/users/updateProfile";
+ const UPDATE_PASSWORD = "/api/users/updatePassword";
 
 
 
@@ -44,5 +45,6 @@ export {
   GET_USER_PROFILE,
   CREATE_BOOKING,
   GET_BOOKING_BY_USER,
-  GET_ALL_BOOKING
+  GET_ALL_BOOKING,
+  UPDATE_PASSWORD
 };
