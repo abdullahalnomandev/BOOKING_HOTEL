@@ -21,8 +21,9 @@ import AllBooking from '../components/Dashboard/AllBooking';
 
 
 const Routers = () => {
-  const {isLogin}=useAuth()
+  const {isLogin,isAdmin}=useAuth()
 
+  console.log('ISADMIN',isAdmin);
 
     return (
       <Routes>
@@ -30,19 +31,20 @@ const Routers = () => {
         <Route path="/rooms" element={<Rooms />} />
         <Route path="/room/:id/:hotelId" element={<Room />} />
         <Route path="/hoteles" element={<Hotels />} />
-        <Route
-          path="/auth/register"
-          element={isLogin ? <Navigate replace to="/" /> : <Register />}
-        />
-        <Route path="/dashboard" element={<DashBoard />}>
+        <Route path="/auth/register"element={isLogin ? <Navigate replace to="/" /> : <Register />}/>
+        <Route path="/dashboard" element={ <PrivateRoute><DashBoard /> </PrivateRoute>}>
           <Route index element={<DashboardHomePage />} />
           <Route path="users" element={<Users />} />
-          <Route path="hotels" element={<ManageHotels />} />
-          <Route path="rooms" element={<ManageRoom />} />
           <Route path="account" element={<Account />} />
           <Route path="settings" element={<Settings />} />
           <Route path="my-bookings" element={<MyBooking />} />
-          <Route path="all-bookings" element={<AllBooking />} />
+          {isAdmin && (
+            <>
+              <Route path="all-bookings" element={<AllBooking />} />
+              <Route path="rooms" element={<ManageRoom />} />
+              <Route path="hotels" element={<ManageHotels />} />
+            </>
+          )}
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

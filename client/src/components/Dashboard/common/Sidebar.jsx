@@ -13,6 +13,7 @@ import { AiOutlineSetting, AiOutlineHome } from "react-icons/ai";
 import { DiGhostSmall } from "react-icons/di";
 import useAuth from "../../../hooks/useAuth";
 const Sidebar = () => {
+
   const [open, setOpen] = useState(
     window.matchMedia("(min-width: 1024px)").matches || false
   );
@@ -34,7 +35,9 @@ const Sidebar = () => {
   const mobile = window.matchMedia("(max-width: 768px)").matches;
   console.log(mobile, open);
 
-  const link = [
+  const { photo, name, isAdmin } = useAuth();
+
+  const adminRoute = [
     { id: 0, title: "Home", path: "/", icon: <AiOutlineHome /> },
     { id: 1, title: "Dashboard", path: "", icon: <BsFillGrid1X2Fill /> },
     { id: 2, title: "Users", path: "users", icon: <FiUsers /> },
@@ -46,7 +49,11 @@ const Sidebar = () => {
     { id: 8, title: "Bookings", path: "all-bookings", icon: <DiGhostSmall /> }
   ];
 
-  const {photo,name,isAdmin} =useAuth()
+  const userRoute= adminRoute.filter(({path})=>{
+    // return path !== "rooms" && path === "all-bookings" && path !== "hotels";
+    return (path !== "rooms" && path !== "hotels" && path !== "all-bookings") ;
+  });
+
   return (
     <div className="nav-b">
       <div className="navHeaderWrap">
@@ -77,7 +84,7 @@ const Sidebar = () => {
           >
             &times;
           </a>
-          {link.map(({ title, path, id, icon }) => (
+          {(isAdmin?adminRoute:userRoute).map(({ title, path, id, icon }) => (
             <Link
               className={isActive === id ? "active" : "none-active"}
               to={path}

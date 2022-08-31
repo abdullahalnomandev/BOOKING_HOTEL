@@ -67,8 +67,7 @@ const NavBar = () => {
       }
       extra={[
         <div className="items">
-          <Link to="#">HOME</Link>
-          <Link to="#">CUSTOMER</Link>
+
           <Link to="/dashboard">DASHBOARD</Link>
         </div>,
         <>

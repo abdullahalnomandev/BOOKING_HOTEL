@@ -75,4 +75,25 @@
   background-color: #4CAF50;
   color: white;
 }
+.pagination a .actives{
+  background-color: red;
+}
 
+@media screen and (max-width: 992px) {
+  .filter-btn{
+    display: none;
+  }
+  .child-btn{
+    display: none;
+  }
+  .adult-btn{
+    display: none;
+  }
+}
+
+/* On screens that are 600px or less, set the background color to olive */
+@media screen and (min-width: 600px) {
+  .filter-btn{
+    display: block;
+  }
+}

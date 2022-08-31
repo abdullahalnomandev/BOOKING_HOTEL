@@ -1,5 +1,5 @@
 import { Card, Row, Col, Space, Progress } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import { FiUsers } from "react-icons/fi";
 import { SiGridsome } from "react-icons/si";
 import { BiBarChartAlt } from "react-icons/bi";
@@ -21,6 +21,8 @@ import {
 } from "chart.js";
 import { Bar } from 'react-chartjs-2';
 import { faker } from "@faker-js/faker";
+import { getData } from "../../../Api/commonServices";
+import { GET_USERS } from "../../../Api/ApiConstant";
 
 ChartJS.register(
   CategoryScale,
@@ -30,45 +32,47 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-const items = [
-  {
-    id: 1,
-    action: 24000,
-    title: "BUDGET",
-    icon: <FiUsers />,
-    reateIcon: <FiArrowDown />,
-    rate: "12%",
-    color: "#ED4740"
-  },
-  {
-    id: 2,
-    title: "TOTAL USERS",
-    action: 1600,
-    icon: <SiGridsome />,
-    reateIcon: <AiOutlineArrowUp />,
-    rate: "12%",
-    color: "#45B880"
-  },
-  {
-    id: 3,
-    title: "PROGRESS",
-    icon: <BiBarChartAlt />,
-    action: 75.5,
-    reateIcon: <AiOutlineArrowUp />,
-    rate: "12%",
-    color: "#0767DB"
-  },
-  {
-    id: 4,
-    title: "TOTAL PROFIT",
-    icon: <BsCurrencyDollar />,
-    action: 23200,
-    rate: "12%",
-    color: "#FFFFFF"
-  }
-];
+
 const DashboardHome = () => {
 
+  const [userLength, setUserLength] = useState(null)
+  const items = [
+    {
+      id: 1,
+      action: 24000,
+      title: "BUDGET",
+      icon: <FiUsers />,
+      reateIcon: <FiArrowDown />,
+      rate: "12%",
+      color: "#ED4740"
+    },
+    {
+      id: 2,
+      title: "TOTAL USERS",
+      action: userLength,
+      icon: <SiGridsome />,
+      reateIcon: <AiOutlineArrowUp />,
+      rate: "12%",
+      color: "#45B880"
+    },
+    {
+      id: 3,
+      title: "PROGRESS",
+      icon: <BiBarChartAlt />,
+      action: 75.5,
+      reateIcon: <AiOutlineArrowUp />,
+      rate: "12%",
+      color: "#0767DB"
+    },
+    {
+      id: 4,
+      title: "TOTAL PROFIT",
+      icon: <BsCurrencyDollar />,
+      action: 23200,
+      rate: "12%",
+      color: "#FFFFFF"
+    }
+  ];
  const options = {
   responsive: true,
   plugins: {
@@ -98,6 +102,17 @@ const labels = ["January", "February", "March", "April", "May", "June", "July"];
      }
    ]
  };
+   useEffect(() => {
+     const getRoomDetails = async () => {
+       try {
+         const { data } = await getData(GET_USERS);
+         setUserLength(data.result);
+       } catch (err) {
+         console.log(err);
+       }
+     };
+     getRoomDetails();
+   }, []);
   return (
     <div style={{paddingBottom:'25px'}}>
       <Row gutter={[14, 14]}>

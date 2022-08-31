@@ -34,8 +34,10 @@ const AllRooms = () => {
   const [rooms, setRooms] = useState([]);
   const { state:hotelID } = useLocation();
   const [totalPage, setTotalPage] = useState(null);
-  const [paginationLimit, setPaginationLimit] = useState(5)
-  const [page, setPage] = useState(1)
+  const [paginationLimit, setPaginationLimit] = useState(4)
+  const [page, setPage] = useState(1);
+   const [active, setActive] = useState(1)
+   console.log('active',active);
   // GET_ROOMS_BY_ID
   useEffect(() => {
     const getPost = async () => {
@@ -84,7 +86,7 @@ console.log(page);
           onFinish={onFinish}
           layout="vertical"
         >
-          <div className="book-form">
+          <div className="book-form" style={{ padding: "10px" }}>
             <div className="title">
               <h5>BOOK YOUR </h5>
               <h2>ROOMS</h2>
@@ -113,6 +115,7 @@ console.log(page);
                     maxHeight: "100%"
                   }}
                   name="adult"
+                  className="adult-btn"
                 >
                   <Select onChange={(e) => handleChange(e, "adult")}>
                     <Option value="1adult">1 ADULT</Option>
@@ -128,6 +131,7 @@ console.log(page);
                     maxHeight: "100%"
                   }}
                   name="child"
+                  className="child-btn"
                 >
                   <Select onChange={(e) => handleChange(e, "child")}>
                     <Option value="0child">0 CHILD</Option>
@@ -154,7 +158,7 @@ console.log(page);
             <div>
               {" "}
               <button
-                className="btn-primary-full"
+                className="btn-primary-full filter-btn"
                 type="primary"
                 htmlType="submit"
                 style={{ fontSize: "20px", padding: "3px 27px" }}
@@ -186,12 +190,7 @@ console.log(page);
                 md={{ span: 8 }}
               >
                 <Card style={{ textAlign: "center" }}>
-                  <Image
-                    preview={false}
-                    style={{ maxWidth: "100%" }}
-                    src={photo}
-                    alt=""
-                  />
+                  <img style={{ width: "100%" }} src={photo} alt="" />
                   <div className="car-footer align-center">
                     <div>
                       <h3>{title}</h3>
@@ -219,10 +218,17 @@ console.log(page);
           <div class="pagination">
             <a href="#">&laquo; Previous</a>
             {new Array(paginationCount).fill("").map((item, index) => (
-
-                <>
-                  <a onClick={() => setPage(index + 1)}>{index + 1}</a>
-                </>
+              <>
+                <a
+                  className={index + 1 === active ? "active" : ""}
+                  onClick={() => {
+                    setPage(index + 1);
+                    setActive(index + 1);
+                  }}
+                >
+                  {index + 1}
+                </a>
+              </>
             ))}
 
             <a href="#">Next &raquo;</a>

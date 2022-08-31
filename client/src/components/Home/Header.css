@@ -56,7 +56,11 @@ input#city{
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.book-form-small{
+    background: #313a45;
   padding: 15px;
+
 }
 .book-form .title {
   border-right: 1px solid #918c8c;
@@ -504,4 +508,20 @@ button.search-button:hover {
     -webkit-transform: translateY(100%);
     transform: translateY(100%);
   }
+}
+@media screen and (max-width: 992px) {
+ .small-form{
+  display: block;
+ }
+ .large-form{
+  display: none;
+ }
+}
+@media screen and (min-width: 992px) {
+ .small-form{
+  display: none;
+ }
+ .large-form{
+  display: block;
+ }
 }
