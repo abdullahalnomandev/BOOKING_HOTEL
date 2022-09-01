@@ -1,5 +1,6 @@
 import express from 'express';
 import {  createHotel, getAllCityHotels, getHotels, getSingleHotel, updateHotel } from "../controllers/hotelsController.js";
+import { verifyAdmin, verifyToken, verifyUser } from '../middleware/VerifyToken.js';
 
  const router = express.Router();
 
@@ -8,10 +9,12 @@ import {  createHotel, getAllCityHotels, getHotels, getSingleHotel, updateHotel 
  *@apiPermissions {post} /Post
  */
 
-router.post('/post',createHotel);
-router.post('/allCityHotels',getAllCityHotels);
-router.post('/',getHotels);
-router.post('/singleHotel',getSingleHotel);
-router.patch('/',updateHotel);
+router.post('/post',verifyAdmin, createHotel);
+router.post('/allCityHotels',verifyAdmin, getAllCityHotels);
+router.post('/', getHotels);
+router.post("/singleHotel",verifyUser, getSingleHotel);
+router.patch('/',verifyAdmin, updateHotel);
+
+
 
 export default router;

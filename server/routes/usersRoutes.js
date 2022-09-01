@@ -5,14 +5,15 @@ import {
   getUserProfile,
   updatePassword
 } from "../controllers/usersController.js";
+import { verifyUser } from '../middleware/VerifyToken.js';
 
 const router = express.Router();
 
 //GET USERS
-router.post('/allUsers',getAllUsers)
-router.post('/profile',getUserProfile)
-router.patch('/updateProfile',updateProfile)
-router.patch('/updatePassword',updatePassword)
+router.post('/allUsers',verifyUser, getAllUsers)
+router.post('/profile',verifyUser, getUserProfile)
+router.patch('/updateProfile',verifyUser, updateProfile)
+router.patch('/updatePassword',verifyUser, updatePassword)
 
 
 

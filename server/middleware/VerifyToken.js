@@ -1,38 +1,38 @@
-import Jwt  from "jsonwebtoken";
+import Jwt from "jsonwebtoken";
 import AppError from "../utils/appError.js";
 
- const verifyToken = (req,res,next)=>{
-    const token = req.cookies.access_token;
-    if(!token){
-        return next(new AppError('You are not authenticated!',401))
-    }
+const verifyToken = (req, res, next) => {
+  // const token = req.cookies.access_token;
+  const token = req.headers.authorization.split(" ")[1];
+  if (!token) {
+    return next(new AppError("A token is required for authentication!", 401));
+  }
 
-    Jwt.verify(token, process.env.JWT_SECRET_KEY,(err,user)=>{
-        if(err)  return next(new AppError("Token is not valid!", 403));
-        req.user=user;
-        next()
-    });
-}
+  try {
+    const decoded = Jwt.verify(token, process.env.JWT_SECRET_KEY);
+    req.user = decoded; 
+  } catch (err) {
+    return next(new AppError("Token is not valid!", 403));
+  }
+  return next();
+};
 
- const verifyUser = (req, res,next) => {
-  verifyToken(req, res,() => {
-    if (req.user.id === req.params.id) {
-      console.log(req.user);
+const verifyUser = (req, res, next) => {
+  verifyToken(req, res, () => {
+    if (!req.user.isAdmin || req.user.isAdmin) {
       next();
     } else {
-       return next(new AppError("You are not authorize!", 403));
-
+      return next(new AppError("You are not authorize!", 403));
     }
   });
 };
 
-
- const verifyAdmin = (req, res, next) => {
+const verifyAdmin = (req, res, next) => {
   verifyToken(req, res, () => {
     if (req.user.isAdmin) {
       next();
     } else {
-       return next(new AppError("You are not authorize!", 403));
+      return next(new AppError("You are not authorize!", 403));
     }
   });
 };

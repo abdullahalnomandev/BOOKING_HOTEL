@@ -50,7 +50,6 @@ const signUp = async (req, res, next) => {
 
 //Sign in user
 const logIn = async (req, res, next) => {
-  console.log(req.headers.authorization);
 
   const { email } = req.body;
 
