@@ -1,23 +1,23 @@
-import { Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { GET_USERS } from "../../../Api/ApiConstant";
 import { getData } from "../../../Api/commonServices";
-import  './index.css';
-const Users = () => {
-  const [users, setUsers] = useState([])
+import loaderZif from "../../../assets/project-idea.gif";
 
-  useEffect(()=>{
+import "./index.css";
+const Users = () => {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
     const getRoomDetails = async () => {
       try {
-        const { data } = await getData(GET_USERS, );
+        const { data } = await getData(GET_USERS);
         setUsers(data.users);
       } catch (err) {
         console.log(err);
       }
     };
     getRoomDetails();
-
-  },[])
+  }, []);
   return (
     <div style={{ padding: "20px" }}>
       <div className="head-content" style={{ marginTop: "-5%" }}>
@@ -38,6 +38,11 @@ const Users = () => {
             <th>Role</th>
             <th>Registration date</th>
           </tr>
+          {users.length < 1 && (
+            <div style={{ width: "400px", margin: "auto" }}>
+              <img src={loaderZif} alt="" />
+            </div>
+          )}
           {users
             .reverse()
             ?.map(({ name, email, isAdmin, photo, registration, _id }) => (
@@ -59,7 +64,7 @@ const Users = () => {
                     <h3>{name}</h3>
                   </div>
                 </td>
-                <td>{_id.slice(0,10)}</td>
+                <td>{_id.slice(0, 10)}</td>
                 <td>{email}</td>
                 <td>{isAdmin ? "Admin" : "User"}</td>
                 <td>

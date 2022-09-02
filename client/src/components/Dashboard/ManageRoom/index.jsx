@@ -1,9 +1,9 @@
 import { Button, Card, Col, Input, Row, Space } from "antd";
 import React, { useEffect, useState } from "react";
-import { GET_ALL_CITY_HOTELS, GET_ROOMS } from "../../../Api/ApiConstant";
+import {  GET_ROOMS } from "../../../Api/ApiConstant";
 import { getData } from "../../../Api/commonServices";
-import { BiSearch } from "react-icons/bi";
 import AddHotelModal from "./AddRoomModal";
+import loaderZif from '../../../assets/project-idea.gif';
 const { Search } = Input;
 
 const ManageRoom = () => {
@@ -57,9 +57,15 @@ const ManageRoom = () => {
           + Add New Room
         </Button>
       </div>
+      {rooms?.length < 1 && (
+        <div style={{ width: "400px", margin: "auto" }}>
+          <img src={loaderZif} alt="" />
+        </div>
+      )}
       <Row gutter={[14, 14]}>
-        {rooms.reverse()?.map(({ title, photo ,price}) => (
+        {rooms.reverse()?.map(({ title, photo, price },index) => (
           <Col
+          key={index +1}
             md={{ span: 8 }}
             lg={{ span: 6 }}
             xs={{ span: 24 }}

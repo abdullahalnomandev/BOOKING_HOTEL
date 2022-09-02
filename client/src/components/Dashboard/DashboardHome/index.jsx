@@ -1,4 +1,4 @@
-import { Card, Row, Col, Space, Progress } from "antd";
+import { Card, Row, Col, Progress } from "antd";
 import React, { useEffect } from "react";
 import { FiUsers } from "react-icons/fi";
 import { SiGridsome } from "react-icons/si";
@@ -8,12 +8,10 @@ import { AiOutlineArrowUp } from "react-icons/ai";
 import { FiArrowDown } from "react-icons/fi";
 import "./index.css";
 import { useState } from "react";
-import ReactApexChart from "apexcharts";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  PointElement,
   BarElement,
   Title,
   Tooltip,

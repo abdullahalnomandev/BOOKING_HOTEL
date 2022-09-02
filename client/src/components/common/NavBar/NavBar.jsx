@@ -6,25 +6,19 @@ import logo from "../../../assets/site-logo.png";
 import useAuth from "../../../hooks/useAuth";
 import "./NavBar.css";
 const NavBar = () => {
-
-
   const { name, photo, isLogin } = useAuth();
-
-
-  const navigate= useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
 
-  const logOut = ()=>{
-
+  const logOut = () => {
     localStorage.clear();
     navigate("/");
-    message.error('Log out successful..,');
+    message.error("Log out successful..,");
 
-    if(location.pathname === '/'){
-       window.location.reload(false);
+    if (location.pathname === "/") {
+      window.location.reload(false);
     }
-
-  }
+  };
   const menu = (
     <Menu
       items={[
@@ -39,7 +33,10 @@ const NavBar = () => {
         {
           key: "2",
           label: (
-            <Link to="/dashboard/account" style={{ color: "green", fontWeight: "bold" }}>
+            <Link
+              to="/dashboard/account"
+              style={{ color: "green", fontWeight: "bold" }}
+            >
               View Profile
             </Link>
           )
@@ -47,7 +44,10 @@ const NavBar = () => {
         {
           key: "7",
           label: (
-            <a  onClick={logOut} style={{ color: "#fe5d5d", fontWeight: "bold" }}>
+            <a 
+              onClick={logOut}
+              style={{ color: "#fe5d5d", fontWeight: "bold" }}
+            >
               Log Out
             </a>
           )
@@ -67,13 +67,12 @@ const NavBar = () => {
       }
       extra={[
         <div className="items">
-
           <Link to="/dashboard">DASHBOARD</Link>
         </div>,
         <>
           {isLogin ? (
             <Dropdown overlay={menu} placement="bottomLeft" arrow>
-              <Avatar  style={{ cursor: "pointer" }} size="large" src={photo} />
+              <Avatar style={{ cursor: "pointer" }} size="large" src={photo} />
             </Dropdown>
           ) : (
             <>

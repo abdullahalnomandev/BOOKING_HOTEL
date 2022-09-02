@@ -1,5 +1,4 @@
 import axios from "axios";
-import React, { useState } from "react";
 
 const reRedderLocalStorage =()=>{
 
@@ -19,7 +18,6 @@ const cloudinaryUpload = async (e) => {
         data
       )
       .then((res) => {
-        // setImage(res.data.url);
         console.log(res.data.url);
           localStorage.setItem("image-url",res.data.url);
 

@@ -4,23 +4,20 @@ import { UPDATE_PASSWORD } from "../../../Api/ApiConstant";
 import { patchData } from "../../../Api/commonServices";
 import useAuth from "../../../hooks/useAuth";
 import "./index.css";
-import { swal } from 'sweetalert';
 const Settings = () => {
   const { id } = useAuth();
 
   const handleSubmitNewPassword = async (info) => {
     try {
-      const  res  = await patchData(UPDATE_PASSWORD, info);
+      const res = await patchData(UPDATE_PASSWORD, info);
       console.log(res);
-      if(res){
-         message.success(`Password updated successfully...`, 5);
-
+      if (res) {
+        message.success(`Password updated successfully...`, 5);
       }
       console.log(res);
     } catch (errors) {
       console.log(errors);
       message.error(errors?.response?.data?.message);
-
     }
   };
 

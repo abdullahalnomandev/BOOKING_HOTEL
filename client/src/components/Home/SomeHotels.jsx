@@ -1,11 +1,9 @@
 import { Card, Col, Row, Select } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import NavBar from "../common/NavBar/NavBar";
-import Footer from "../common/Footer/Footer";
 import { GET_HOTELS } from "../../Api/ApiConstant";
 import { getData } from "../../Api/commonServices";
-
+import  gofLoader  from "../../assets/project-idea.gif";
 const { Option } = Select;
 const SomeHotels = () => {
   const [hotels, setHotels] = useState([]);
@@ -91,9 +89,7 @@ const SomeHotels = () => {
           <Row gutter={[14, 14]}>
             {hotels.length < 1 && (
               <div style={{ width: "400px", margin: "auto" }}>
-                <h1 style={{ color: "red" }}>
-                  Sorry, No Hotels Available ! &#127979;
-                </h1>
+                <img src={gofLoader} alt="" />
               </div>
             )}
             {hotels.slice(0, 8)?.map(({ _id, name, photo, city }) => (

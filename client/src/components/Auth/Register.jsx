@@ -1,21 +1,12 @@
-import { Button, Form, Input, message, Modal, Spin } from "antd";
+import { Form, Input, message, Modal } from "antd";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import NavBar from "../common/NavBar/NavBar";
 import "./Register.css";
 import axios from "axios";
-import cloudinaryUpload from "./../../utils/cloudinaryUpload";
-import { useEffect } from "react";
 import { FiCamera } from "react-icons/fi";
-import { LoadingOutlined } from "@ant-design/icons";
-import { getData, postData } from "../../Api/commonServices";
-import {
-  GOOGLE_SIGN_IN,
-  SIGN_IN_USER,
-  SIGN_UP_USER
-} from "../../Api/ApiConstant";
-import useAuth from "../../hooks/useAuth";
-import GoogleLogin from "react-google-login";
+import { getData } from "../../Api/commonServices";
+import { SIGN_IN_USER, SIGN_UP_USER } from "../../Api/ApiConstant";
 
 const Register = () => {
   const [isRegisterModalVisible, setIsRegisterModalVisible] = useState(true);
@@ -29,28 +20,23 @@ const Register = () => {
   };
 
   const signUpUser = async (userInfo) => {
-    console.log("userINfo", userInfo);
 
     try {
       const { data } = await getData(
         isLogin ? SIGN_IN_USER : SIGN_UP_USER,
         userInfo
       );
-      console.log("signUpUser", data);
       const userData = { token: data.token, userInfo: data.data.user };
       localStorage.setItem("user", JSON.stringify(userData));
       message.success(`${isLogin ? "Sign In " : "Sign up"} successful...`, 5);
-      // window.location.reload(false);
       navigate(-1);
       navigate("");
     } catch (errors) {
       message.error(errors?.response?.data?.message);
-      console.log(errors);
     }
   };
 
   const onFinish = (values) => {
-
     const newUserData = {
       ...values,
       photo:
@@ -63,7 +49,6 @@ const Register = () => {
   // Upload Cover Room Image
   const handleImageUpload = async (e) => {
     setLoading(true);
-    console.log(e.target.files[0]);
     const imageFile = e.target.files[0];
     const data = new FormData();
     data.append("file", imageFile);
@@ -80,8 +65,6 @@ const Register = () => {
       console.log(error);
     }
   };
-
-
 
   return (
     <div style={{ padding: "0 5%" }}>
@@ -211,7 +194,7 @@ const Register = () => {
                 {isLogin ? "Login" : "Sign Up"}
               </button>
             </Form.Item>
-    
+
             <p>
               {isLogin ? (
                 <span>Not a member ? </span>

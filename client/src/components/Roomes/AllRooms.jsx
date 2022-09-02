@@ -1,13 +1,13 @@
-import {  Card, Col, Form, Image, Row, Select } from 'antd';
-import React, {  useEffect, useState } from 'react';
-import { Link,  useLocation } from 'react-router-dom';
-import NavBar from '../common/NavBar/NavBar';
-import './allRooms.css'
-import ReactPaginate from "react-paginate";
-import Footer from '../common/Footer/Footer';
-import {  GET_ROOMS_BY_Hotel_ID } from '../../Api/ApiConstant';
-import { getData } from '../../Api/commonServices';
-import { useBookingContext } from '../../context/BookingContext';
+import { Card, Col, Form, Row, Select } from "antd";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import NavBar from "../common/NavBar/NavBar";
+import "./allRooms.css";
+import Footer from "../common/Footer/Footer";
+import { GET_ROOMS_BY_Hotel_ID } from "../../Api/ApiConstant";
+import { getData } from "../../Api/commonServices";
+import { useBookingContext } from "../../context/BookingContext";
+import loaderZif from "../../assets/project-idea.gif";
 const { Option } = Select;
 
 const AllRooms = () => {
@@ -16,28 +16,27 @@ const AllRooms = () => {
     console.log("Success:", values);
   };
 
-  const handleChange = (value,key) => {
+  const handleChange = (value, key) => {
     console.log(booking);
-    if(key==='room'){
-      setBooking({...booking,room:value});
+    if (key === "room") {
+      setBooking({ ...booking, room: value });
     }
-     if (key === "adult") {
-       setBooking({ ...booking, adult: value });
-     }
-      if (key === "child") {
-        setBooking({ ...booking, child: value });
-      }
+    if (key === "adult") {
+      setBooking({ ...booking, adult: value });
+    }
+    if (key === "child") {
+      setBooking({ ...booking, child: value });
+    }
   };
-
 
   const [inputRange, setInputRange] = useState(100);
   const [rooms, setRooms] = useState([]);
-  const { state:hotelID } = useLocation();
+  const { state: hotelID } = useLocation();
   const [totalPage, setTotalPage] = useState(null);
-  const [paginationLimit, setPaginationLimit] = useState(4)
+  const [paginationLimit, setPaginationLimit] = useState(4);
   const [page, setPage] = useState(1);
-   const [active, setActive] = useState(1)
-   console.log('active',active);
+  const [active, setActive] = useState(1);
+  console.log("active", active);
   // GET_ROOMS_BY_ID
   useEffect(() => {
     const getPost = async () => {
@@ -57,11 +56,10 @@ const AllRooms = () => {
       }
     };
     getPost();
-  }, [hotelID,inputRange,page]);
+  }, [hotelID, inputRange, page]);
 
-  // PAGINATION 
-console.log(page);
-
+  // PAGINATION
+  console.log(page);
 
   const paginationCount = Math.ceil(totalPage / paginationLimit);
   return (
@@ -175,9 +173,7 @@ console.log(page);
         <div className="rooms" style={{ margin: "3% 0" }}>
           {rooms.length < 1 && (
             <div style={{ width: "400px", margin: "auto" }}>
-              <h1 style={{ color: "red" }}>
-                Sorry, No Rooms Available ! &#127979;
-              </h1>
+              <img src={loaderZif} alt="" />
             </div>
           )}
           <Row gutter={[14, 14]}>

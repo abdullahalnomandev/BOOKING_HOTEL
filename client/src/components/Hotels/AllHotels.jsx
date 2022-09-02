@@ -13,8 +13,8 @@ import { getData } from "../../Api/commonServices";
 const AllHotels = () => {
 
   const [hotels, setHotels] = useState([]);
-
   const {state:{name}} = useLocation()
+
   // GET_ROOMS
   useEffect(() => {
     const getPost = async () => {
@@ -30,10 +30,9 @@ const AllHotels = () => {
   }, []);
 
   const navigate= useNavigate();
+  
   const handleClickRooms =(id)=>{
-
     navigate('/rooms',{state:id})
-
   }
 
   return (

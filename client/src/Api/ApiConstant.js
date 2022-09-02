@@ -1,4 +1,4 @@
-export const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+export const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 //BOOKING
  const GET_ROOMS = "/api/room/allRooms";
@@ -15,8 +15,6 @@ export const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5
 const ADD_NEW_HOTEL = "/api/hotels/post";
 const ADD_NEW_ROOM = "/api/room/createRoom";
 const CREATE_BOOKING = "/api/booking/addBooking";
-
-
 
 //  USER  
  const SIGN_UP_USER = "/api/auth/signup";

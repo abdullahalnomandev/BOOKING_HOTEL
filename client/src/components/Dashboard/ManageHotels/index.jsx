@@ -1,9 +1,9 @@
 import { Button, Card, Col, Input, message, Row, Space } from "antd";
 import React, { useEffect, useState } from "react";
 import { DELETE_HOTEL, GET_ALL_CITY_HOTELS } from "../../../Api/ApiConstant";
-import { deleteData, getData, patchData } from "../../../Api/commonServices";
-import { BiSearch } from "react-icons/bi";
+import { deleteData, getData } from "../../../Api/commonServices";
 import AddHotelModal from "./AddHotelModal";
+import loaderZif from '../../../assets/project-idea.gif';
 const { Search } = Input;
 
 const ManageHotels = () => {
@@ -25,7 +25,7 @@ const ManageHotels = () => {
 
   const deleteHotel = async (hotelId) => {
     try {
-      const  data = await deleteData(DELETE_HOTEL, {hotelId} );
+      const data = await deleteData(DELETE_HOTEL, { hotelId });
       message.success(`${data.data.message}`, 5);
       getPost();
     } catch (errors) {
@@ -66,8 +66,13 @@ const ManageHotels = () => {
           + Add Hotel
         </Button>
       </div>
+      {hotels?.length < 1 && (
+        <div style={{ width: "400px", margin: "auto" }}>
+          <img src={loaderZif} alt="" />
+        </div>
+      )}
       <Row gutter={[14, 14]}>
-        {hotels.reverse().map(({ name, photo, city, address, email, _id }) => (
+        {hotels?.reverse().map(({ name, photo, city, address, email, _id }) => (
           <Col
             key={_id}
             md={{ span: 8 }}

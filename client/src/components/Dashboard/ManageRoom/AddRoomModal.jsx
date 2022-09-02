@@ -12,9 +12,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FiCamera } from "react-icons/fi";
 import {
-  ADD_NEW_HOTEL,
   ADD_NEW_ROOM,
-  GET_ALL_CITY_HOTELS,
   GET_HOTELS
 } from "../../../Api/ApiConstant";
 import { getData, postData } from "../../../Api/commonServices";
@@ -173,7 +171,7 @@ console.log('ROOMS',rooms);
           </div>
           <Row>
             {allRoomImage.map((image) => (
-              <Col span={4}>
+              <Col span={4} key={image}>
                 <img
                   style={{ width: "50px", height: "50px" }}
                   src={image}
@@ -289,7 +287,7 @@ console.log('ROOMS',rooms);
               onChange={handleCHangeHotelName}
             >
               {hotels?.map(({ name, _id }) => (
-                <Option style={{ width: "100%" }} value={_id}>
+                <Option style={{ width: "100%" }} value={_id} key={_id}>
                   {name}
                 </Option>
               ))}

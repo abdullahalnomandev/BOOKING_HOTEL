@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { GoLocation } from "react-icons/go";
 import "./singleRoom.css";
-import { Card, Col, Row } from "antd";
+import {  Col, Row } from "antd";
 import { useCallback } from "react";
 import ImageViewer from "react-simple-image-viewer";
 import BookingRoomModal from "./BookingRoomModal";
@@ -70,10 +70,6 @@ const SingleRoom = () => {
     }
   };
 
-  const handleClick =()=>{
-     setIsBookingModalVisible(true);
-     
-  }
 
   return (
     <>

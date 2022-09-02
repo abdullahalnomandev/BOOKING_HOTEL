@@ -1,11 +1,11 @@
-import { Button, Form, Input, InputNumber, message, Modal, Select } from 'antd';
-import axios from 'axios';
-import React, { useState } from 'react';
-import { FiCamera } from 'react-icons/fi';
-import { ADD_NEW_HOTEL } from '../../../Api/ApiConstant';
-import { postData } from '../../../Api/commonServices';
+import { Button, Form, Input, message, Modal, Select } from "antd";
+import axios from "axios";
+import React, { useState } from "react";
+import { FiCamera } from "react-icons/fi";
+import { ADD_NEW_HOTEL } from "../../../Api/ApiConstant";
+import { postData } from "../../../Api/commonServices";
 
-const {Option}= Select;
+const { Option } = Select;
 const AddHotelModal = ({
   isAddHotelModalVisible,
   setIsAddHotelModalVisible,
@@ -92,7 +92,7 @@ const AddHotelModal = ({
               </label>
             </div>
           </div>
-          {loading && <p style={{color:'red'}}>Uploading....</p>}
+          {loading && <p style={{ color: "red" }}>Uploading....</p>}
 
           <Form.Item
             name="name"

@@ -1,15 +1,4 @@
-import {
-  Alert,
-  Card,
-  Checkbox,
-  Col,
-  Form,
-  Input,
-  Modal,
-  Row,
-  Tooltip
-} from "antd";
-import axios from "axios";
+import { Alert, Card, Col, Form, Input, Modal, Row, Tooltip } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CHECK_ROOM_AVAILABILITY, CREATE_BOOKING } from "../../Api/ApiConstant";
@@ -29,7 +18,6 @@ const BookingRoomModal = ({
   const [selectedRooms, setSelectedRooms] = useState([]);
   const [error, setError] = useState(" Select at least one room");
   const [boo, setBoo] = useState(null);
-  const [isSubmitAble, setIsSubmitAble] = useState(false);
   const { booking } = useBookingContext();
 
   const { isLogin } = useAuth();
@@ -45,7 +33,10 @@ const BookingRoomModal = ({
     }
     return list;
   };
-  const allDates = getDateInRange(booking?.arrival._d || new Date(), booking?.departure._d || new Date());
+  const allDates = getDateInRange(
+    booking?.arrival._d || new Date(),
+    booking?.departure._d || new Date()
+  );
   console.log(allDates);
 
   const [isBooked, setIsBooked] = useState([]);
@@ -58,10 +49,6 @@ const BookingRoomModal = ({
     roomNumber.isTrue = isFound;
     setIsBooked(isFound);
     return isFound;
-
-    // return {
-    //   isFound: isFound,
-    // };
   };
 
   const navigate = useNavigate();
@@ -149,7 +136,7 @@ const BookingRoomModal = ({
 
     const booking = {
       name: name,
-      date:new Date(),
+      date: new Date(),
       phone: values.phone,
       address: values.address,
       userId: id,

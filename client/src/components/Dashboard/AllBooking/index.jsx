@@ -1,9 +1,8 @@
-import { Button, Tooltip } from "antd";
+import { Button } from "antd";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { GET_ALL_BOOKING, GET_BOOKING_BY_USER } from "../../../Api/ApiConstant";
+import { GET_ALL_BOOKING } from "../../../Api/ApiConstant";
 import { getData } from "../../../Api/commonServices";
-import useAuth from "../../../hooks/useAuth";
 import "../MyBooking/index.css";
 const AllBooking = () => {
   const [booking, setBooking] = useState([]);
@@ -11,7 +10,7 @@ const AllBooking = () => {
   useEffect(() => {
     const getRoomDetails = async () => {
       try {
-        const { data } = await getData(GET_ALL_BOOKING, { });
+        const { data } = await getData(GET_ALL_BOOKING, {});
         console.log("singleRoom", data);
         setBooking(data.booking);
       } catch (err) {

@@ -87,7 +87,15 @@ const Header = () => {
                 <Option value="barisal">Barisal</Option>
               </Select>
             </Form.Item>
-            <Form.Item name="arrival">
+            <Form.Item
+              name="arrival"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input a hotel name!"
+                }
+              ]}
+            >
               <DatePicker
                 style={{ width: "100%" }}
                 size="large"
@@ -154,13 +162,13 @@ const Header = () => {
           </div>
         </div>
       </Form>
-      
+
       <Form
-            className="large-form"
+        className="large-form"
         initialValues={{
           adult: booking.adult,
           room: booking.room,
-          child: booking.child,
+          child: booking.child
         }}
         form={form}
         onFinish={onFinish}
@@ -173,7 +181,7 @@ const Header = () => {
             position: "absolute",
             margin: "0 5%",
             width: "90%",
-            padding:'10px'
+            padding: "10px"
           }}
         >
           <div className="title">
@@ -215,7 +223,15 @@ const Header = () => {
                   <Option value="barisal">Barisal</Option>
                 </Select>
               </Form.Item>
-              <Form.Item name="arrival">
+              <Form.Item
+                name="arrival"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input a hotel name!"
+                  }
+                ]}
+              >
                 <DatePicker size="large" placeholder="ARRIVAL" />
               </Form.Item>
               <Form.Item
@@ -233,7 +249,7 @@ const Header = () => {
                 style={{ width: "20%", marginTop: "1%", maxHeight: "100%" }}
                 name="room"
               >
-                <Select  >
+                <Select>
                   <Option value="1room">1 ROOM</Option>
                   <Option value="2room">2 ROOM</Option>
                   <Option value="3room">3 ROOM</Option>
@@ -244,7 +260,7 @@ const Header = () => {
                 style={{ width: "20%", marginTop: "1%", maxHeight: "100%" }}
                 name="adult"
               >
-                <Select >
+                <Select>
                   <Option value="1adult">1 ADULT</Option>
                   <Option value="2adult">2 ADULT</Option>
                   <Option value="3adult">3 ADULT</Option>

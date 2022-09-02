@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Button,
   Card,
   Col,
@@ -8,8 +7,7 @@ import {
   Input,
   message,
   Progress,
-  Row,
-  Select
+  Row
 } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -20,7 +18,6 @@ import useAuth from "./../../../hooks/useAuth";
 const Account = () => {
   const { phone, name, photo, email, id, address } = useAuth();
   const [userProfile, setuserProfile] = useState({});
-  const [profileRender, setProfileRender] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   console.log(imageUrl);
@@ -50,7 +47,7 @@ const Account = () => {
         name: name,
         address: address,
         phone: phone,
-        photo: imageUrl||photo
+        photo: imageUrl || photo
       });
       if (data) {
         getUserProfile();
@@ -118,7 +115,7 @@ const Account = () => {
                 )}
               </div>
               <img
-                src={imageUrl||photo}
+                src={imageUrl || photo}
                 alt=""
                 style={{
                   height: "100px",

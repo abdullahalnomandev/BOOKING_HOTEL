@@ -47,7 +47,6 @@ const Sidebar = () => {
   ];
 
   const userRoute = adminRoute.filter(({ path }) => {
-    // return path !== "rooms" && path === "all-bookings" && path !== "hotels";
     return path !== "rooms" && path !== "hotels" && path !== "all-bookings";
   });
 
@@ -93,6 +92,7 @@ const Sidebar = () => {
           {(isAdmin ? adminRoute : userRoute).map(
             ({ title, path, id, icon }) => (
               <Link
+              key={id}
                 className={isActive === id ? "active" : "none-active"}
                 to={path}
                 onClick={() => setIsActive(id)}

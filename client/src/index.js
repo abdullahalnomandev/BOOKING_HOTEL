@@ -8,7 +8,7 @@ import { BookingContext } from "./context/BookingContext";
 import { createBrowserHistory } from "history";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-  const history = createBrowserHistory();
+const history = createBrowserHistory();
 
 root.render(
   <HistoryRouter history={history}>
