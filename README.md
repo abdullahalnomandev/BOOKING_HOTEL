@@ -22,7 +22,7 @@ A Complete (Full Stack) MERN BOOKING Project
 
 ### Back-End Technology:
 
-- [x] NODE.JS-
+- [x] NODE.JS
 - [x] JWT TOKEN
 - [x] MONGODB
 - [x] EXPRESS
