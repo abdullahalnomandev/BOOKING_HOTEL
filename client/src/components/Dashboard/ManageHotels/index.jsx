@@ -1,7 +1,7 @@
-import { Button, Card, Col, Input, Row, Space } from "antd";
+import { Button, Card, Col, Input, message, Row, Space } from "antd";
 import React, { useEffect, useState } from "react";
-import { GET_ALL_CITY_HOTELS } from "../../../Api/ApiConstant";
-import { getData } from "../../../Api/commonServices";
+import { DELETE_HOTEL, GET_ALL_CITY_HOTELS } from "../../../Api/ApiConstant";
+import { deleteData, getData, patchData } from "../../../Api/commonServices";
 import { BiSearch } from "react-icons/bi";
 import AddHotelModal from "./AddHotelModal";
 const { Search } = Input;
@@ -9,26 +9,38 @@ const { Search } = Input;
 const ManageHotels = () => {
   const [hotels, setHotels] = useState([]);
   const [isAddHotelModalVisible, setIsAddHotelModalVisible] = useState(false);
-  const [render, setRender] = useState(false)
+  const [render, setRender] = useState(false);
 
   // GET_ALL_CITY_HOTELS
-   const getPost = async () => {
-     try {
-       const { data } = await getData(GET_ALL_CITY_HOTELS, {});
-       setHotels(data.hotels.allHotels);
-     } catch (err) {
-       console.log(err);
-     }
-   };
+  const getPost = async () => {
+    try {
+      const { data } = await getData(GET_ALL_CITY_HOTELS, {});
+      setHotels(data.hotels.allHotels);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // Delete Hotel
+
+  const deleteHotel = async (hotelId) => {
+    try {
+      const  data = await deleteData(DELETE_HOTEL, {hotelId} );
+      message.success(`${data.data.message}`, 5);
+      getPost();
+    } catch (errors) {
+      console.log(errors);
+    }
+  };
+
   useEffect(() => {
     getPost();
   }, []);
 
-    useEffect(() => {
-      getPost();
-    }, [render]);
+  useEffect(() => {
+    getPost();
+  }, [render]);
   const onSearch = (value) => console.log(value);
-  
 
   return (
     <div>
@@ -55,8 +67,9 @@ const ManageHotels = () => {
         </Button>
       </div>
       <Row gutter={[14, 14]}>
-        {hotels.reverse().map(({ name, photo, city, address, email }) => (
+        {hotels.reverse().map(({ name, photo, city, address, email, _id }) => (
           <Col
+            key={_id}
             md={{ span: 8 }}
             lg={{ span: 6 }}
             xs={{ span: 24 }}
@@ -73,7 +86,12 @@ const ManageHotels = () => {
               <p>{address}</p>
               {email}
               <Space>
-                <button className="btn-primary-full">Delete</button>
+                <button
+                  className="btn-primary-full"
+                  onClick={() => deleteHotel(_id)}
+                >
+                  Delete
+                </button>
                 <button className="btn-secondary">Update</button>
               </Space>
             </Card>

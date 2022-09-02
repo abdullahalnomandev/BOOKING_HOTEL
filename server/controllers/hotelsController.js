@@ -13,7 +13,6 @@ const createHotel = async (req, res, next) => {
 
 const getHotels = async (req, res, next) => {
   try {
-  
     const allHotels = await Hotel.find({ city: req.body.city });
 
     res.status(200).json({
@@ -26,11 +25,9 @@ const getHotels = async (req, res, next) => {
   }
 };
 
-
 const getAllCityHotels = async (req, res, next) => {
   try {
-   
-    const allHotels = await Hotel.find({ });
+    const allHotels = await Hotel.find({});
 
     res.status(200).json({
       status: "success",
@@ -42,19 +39,17 @@ const getAllCityHotels = async (req, res, next) => {
   }
 };
 
-const getSingleHotel = async (req,res,next) => {
+const getSingleHotel = async (req, res, next) => {
   try {
     const singleHotel = await Hotel.findById(req.body.hotelId);
     res.status(200).json({
-      status:'success',
-      hotel:singleHotel
-    })
+      status: "success",
+      hotel: singleHotel
+    });
   } catch (errors) {
     next(new AppError(errors));
   }
 };
-
-
 
 const updateHotel = async (req, res, next) => {
   const hotelId = req.body.hotelId;
@@ -69,18 +64,19 @@ const updateHotel = async (req, res, next) => {
   } catch (errors) {
     next(new AppError(errors));
   }
-  // const updateHotelItem = req.body;
 
-  // try {
-  //   const updateHotel = await Hotel.findByIdAndUpdate(
-  //     req.params.id,
-  //     updateHotelItem,
-  //     { upsert: true }
-  //   );
-  //   res.status(200).send(updateHotel);
-  // } catch (errors) {
-  //   console.log(errors);
-  // }
+};
+
+const deleteHotel = async (req, res, next) => {
+
+  try {
+    await Hotel.findByIdAndDelete(req.body.hotelId);
+    res.status(200).send({
+      message: "Hotel deleted successfully"
+    });
+  } catch (errors) {
+    next(new AppError(errors));
+  }
 };
 
 export {
@@ -88,5 +84,6 @@ export {
   getHotels,
   updateHotel,
   getSingleHotel,
-  getAllCityHotels
+  getAllCityHotels,
+  deleteHotel
 };

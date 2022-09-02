@@ -5,16 +5,13 @@ import { API } from "./ApiInterceptor";
  const getData =  (api_url,body) =>  API.post(api_url,body);
  const patchData= (api_url,body) =>  API.patch(api_url,body);
  const postData = (api_url,body) =>  API.post(api_url,body);
-//  const createPost = (newPost) => API.post("/posts", newPost);
-//  const updatePost = (id, updatePost) =>  API.patch(`posts/${id}`, updatePost);
-//  const deletePost = (id) => API.delete(`posts/${id}`);
-//  const likePost = (id) => API.patch(`posts/${id}/likePost`);
+ const deleteData =(api_url,body) => API.patch(api_url,body);
 
-export { getData };
+
 
 
 //AUTH
  const signIn = (fromData) => API.post("/user/signIn", fromData);
  const signUp = (fromData) => API.post("/user/signUp", fromData);
 
-export { signIn, signUp, patchData, postData };
+export { signIn, signUp, patchData, postData ,getData,deleteData};

@@ -26,7 +26,8 @@ const CREATE_BOOKING = "/api/booking/addBooking";
  const UPDATE_PROFILE = "/api/users/updateProfile";
  const UPDATE_PASSWORD = "/api/users/updatePassword";
 
-
+ // DELETE
+ const DELETE_HOTEL = "/api/hotels/delete";
 
 export {
   GET_ROOMS,
@@ -46,5 +47,6 @@ export {
   CREATE_BOOKING,
   GET_BOOKING_BY_USER,
   GET_ALL_BOOKING,
-  UPDATE_PASSWORD
+  UPDATE_PASSWORD,
+  DELETE_HOTEL
 };
