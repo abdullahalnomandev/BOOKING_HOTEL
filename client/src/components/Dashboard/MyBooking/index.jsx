@@ -43,7 +43,7 @@ const MyBooking = () => {
           <th>Price</th>
           <th>Room Numbers</th>
         </tr>
-        {booking.length > 1 && (
+        {booking.length < 1 && (
           <div className="null">
             <h3 style={{ color: "red" }}>
               Sorry, You hve no booking ! &#127979;

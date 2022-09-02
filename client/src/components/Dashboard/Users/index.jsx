@@ -40,7 +40,7 @@ const Users = () => {
           </tr>
           {users.length < 1 && (
             <div style={{ width: "400px", margin: "auto" }}>
-              <img src={loaderZif} alt="" />
+              <img src={loaderZif} alt="" style={{ maxWidth: "100%" }} />
             </div>
           )}
           {users

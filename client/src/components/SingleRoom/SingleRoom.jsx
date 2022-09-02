@@ -138,7 +138,7 @@ const SingleRoom = () => {
           )}
         </div>
         <Row gutter={[12, 12]} style={{ marginBottom: "20px" }}>
-          {room?.photos?.map((img, index) => (
+          {room?.photos?.slice(0,8).map((img, index) => (
             <Col
               md={{ span: 8 }}
               xs={{ span: 24 }}
@@ -148,7 +148,7 @@ const SingleRoom = () => {
             >
               <img
                 onClick={() => openImageViewer(index)}
-                style={{ width: "100%", cursor: "pointer" }}
+                style={{ width: "100%", cursor: "pointer",height:"200px",objectFit:"cover" }}
                 src={img}
                 alt=""
               />

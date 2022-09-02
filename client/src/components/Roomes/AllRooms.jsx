@@ -173,7 +173,7 @@ const AllRooms = () => {
         <div className="rooms" style={{ margin: "3% 0" }}>
           {rooms.length < 1 && (
             <div style={{ width: "400px", margin: "auto" }}>
-              <img src={loaderZif} alt="" />
+              <img src={loaderZif} alt="" style={{ maxWidth: "100%" }} />
             </div>
           )}
           <Row gutter={[14, 14]}>
@@ -186,7 +186,15 @@ const AllRooms = () => {
                 md={{ span: 8 }}
               >
                 <Card style={{ textAlign: "center" }}>
-                  <img style={{ width: "100%" }} src={photo} alt="" />
+                  <img
+                    style={{
+                      width: "100%",
+                      height: "180px",
+                      objectFit: "cover"
+                    }}
+                    src={photo}
+                    alt=""
+                  />
                   <div className="car-footer align-center">
                     <div>
                       <h3>{title}</h3>

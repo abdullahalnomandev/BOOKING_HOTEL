@@ -89,10 +89,10 @@ const SomeHotels = () => {
           <Row gutter={[14, 14]}>
             {hotels.length < 1 && (
               <div style={{ width: "400px", margin: "auto" }}>
-                <img src={gofLoader} alt="" />
+                <img src={gofLoader} alt="" style={{maxWidth:"100%"}}/>
               </div>
             )}
-            {hotels.slice(0, 8)?.map(({ _id, name, photo, city }) => (
+            {hotels.slice(0, 4)?.map(({ _id, name, photo, city }) => (
               <Col
                 key={_id}
                 xs={{ span: 24 }}

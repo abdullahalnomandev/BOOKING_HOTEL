@@ -142,7 +142,7 @@ console.log('ROOMS',rooms);
   return (
     <div>
       <Modal
-        title="Add Hotel"
+        title="Add Room"
         visible={isRoomModalVisible}
         onCancel={() => setIsRoomModalVisible(false)}
         footer={null}

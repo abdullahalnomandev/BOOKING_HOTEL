@@ -55,11 +55,9 @@ const Sidebar = () => {
   const logOut = () => {
     message.error("Log out successful..,");
     localStorage.clear();
-
-    if (!isLogin) {
       navigate("/");
       window.location.reload(false);
-    }
+
   };
 
   return (

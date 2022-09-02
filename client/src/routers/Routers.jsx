@@ -26,8 +26,8 @@ const Routers = () => {
   return (
     <Suspense
       fallback={
-        <div style={{textAlign: 'center'}}>
-          <img src={loaderZif} alt="" />
+        <div style={{margin:'auto',width:'400px'}}>
+          <img style={{maxWidth:'100%'}} src={loaderZif} alt="" />
         </div>
       }
     >
