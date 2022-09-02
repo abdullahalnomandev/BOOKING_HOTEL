@@ -20,7 +20,7 @@ const verifyToken = (req, res, next) => {
 const verifyUser = (req, res, next) => {
   verifyToken(req, res, () => {
     if (!req.user.isAdmin || req.user.isAdmin) {
-      console.log(req.user.isAdmin);
+      console.log(req.user.isAdmin,'user');
       next();
     } else {
       return next(new AppError("You are not authorize!", 403));
@@ -29,6 +29,7 @@ const verifyUser = (req, res, next) => {
 };
 
 const verifyAdmin = (req, res, next) => {
+  console.log('admin');
   verifyToken(req, res, () => {
     if (req.user.isAdmin) {
       next();

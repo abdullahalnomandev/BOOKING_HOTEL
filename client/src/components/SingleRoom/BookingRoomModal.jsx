@@ -45,7 +45,8 @@ const BookingRoomModal = ({
     }
     return list;
   };
-  const allDates = getDateInRange(booking?.arrival._d, booking?.departure._d);
+  const allDates = getDateInRange(booking?.arrival._d || new Date(), booking?.departure._d || new Date());
+  console.log(allDates);
 
   const [isBooked, setIsBooked] = useState([]);
 

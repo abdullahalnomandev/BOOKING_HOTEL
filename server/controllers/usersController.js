@@ -40,8 +40,7 @@ const updateProfile = async (req, res, next) => {
 
 const getUserProfile = async (req, res, next) => {
   const { userId } = req.body;
-  // const token = req?.headers?.authorization.split(" ")[1];
-  const token = "iwier";
+  const token = req?.headers?.authorization.split(" ")[1];
   try {
     const profile = await User.findById(userId);
     const { password, passwordConfirm, ...othersUserDetails } = profile._doc;

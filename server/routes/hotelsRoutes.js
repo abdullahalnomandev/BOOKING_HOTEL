@@ -1,6 +1,6 @@
 import express from 'express';
 import {  createHotel, getAllCityHotels, getHotels, getSingleHotel, updateHotel } from "../controllers/hotelsController.js";
-import { verifyAdmin, verifyToken, verifyUser } from '../middleware/VerifyToken.js';
+import { verifyAdmin, verifyUser } from '../middleware/VerifyToken.js';
 
  const router = express.Router();
 

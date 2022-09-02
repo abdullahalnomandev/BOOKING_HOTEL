@@ -3,21 +3,21 @@ import classnames from "classnames";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import DashBoardHeader from "./DashBoardHeader";
 import "./sidebar.css";
-import { Divider } from "antd";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Divider, message } from "antd";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { BsFillGrid1X2Fill } from "react-icons/bs";
 import { FiUsers } from "react-icons/fi";
 import { RiHotelLine, RiHotelFill } from "react-icons/ri";
 import { MdHotel, MdAccountBox } from "react-icons/md";
 import { AiOutlineSetting, AiOutlineHome } from "react-icons/ai";
 import { DiGhostSmall } from "react-icons/di";
+import { BiLogOut } from "react-icons/bi";
 import useAuth from "../../../hooks/useAuth";
 const Sidebar = () => {
-
   const [open, setOpen] = useState(
     window.matchMedia("(min-width: 1024px)").matches || false
   );
-  const location = useLocation()
+  const location = useLocation();
   console.log(location.pathname);
   const [isActive, setIsActive] = useState(
     (location.pathname === "/dashboard" && 1) ||
@@ -30,12 +30,9 @@ const Sidebar = () => {
       (location.pathname === "/dashboard/all-bookings" && 8) ||
       null
   );
-    ;
-
   const mobile = window.matchMedia("(max-width: 768px)").matches;
-  console.log(mobile, open);
 
-  const { photo, name, isAdmin } = useAuth();
+  const { photo, name, isAdmin, isLogin } = useAuth();
 
   const adminRoute = [
     { id: 0, title: "Home", path: "/", icon: <AiOutlineHome /> },
@@ -49,10 +46,22 @@ const Sidebar = () => {
     { id: 8, title: "Bookings", path: "all-bookings", icon: <DiGhostSmall /> }
   ];
 
-  const userRoute= adminRoute.filter(({path})=>{
+  const userRoute = adminRoute.filter(({ path }) => {
     // return path !== "rooms" && path === "all-bookings" && path !== "hotels";
-    return (path !== "rooms" && path !== "hotels" && path !== "all-bookings") ;
+    return path !== "rooms" && path !== "hotels" && path !== "all-bookings";
   });
+
+  const navigate = useNavigate();
+
+  const logOut = () => {
+    message.error("Log out successful..,");
+    localStorage.clear();
+
+    if (!isLogin) {
+      navigate("/");
+      window.location.reload(false);
+    }
+  };
 
   return (
     <div className="nav-b">
@@ -69,12 +78,9 @@ const Sidebar = () => {
           )}
         >
           <div className="profile" style={{ textAlign: "center" }}>
-            <img
-              src={photo}
-              alt=""
-            />
+            <img src={photo} alt="" />
             <h3>{name}</h3>
-            <p>Role: {isAdmin?'ADMIN':'USER'}</p>
+            <p>Role: {isAdmin ? "ADMIN" : "USER"}</p>
             <Divider />
           </div>
           <a
@@ -84,15 +90,20 @@ const Sidebar = () => {
           >
             &times;
           </a>
-          {(isAdmin?adminRoute:userRoute).map(({ title, path, id, icon }) => (
-            <Link
-              className={isActive === id ? "active" : "none-active"}
-              to={path}
-              onClick={() => setIsActive(id)}
-            >
-              {icon} {title}
-            </Link>
-          ))}
+          {(isAdmin ? adminRoute : userRoute).map(
+            ({ title, path, id, icon }) => (
+              <Link
+                className={isActive === id ? "active" : "none-active"}
+                to={path}
+                onClick={() => setIsActive(id)}
+              >
+                {icon} {title}
+              </Link>
+            )
+          )}
+          <Link to="/" onClick={() => logOut()} style={{ color: "red" }}>
+            <BiLogOut /> Log Out
+          </Link>
         </div>
 
         <div
