@@ -38,11 +38,6 @@ const signUp = async (req, res, next) => {
           user: otherDetails
         }
       });
-
-    // res.status(201).json({
-    //   status: "success",
-    //   message:`Hi, ${newUser.name}! your account created successfully. Please log in.`,
-    // });
   } catch (error) {
     next(new AppError(error, 400));
   }
@@ -50,9 +45,7 @@ const signUp = async (req, res, next) => {
 
 //Sign in user
 const logIn = async (req, res, next) => {
-
   const { email } = req.body;
-
   try {
     const user = await User.findOne({ email: email });
     if (!user) return next(new AppError("User not found", 404));

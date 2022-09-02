@@ -25,7 +25,6 @@ const roomSchema = mongoose.Schema({
   },
   photo:{
     type:String,
-    // required:[true,'Please upload a photo']
   },
   photos:[String],
   roomNumbers:[{number:Number,unavailableDates:{type:[Date]}}]

@@ -18,7 +18,6 @@ app.use(cors({origin: '*'}));
 app.use(express.json());
 app.use(cookieParser());
 
-
 // Routes 
 app.use('/api/hotels',HotelRoutes);
 app.use('/api/room',RoomRoutes);
