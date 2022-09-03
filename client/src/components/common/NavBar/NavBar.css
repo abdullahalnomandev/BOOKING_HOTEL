@@ -13,3 +13,11 @@
     /* background: #c5c5c5 !important; */
     border-bottom: 1px solid #c5c5c5;
 }
+
+@media screen and (max-width: 800px) {
+
+    .logo-nav{
+        width: 80px;
+        object-fit: cover;
+    }
+}

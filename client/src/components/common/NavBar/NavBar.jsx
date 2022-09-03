@@ -61,7 +61,7 @@ const NavBar = () => {
       title={
         <span style={{ color: "white", padding: "0px !important" }}>
           <Link to="/">
-            <img src={logo} alt="" />
+            <img src={logo} alt="" className="logo-nav" />
           </Link>
         </span>
       }

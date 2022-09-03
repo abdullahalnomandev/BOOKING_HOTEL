@@ -9,6 +9,7 @@ import NavBar from "../common/NavBar/NavBar";
 import Footer from "../common/Footer/Footer";
 import { GET_HOTELS } from "../../Api/ApiConstant";
 import { getData } from "../../Api/commonServices";
+import loaderZif from '../../assets/project-idea.gif';
 
 const AllHotels = () => {
 
@@ -56,10 +57,8 @@ const AllHotels = () => {
         <div className="rooms" style={{ padding: " 0 5%" }}>
           <Row gutter={[14, 14]}>
             {hotels.length < 1 && (
-              <div style={{width:'400px',margin:'auto'}}>
-                <h1 style={{  color: "red" }}>
-                Sorry,  No Hotels Available ! &#127979;
-                </h1>
+              <div style={{ width: "400px", margin: "auto" }}>
+                <img src={loaderZif} alt="" style={{ maxWidth: "100%" }} />
               </div>
             )}
             {hotels?.map(({ _id, name, photo, city }) => (
@@ -90,9 +89,12 @@ const AllHotels = () => {
                       </h4>
                     </div>
                     <div>
-
-                        <button className="btn-secondary" onClick={()=>handleClickRooms(_id)}>See Rooms</button>
-  
+                      <button
+                        className="btn-secondary"
+                        onClick={() => handleClickRooms(_id)}
+                      >
+                        See Rooms
+                      </button>
                     </div>
                   </div>
                 </Card>
