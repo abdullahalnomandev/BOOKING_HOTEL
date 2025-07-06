@@ -1,0 +1,23 @@
+.custom-select .ant-select-selector {
+  background-color: #fff !important;
+  border: 1px solid #d9d9d9 !important;
+  border-radius: 6px !important;
+  color: rgba(0, 0, 0, 0.85) !important;
+  box-shadow: none !important;
+}
+
+.custom-select .ant-select-arrow {
+  color: rgba(0, 0, 0, 0.25) !important;
+}
+
+.custom-select:hover .ant-select-selector {
+  border-color: #40a9ff !important;
+}
+
+.custom-select-dropdown .ant-select-item {
+  padding: 8px 12px;
+}
+
+.custom-select-dropdown .ant-select-item-option-selected {
+  background-color: #e6f7ff;
+}

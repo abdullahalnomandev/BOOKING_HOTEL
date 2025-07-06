@@ -1,8 +1,7 @@
-
 .ulStyle {
   list-style: none;
   display: flex;
-  justify-content: center
+  justify-content: center;
 }
 
 .listStyle {
@@ -10,7 +9,7 @@
   padding: 5px 10px;
   border-radius: 5px;
   background-color: goldenRod;
-  color: #fff
+  color: #fff;
 }
 
 .activeListCssStyle {
@@ -18,7 +17,7 @@
   padding: 5px 10px;
   border-radius: 5px;
   background-color: #af320b;
-  color: #fff
+  color: #fff;
 }
 
 .prevNextBtn {
@@ -26,38 +25,35 @@
   padding: 5px 10px;
   border-radius: 5px;
   background-color: gray;
-  color: #fff
+  color: #fff;
 }
-
 
 .input-range p {
-    color: #aab8ca;
+  color: #aab8ca;
 }
 .range {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 150px;
-    gap: 3px;
-    margin-top: -15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 150px;
+  gap: 3px;
+  margin-top: -15px;
 }
-.ant-form input[type=range] {
-    display: block;
-    width: 100%;
-    margin-bottom: 8px;
-    cursor: pointer;
+.ant-form input[type="range"] {
+  display: block;
+  width: 100%;
+  margin-bottom: 8px;
+  cursor: pointer;
 }
 .range h5 {
-    color: #aab8ca;
-    font-size: 15px;
-    font-weight: bolder;
+  color: #aab8ca;
+  font-size: 15px;
+  font-weight: bolder;
 }
-
 
 /* PAGINATION */
 .pagination {
   display: inline-block;
-
 }
 
 .pagination a {
@@ -65,35 +61,35 @@
   float: left;
   padding: 8px 16px;
   text-decoration: none;
-  transition: background-color .3s;
+  transition: background-color 0.3s;
   border: none;
   font-size: 17px;
-  font-weight:600;
+  font-weight: 600;
 }
 
 .pagination a.active {
-  background-color: #4CAF50;
+  background-color: #08bee7;
   color: white;
 }
-.pagination a .actives{
+.pagination a .actives {
   background-color: red;
 }
 
 @media screen and (max-width: 992px) {
-  .filter-btn{
+  .filter-btn {
     display: none;
   }
-  .child-btn{
+  .child-btn {
     display: none;
   }
-  .adult-btn{
+  .adult-btn {
     display: none;
   }
 }
 
 /* On screens that are 600px or less, set the background color to olive */
 @media screen and (min-width: 600px) {
-  .filter-btn{
+  .filter-btn {
     display: block;
   }
 }

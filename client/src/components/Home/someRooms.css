@@ -1,9 +1,7 @@
-
 .car-footer.align-center {
-    display: flex;
-    justify-content: space-between;
-
+  display: flex;
+  justify-content: space-between;
 }
-.shift{
-    color: gray;
+.shift {
+  color: gray;
 }

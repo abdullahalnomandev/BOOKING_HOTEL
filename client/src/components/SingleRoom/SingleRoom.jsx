@@ -1,15 +1,13 @@
-import React, { useState } from "react";
+import { Col, Row, Skeleton } from "antd";
+import { useCallback, useEffect, useState } from "react";
 import { GoLocation } from "react-icons/go";
-import "./singleRoom.css";
-import {  Col, Row } from "antd";
-import { useCallback } from "react";
-import ImageViewer from "react-simple-image-viewer";
-import BookingRoomModal from "./BookingRoomModal";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
-import { getData } from "../../Api/commonServices";
+import ImageViewer from "react-simple-image-viewer";
 import { GET_ROOM, GET_SINGLE_HOTEL_DETAILS } from "../../Api/ApiConstant";
+import { getData } from "../../Api/commonServices";
 import useAuth from "../../hooks/useAuth";
+import BookingRoomModal from "./BookingRoomModal";
+import "./singleRoom.css";
 
 const SingleRoom = () => {
   const [currentImage, setCurrentImage] = useState(0);
@@ -35,7 +33,7 @@ const SingleRoom = () => {
     const getRoomDetails = async () => {
       try {
         const {
-          data: { roomDetails }
+          data: { roomDetails },
         } = await getData(GET_ROOM, { id });
         console.log("singleRoom", roomDetails);
         setRoom(roomDetails);
@@ -48,7 +46,7 @@ const SingleRoom = () => {
     const getHotelDetails = async () => {
       try {
         const {
-          data: { hotel }
+          data: { hotel },
         } = await getData(GET_SINGLE_HOTEL_DETAILS, { hotelId });
         setHotel(hotel);
       } catch (err) {
@@ -56,20 +54,18 @@ const SingleRoom = () => {
       }
     };
     getHotelDetails();
-  }, [hotelId]);
+  }, [hotelId, id]);
 
-  const {isLogin}=useAuth();
+  const { isLogin } = useAuth();
 
   const navigate = useNavigate();
   const handleShowModal = () => {
-    if(isLogin){
-    setIsBookingModalVisible(true);
-    }
-    else{
-      navigate('/auth/register');
+    if (isLogin) {
+      setIsBookingModalVisible(true);
+    } else {
+      navigate("/auth/register");
     }
   };
-
 
   return (
     <>
@@ -79,11 +75,11 @@ const SingleRoom = () => {
         room={room}
         hotel={hotel}
       />
-      <div className="singleRoom">
-        <Row className="room-wrapper">
+      <div className='singleRoom'>
+        <Row className='room-wrapper'>
           <Col md={{ span: 18 }} xs={{ span: 24 }}>
             <div>
-              <h1 style={{fontFamily:'fantasy'}}>
+              <h1 style={{ fontFamily: "fantasy" }}>
                 {hotel.name} ({room.title})
               </h1>
               <GoLocation />
@@ -97,13 +93,12 @@ const SingleRoom = () => {
           <Col md={{ span: 6 }} xs={{ span: 24 }}>
             <div>
               <button
-                className="animated-button1 "
+                className='animated-button1 '
                 style={{
                   padding: "20px 10px",
-                  background: "#fe5d5d"
+                  background: "#fe5d5d",
                 }}
-                onClick={handleShowModal}
-              >
+                onClick={handleShowModal}>
                 <span></span>
                 <span></span>
                 <span></span>
@@ -115,7 +110,7 @@ const SingleRoom = () => {
         </Row>
         <Row style={{ paddingBottom: "20px" }} gutter={[24, 24]}>
           <Col xs={{ span: 24 }} md={{ span: 24 }}>
-            <div className="left-bok-content">
+            <div className='left-bok-content'>
               {/* <h3>{hotel.title} </h3> */}
               {/* <p>{hotel.desc}</p> */}
             </div>
@@ -131,29 +126,61 @@ const SingleRoom = () => {
               backgroundStyle={{
                 backgroundColor: "rgba(0,0,0,0.9)",
                 width: "100%",
-                marginTop: "7%"
+                marginTop: "7%",
               }}
               closeOnClickOutside={true}
             />
           )}
         </div>
         <Row gutter={[12, 12]} style={{ marginBottom: "20px" }}>
-          {room?.photos?.slice(0,8).map((img, index) => (
-            <Col
-              md={{ span: 8 }}
-              xs={{ span: 24 }}
-              lg={{ span: 6 }}
-              sm={{ span: 12 }}
-              key={index + 1}
-            >
-              <img
-                onClick={() => openImageViewer(index)}
-                style={{ width: "100%", cursor: "pointer",height:"200px",objectFit:"cover" }}
-                src={img}
-                alt=""
-              />
-            </Col>
-          ))}
+          {!room?.photos?.length
+            ? Array.from({ length: 8 }).map((_, index) => (
+                <Col
+                  md={{ span: 8 }}
+                  xs={{ span: 24 }}
+                  lg={{ span: 6 }}
+                  sm={{ span: 12 }}
+                  key={index}>
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "200px",
+                      borderRadius: "8px",
+                      background: "#f0f0f0",
+                      padding: "16px",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}>
+                    <Skeleton
+                      active
+                      paragraph={false}
+                      title={{ width: "60%" }}
+                    />
+                  </div>
+                </Col>
+              ))
+            : room?.photos?.slice(0, 8).map((img, index) => (
+                <Col
+                  md={{ span: 8 }}
+                  xs={{ span: 24 }}
+                  lg={{ span: 6 }}
+                  sm={{ span: 12 }}
+                  key={index}>
+                  <img
+                    onClick={() => openImageViewer(index)}
+                    style={{
+                      width: "100%",
+                      cursor: "pointer",
+                      height: "200px",
+                      objectFit: "cover",
+                      borderRadius: "8px",
+                    }}
+                    src={img}
+                    alt={`Room ${index + 1}`}
+                  />
+                </Col>
+              ))}
         </Row>
       </div>
     </>

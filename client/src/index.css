@@ -39,23 +39,22 @@ html {
 }
 
 .btn-secondary {
-  color: #3AC4FA;
+  color: #3ac4fa;
   padding: 7px 10px;
   background: no-repeat;
-  border: 2px solid #3AC4FA;
+  border: 2px solid #3ac4fa;
   border-radius: 3px;
   transition: 0.3s;
   font-size: 14px;
   font-weight: bold;
 }
 .btn-secondary:hover {
-  background-color: #3AC4FA;
+  background-color: #3ac4fa;
   color: white;
   transition: 0.3s;
   cursor: pointer;
   font-size: 14px;
   font-weight: bold;
-
 }
 span.ant-input-affix-wrapper.ant-input-affix-wrapper-lg {
   background: transparent;
@@ -108,42 +107,41 @@ input#city {
   border: none !important;
   color: #aab8ca;
   border-bottom: 2px solid #717375 !important;
-    box-shadow: 0 0 0 2px rgba(255, 0, 0, 0) !important ;
-
+  box-shadow: 0 0 0 2px rgba(255, 0, 0, 0) !important ;
+}
+span.ant-select-arrow {
+  color: white;
 }
 .ant-select-single.ant-select-open .ant-select-selection-item {
   color: white;
 }
-span.ant-select-arrow{
-  color: white;
-}
-.d-flex{
+
+.d-flex {
   display: flex;
 }
-.justify-between{
+.justify-between {
   justify-content: space-between;
 }
-.align-center{
+.align-center {
   align-items: center;
 }
 
-
 .head-content {
-    text-align: center;
-    padding: 30px 0;
+  text-align: center;
+  padding: 30px 0;
 }
 
 .head-content h1 {
-    font-family: ui-serif;
-    font-size: 31px;
+  font-family: ui-serif;
+  font-size: 31px;
 }
 
 .head-content img {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .head-content p {
-    font-size: 15px;
-    font-family: serif;
-    font-size: 16px;
+  font-size: 15px;
+  font-family: serif;
+  font-size: 16px;
 }
