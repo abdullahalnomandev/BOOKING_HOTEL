@@ -1,12 +1,12 @@
 import { Form, Input, message, Modal } from "antd";
-import React, { useState } from "react";
+import axios from "axios";
+import { useState } from "react";
+import { FiCamera } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
+import { SIGN_IN_USER, SIGN_UP_USER } from "../../Api/ApiConstant";
+import { getData } from "../../Api/commonServices";
 import NavBar from "../common/NavBar/NavBar";
 import "./Register.css";
-import axios from "axios";
-import { FiCamera } from "react-icons/fi";
-import { getData } from "../../Api/commonServices";
-import { SIGN_IN_USER, SIGN_UP_USER } from "../../Api/ApiConstant";
 
 const Register = () => {
   const [isRegisterModalVisible, setIsRegisterModalVisible] = useState(true);
@@ -20,7 +20,6 @@ const Register = () => {
   };
 
   const signUpUser = async (userInfo) => {
-
     try {
       const { data } = await getData(
         isLogin ? SIGN_IN_USER : SIGN_UP_USER,
@@ -41,7 +40,7 @@ const Register = () => {
       ...values,
       photo:
         imageUrl ||
-        "https://banner2.cleanpng.com/20180329/zue/kisspng-computer-icons-user-profile-person-5abd85306ff7f7.0592226715223698404586.jpg"
+        "https://banner2.cleanpng.com/20180329/zue/kisspng-computer-icons-user-profile-person-5abd85306ff7f7.0592226715223698404586.jpg",
     };
     signUpUser(newUserData);
   };
@@ -74,47 +73,46 @@ const Register = () => {
         visible={isRegisterModalVisible}
         onCancel={handleCloseModal}
         footer={null}
-        width={400}
-      >
-        <div className="auth">
+        width={400}>
+        <div className='auth'>
           <h1>{isLogin ? "Login Form " : "Sign Up Form"}</h1>
 
-          <div className="login-and-sign-up">
+          <div
+            className='login-and-sign-up'
+            style={{ display: "flex", gap: "10px" }}>
             <button
               className={isLogin ? "btn-primary-full" : "btn-primary"}
               style={{ width: "50%", height: "50px" }}
-              onClick={() => setIsLogin(!isLogin)}
-            >
+              onClick={() => setIsLogin(!isLogin)}>
               Login{" "}
             </button>
             <button
               className={isLogin ? "btn-primary" : "btn-primary-full"}
               style={{ width: "50%", height: "50px" }}
-              onClick={() => setIsLogin(!isLogin)}
-            >
+              onClick={() => setIsLogin(!isLogin)}>
               Sign Up{" "}
             </button>
           </div>
-          <Form onFinish={onFinish} layout="vertical">
+          <Form onFinish={onFinish} layout='vertical'>
             {!isLogin && (
-              <div className="avatar-profile">
+              <div className='avatar-profile'>
                 <img
                   src={
                     imageUrl ||
                     "https://icons.iconarchive.com/icons/paomedia/small-n-flat/512/user-male-icon.png"
                   }
                   style={{ width: "80px", height: "80px", borderRadius: "50%" }}
-                  alt=""
+                  alt=''
                 />
 
                 <input
-                  type="file"
-                  id="img"
-                  name="fav_language"
+                  type='file'
+                  id='img'
+                  name='fav_language'
                   onChange={handleImageUpload}
                 />
-                <div className="svg-avatar">
-                  <label for="img">
+                <div className='svg-avatar'>
+                  <label for='img'>
                     <FiCamera style={{ fontSize: "40px", cursor: "pointer" }} />
                   </label>
                 </div>
@@ -123,48 +121,45 @@ const Register = () => {
             {loading && <p style={{ color: "red" }}>Uploading....</p>}
             {!isLogin && (
               <Form.Item
-                name="name"
+                name='name'
                 rules={[
                   {
                     required: true,
-                    message: "name is required!"
-                  }
-                ]}
-              >
-                <Input placeholder="Your Name" />
+                    message: "name is required!",
+                  },
+                ]}>
+                <Input placeholder='Your Name' />
               </Form.Item>
             )}
             <Form.Item
-              name="email"
+              name='email'
               rules={[
                 {
                   required: true,
-                  type: "email"
-                }
-              ]}
-            >
-              <Input placeholder="Email Address" />
+                  type: "email",
+                },
+              ]}>
+              <Input placeholder='Email Address' />
             </Form.Item>
             <Form.Item
-              name="password"
+              name='password'
               rules={[
                 {
                   required: true,
-                  message: "'password' is required!"
-                }
-              ]}
-            >
-              <Input.Password placeholder="Password" />
+                  message: "'password' is required!",
+                },
+              ]}>
+              <Input.Password placeholder='Password' />
             </Form.Item>
             {!isLogin && (
               <Form.Item
-                name="passwordConfirm"
+                name='passwordConfirm'
                 dependencies={["password"]}
                 hasFeedback
                 rules={[
                   {
                     required: true,
-                    message: "Please confirm your password!"
+                    message: "Please confirm your password!",
                   },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
@@ -177,22 +172,50 @@ const Register = () => {
                           "The two passwords that you entered do not match!"
                         )
                       );
-                    }
-                  })
-                ]}
-              >
-                <Input.Password placeholder="Confirm Password" />
+                    },
+                  }),
+                ]}>
+                <Input.Password placeholder='Confirm Password' />
               </Form.Item>
             )}
 
             <Form.Item>
               <button
                 style={{ width: "100%", marginTop: "3%" }}
-                htmlType="submit"
-                className="btn-primary-full"
-              >
+                htmlType='submit'
+                className='btn-primary-full'>
                 {isLogin ? "Login" : "Sign Up"}
               </button>
+
+              {isLogin && (
+                <>
+                  <button
+                    style={{ width: "100%", marginTop: "3%" }}
+                    type='button'
+                    onClick={() =>
+                      signUpUser({
+                        email: "user12@gmail.com",
+                        password: "user12@",
+                      })
+                    }
+                    className='btn-primary'>
+                    Login With Test User
+                  </button>
+
+                  <button
+                    style={{ width: "100%", marginTop: "3%" }}
+                    type='button'
+                    onClick={() =>
+                      signUpUser({
+                        email: "admin-user@gmail.com",
+                        password: "admin@123",
+                      })
+                    }
+                    className='btn-primary'>
+                    Login With Admin
+                  </button>
+                </>
+              )}
             </Form.Item>
 
             <p>
@@ -203,18 +226,16 @@ const Register = () => {
               )}
               {isLogin ? (
                 <Link
-                  className="sign-up-text"
+                  className='sign-up-text'
                   onClick={() => setIsLogin(!isLogin)}
-                  to="/auth/register"
-                >
+                  to='/auth/register'>
                   Sign Up now !
                 </Link>
               ) : (
                 <Link
-                  className="sign-up-text"
+                  className='sign-up-text'
                   onClick={() => setIsLogin(!isLogin)}
-                  to="/auth/register"
-                >
+                  to='/auth/register'>
                   Log In !
                 </Link>
               )}
