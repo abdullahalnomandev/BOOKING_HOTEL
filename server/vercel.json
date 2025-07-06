@@ -3,10 +3,7 @@
     "builds": [
         {
             "src": "index.js",
-            "use": "@vercel/node",
-            "config": {
-                "tsconfig": "tsconfig.json"
-            }
+            "use": "@vercel/node"
         }
     ],
     "routes": [

@@ -4,13 +4,10 @@
   "description": "",
   "main": "index.js",
   "type": "module",
-  
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js",
-     "start:dev": "nodemon server.js",
-    "start:prod": "NODE_ENV=production nodemon index.js",
-    "debug": "ndb index.js"
+    "build": "npm install"
   },
   "author": "",
   "license": "ISC",
