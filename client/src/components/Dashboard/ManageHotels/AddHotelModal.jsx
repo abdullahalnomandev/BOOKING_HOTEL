@@ -1,6 +1,6 @@
 import { Button, Form, Input, message, Modal, Select } from "antd";
 import axios from "axios";
-import React, { useState } from "react";
+import { useState } from "react";
 import { FiCamera } from "react-icons/fi";
 import { ADD_NEW_HOTEL } from "../../../Api/ApiConstant";
 import { postData } from "../../../Api/commonServices";
@@ -9,7 +9,7 @@ const { Option } = Select;
 const AddHotelModal = ({
   isAddHotelModalVisible,
   setIsAddHotelModalVisible,
-  setRender
+  setRender,
 }) => {
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -38,7 +38,7 @@ const AddHotelModal = ({
       city: values.city,
       address: values.address,
       title: values.title,
-      desc: values.desc
+      desc: values.desc,
     };
     addNewHotel(newHotel);
   };
@@ -65,29 +65,28 @@ const AddHotelModal = ({
   return (
     <div>
       <Modal
-        title="Add Hotel"
+        title='Add Hotel'
         visible={isAddHotelModalVisible}
         onCancel={() => setIsAddHotelModalVisible(false)}
-        footer={null}
-      >
-        <Form onFinish={onFinish} layout="vertical">
-          <div className="avatar-profile">
+        footer={null}>
+        <Form onFinish={onFinish} layout='vertical'>
+          <div className='avatar-profile'>
             <img
               src={
                 imageUrl ||
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoHwEKgp5KrMKgSKdnyn_3T0-kCjrv-ls0zA&usqp=CAU"
               }
               style={{ width: "80px", height: "80px", borderRadius: "50%" }}
-              alt=""
+              alt=''
             />
             <input
-              type="file"
-              id="img"
-              name="fav_language"
+              type='file'
+              id='img'
+              name='fav_language'
               onChange={handleImageUpload}
             />
-            <div className="svg-avatar">
-              <label for="img">
+            <div className='svg-avatar'>
+              <label for='img'>
                 <FiCamera style={{ fontSize: "40px", cursor: "pointer" }} />
               </label>
             </div>
@@ -95,85 +94,79 @@ const AddHotelModal = ({
           {loading && <p style={{ color: "red" }}>Uploading....</p>}
 
           <Form.Item
-            name="name"
-            label="Hotel Name"
+            name='name'
+            label='Hotel Name'
             rules={[
               {
-                required: true
-              }
-            ]}
-          >
+                required: true,
+              },
+            ]}>
             <Input />
           </Form.Item>
 
           <Form.Item
             style={{ width: "50%", marginTop: "1%", maxHeight: "100%" }}
-            name="city"
+            name='city'
             rules={[
               {
                 required: true,
-                message: "Select your city!"
-              }
-            ]}
-          >
+                message: "Select your city!",
+              },
+            ]}>
             <Select
               showSearch
-              placeholder="Search city"
-              optionFilterProp="children"
+              placeholder='Search city'
+              optionFilterProp='children'
               filterOption={(input, option) => option.children.includes(input)}
               filterSort={(optionA, optionB) =>
                 optionA.children
                   .toLowerCase()
                   .localeCompare(optionB.children.toLowerCase())
-              }
-            >
-              <Option value="dhaka">Dhaka</Option>
-              <Option value="chittagong">Chittagong</Option>
-              <Option value="rajshahi">Rajshahi</Option>
-              <Option value="khulna">Khulna</Option>
-              <Option value="sylhet">Sylhet</Option>
-              <Option value="rangpur">Rangpur</Option>
-              <Option value="mymensingh">Mymensingh</Option>
-              <Option value="barisal">Barisal</Option>
+              }>
+              <Option value='dhaka'>Dhaka</Option>
+              <Option value='chittagong'>Chittagong</Option>
+              <Option value='rajshahi'>Rajshahi</Option>
+              <Option value='khulna'>Khulna</Option>
+              <Option value='sylhet'>Sylhet</Option>
+              <Option value='rangpur'>Rangpur</Option>
+              <Option value='mymensingh'>Mymensingh</Option>
+              <Option value='barisal'>Barisal</Option>
             </Select>
           </Form.Item>
 
           <Form.Item
-            name="address"
-            label="Address "
+            name='address'
+            label='Address '
             rules={[
               {
-                required: true
-              }
-            ]}
-          >
+                required: true,
+              },
+            ]}>
             <Input />
           </Form.Item>
           <Form.Item
-            name="title"
-            label="Title "
+            name='title'
+            label='Title '
             rules={[
               {
-                required: true
-              }
-            ]}
-          >
+                required: true,
+              },
+            ]}>
             <Input />
           </Form.Item>
 
           <Form.Item
-            name="desc"
-            label="Description"
+            name='desc'
+            label='Description'
             rules={[
               {
-                required: true
-              }
-            ]}
-          >
+                required: true,
+              },
+            ]}>
             <Input.TextArea />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button type='primary' htmlType='submit'>
               Submit
             </Button>
           </Form.Item>

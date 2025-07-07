@@ -1,79 +1,94 @@
-import React, { useEffect, useState } from "react";
+import { Avatar, Table, Tag, Typography } from "antd";
+import { useEffect, useState } from "react";
 import { GET_USERS } from "../../../Api/ApiConstant";
 import { getData } from "../../../Api/commonServices";
-import loaderZif from "../../../assets/project-idea.gif";
-
 import "./index.css";
+
+const { Title } = Typography;
+
 const Users = () => {
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getRoomDetails = async () => {
       try {
         const { data } = await getData(GET_USERS);
-        setUsers(data.users);
+        setUsers(data.users.reverse());
       } catch (err) {
-        console.log(err);
+        console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
     getRoomDetails();
   }, []);
+
+  const columns = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      render: (_, record) => (
+        <div className='flex items-center gap-2'>
+          <Avatar src={record.photo} size={48} />
+          <span>{record.name}</span>
+        </div>
+      ),
+    },
+
+    {
+      title: "E-mail",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Role",
+      dataIndex: "isAdmin",
+      key: "role",
+      render: (isAdmin) =>
+        isAdmin ? <Tag color='red'>Admin</Tag> : <Tag color='blue'>User</Tag>,
+    },
+    {
+      title: "Registration Date",
+      dataIndex: "registration",
+      key: "registration",
+      render: (reg) => new Date(Number(reg)).toLocaleDateString(),
+    },
+  ];
+
   return (
-    <div style={{ padding: "20px" }}>
-      <div className="head-content" style={{ marginTop: "-5%" }}>
-        <h1>
+    <div style={{ padding: 24 }}>
+      <div className='text-center mb-6'>
+        <Title level={2}>
           All <span style={{ color: "#fe5d5d" }}>USERS</span>
-        </h1>
-        <img
-          src="https://premiumlayers.com/html/hotelbooking/img/nice-title.png"
-          alt=""
-        />
+        </Title>
       </div>
-      <div className="user-table">
-        <table style={{ width: "100%" }}>
-          <tr>
-            <th>Name</th>
-            <th>ID</th>
-            <th>E-mail</th>
-            <th>Role</th>
-            <th>Registration date</th>
-          </tr>
-          {users.length < 1 && (
-            <div style={{ width: "400px", margin: "auto" }}>
-              <img src={loaderZif} alt="" style={{ maxWidth: "100%" }} />
+
+      {loading ? (
+        <div className='custom-skeleton-table'>
+          {[...Array(6)].map((_, i) => (
+            <div className='skeleton-row' key={i}>
+              <div className='skeleton-cell avatar-cell'>
+                <div className='skeleton-avatar' />
+                <div className='skeleton-name' />
+              </div>
+              <div className='skeleton-cell short' />
+              <div className='skeleton-cell medium' />
+              <div className='skeleton-cell tag' />
+              <div className='skeleton-cell short' />
             </div>
-          )}
-          {users
-            .reverse()
-            ?.map(({ name, email, isAdmin, photo, registration, _id }) => (
-              <tr key={_id}>
-                <td>
-                  <div
-                    style={{ gap: "10px" }}
-                    className="d-flex justify-center align-center"
-                  >
-                    <img
-                      style={{
-                        width: "50px",
-                        height: "50px",
-                        borderRadius: "50%"
-                      }}
-                      src={photo}
-                      alt=""
-                    />
-                    <h3>{name}</h3>
-                  </div>
-                </td>
-                <td>{_id.slice(0, 10)}</td>
-                <td>{email}</td>
-                <td>{isAdmin ? "Admin" : "User"}</td>
-                <td>
-                  <h3>{new Date(Number(registration)).toLocaleDateString()}</h3>
-                </td>
-              </tr>
-            ))}
-        </table>
-      </div>
+          ))}
+        </div>
+      ) : (
+        <Table
+          rowKey='_id'
+          columns={columns}
+          dataSource={users}
+          pagination={{ pageSize: 8 }}
+          bordered
+        />
+      )}
     </div>
   );
 };

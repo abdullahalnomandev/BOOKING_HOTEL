@@ -1,109 +1,121 @@
-import { Button, Card, Divider, Form, Input, InputNumber, message } from "antd";
-import React from "react";
+import { Button, Card, Form, Input, message, Typography } from "antd";
 import { UPDATE_PASSWORD } from "../../../Api/ApiConstant";
 import { patchData } from "../../../Api/commonServices";
 import useAuth from "../../../hooks/useAuth";
-import "./index.css";
+
+const { Title } = Typography;
+
 const Settings = () => {
   const { id } = useAuth();
 
   const handleSubmitNewPassword = async (info) => {
     try {
       const res = await patchData(UPDATE_PASSWORD, info);
-      console.log(res);
       if (res) {
-        message.success(`Password updated successfully...`, 5);
+        message.success("✅ Password updated successfully", 4);
       }
-      console.log(res);
-    } catch (errors) {
-      console.log(errors);
-      message.error(errors?.response?.data?.message);
+    } catch (error) {
+      message.error(error?.response?.data?.message || "Something went wrong.");
     }
   };
 
   const onFinish = (values) => {
     const { oldPassword, password, passwordConfirm } = values;
-
-    const updatePasswordInfo = {
+    handleSubmitNewPassword({
+      userId: id,
       oldPassword,
       password,
       passwordConfirm,
-      userId: id
-    };
+    });
+  };
 
-    handleSubmitNewPassword(updatePasswordInfo);
+  const formItemStyle = {
+    marginBottom: 24,
+  };
+
+  const inputStyle = {
+    height: 42,
+    padding: "8px 12px",
+    fontSize: 16,
   };
 
   return (
-    <div>
-      <h1>SETTINGS</h1>
-      <Card>
-        <h3>
-          Profile:{" "}
-          <span style={{ color: "gray" }}>The information can be edited</span>
-        </h3>
-        <Divider />
+    <div
+      style={{
+        maxWidth: 480,
+        margin: "0 auto",
+        padding: "40px 20px",
+        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+      }}>
+      {/* Header */}
+      <div style={{ textAlign: "center", marginBottom: 32 }}>
+        <Title level={2} style={{ marginBottom: 0 }}>
+          Account <span style={{ color: "#fe5d5d" }}>Settings</span>
+        </Title>
+      </div>
+
+      {/* Form Card */}
+      <Card
+        bordered={false}
+        style={{ boxShadow: "0 2px 12px rgba(0, 0, 0, 0.1)" }}>
         <Form
-          initialValues={{}}
+          layout='vertical'
           onFinish={onFinish}
-          layout="vertical"
-          className="update_password"
-        >
+          requiredMark={false}
+          style={{ marginTop: 16 }}>
           <Form.Item
-            name="oldPassword"
-            label="Old password"
+            name='oldPassword'
+            label='Current Password'
             rules={[
-              {
-                required: true,
-                message: "Please input your password!"
-              }
+              { required: true, message: "Please enter your old password" },
             ]}
-          >
-            <Input.Password style={{ padding: "7px 10px", margin: "0" }} />
+            style={formItemStyle}>
+            <Input.Password
+              placeholder='Enter old password'
+              style={inputStyle}
+              size='middle'
+            />
           </Form.Item>
 
           <Form.Item
-            name="password"
-            label="Create new password"
-            rules={[
-              {
-                required: true,
-                message: "Please input your password!"
-              }
-            ]}
+            name='password'
+            label='New Password'
+            rules={[{ required: true, message: "Please enter a new password" }]}
             hasFeedback
-          >
-            <Input.Password style={{ padding: "0px 10px", margin: "0" }} />
+            style={formItemStyle}>
+            <Input.Password
+              placeholder='Enter new password'
+              style={inputStyle}
+              size='middle'
+            />
           </Form.Item>
 
           <Form.Item
-            name="passwordConfirm"
-            label="Confirm new password"
+            name='passwordConfirm'
+            label='Confirm New Password'
             dependencies={["password"]}
             hasFeedback
             rules={[
-              {
-                required: true,
-                message: "Please confirm your password!"
-              },
+              { required: true, message: "Please confirm your new password" },
               ({ getFieldValue }) => ({
                 validator(_, value) {
                   if (!value || getFieldValue("password") === value) {
                     return Promise.resolve();
                   }
-
-                  return Promise.reject(
-                    new Error("Please confirm your password!")
-                  );
-                }
-              })
+                  return Promise.reject(new Error("Passwords do not match"));
+                },
+              }),
             ]}
-          >
-            <Input.Password style={{ padding: "0px 10px", margin: "0" }} />
+            style={formItemStyle}>
+            <Input.Password
+              placeholder='Confirm new password'
+              style={inputStyle}
+              size='middle'
+            />
           </Form.Item>
 
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
+          <Form.Item style={{ marginTop: 32 }}>
+            <Button type='primary' htmlType='submit' block size='large'>
               Update Password
             </Button>
           </Form.Item>

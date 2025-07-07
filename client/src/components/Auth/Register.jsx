@@ -12,7 +12,7 @@ const Register = () => {
   const [isRegisterModalVisible, setIsRegisterModalVisible] = useState(true);
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
 
   const navigate = useNavigate();
   const handleCloseModal = () => {

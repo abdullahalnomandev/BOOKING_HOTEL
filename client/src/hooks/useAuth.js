@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 
 const useAuth = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(() => {
+    const user = JSON.parse(localStorage.getItem("user"))?.userInfo;
+    return !!user;
+  });
+  
   const user = JSON.parse(localStorage.getItem("user"))?.userInfo;
 
-
-  useEffect(()=>{
-
-    if(user){
+  useEffect(() => {
+    if (user) {
       setIsLogin(true);
+    } else {
+      setIsLogin(false);
     }
-
-  },[user])
+  }, [user]);
 
   return {
     name: user?.name,
@@ -22,7 +25,7 @@ const useAuth = () => {
     isAdmin: user?.isAdmin,
     id: user?._id,
     user: user,
-    isLogin:isLogin,
+    isLogin: isLogin,
     setIsLogin
   };
 };

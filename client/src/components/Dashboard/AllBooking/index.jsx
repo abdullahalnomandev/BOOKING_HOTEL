@@ -1,77 +1,124 @@
-import { Button } from "antd";
-import React, { useEffect, useState } from "react";
+import { Button, Empty, Skeleton, Table, Tag, Typography } from "antd";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { GET_ALL_BOOKING } from "../../../Api/ApiConstant";
 import { getData } from "../../../Api/commonServices";
-import "../MyBooking/index.css";
+
+const { Title } = Typography;
+
 const AllBooking = () => {
   const [booking, setBooking] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getRoomDetails = async () => {
       try {
-        const { data } = await getData(GET_ALL_BOOKING, {});
-        console.log("singleRoom", data);
+        const { data } = await getData(GET_ALL_BOOKING);
         setBooking(data.booking);
       } catch (err) {
-        console.log(err);
+        console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
     getRoomDetails();
   }, []);
 
+  const columns = [
+    {
+      title: "Hotel Name",
+      dataIndex: "hotel",
+      key: "hotel",
+    },
+    {
+      title: "Room Name",
+      dataIndex: "roomName",
+      key: "roomName",
+    },
+    {
+      title: "Phone",
+      dataIndex: "phone",
+      key: "phone",
+    },
+    {
+      title: "Booking Date",
+      dataIndex: "date",
+      key: "date",
+      render: (date: string) => new Date(date).toLocaleDateString(),
+    },
+    {
+      title: "Booking ID",
+      dataIndex: "_id",
+      key: "_id",
+      render: (id: string) => id.slice(0, 10),
+    },
+    {
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
+      render: (price: number) => `$${price}`,
+    },
+    {
+      title: "Room Numbers",
+      dataIndex: "roomNumbers",
+      key: "roomNumbers",
+      render: (rooms: string[]) => (
+        <>
+          {rooms.map((room) => (
+            <Tag key={room} color='blue' style={{ marginBottom: 4 }}>
+              {room}
+            </Tag>
+          ))}
+        </>
+      ),
+    },
+  ];
+
+  // ✅ Header extracted above return
+  const header = (
+    <div className='text-center mb-6'>
+      <Title level={2}>
+        ALL <span style={{ color: "#fe5d5d" }}>BOOKING</span>
+      </Title>
+    </div>
+  );
+
   return (
-    <div className="my-booking">
-      <div className="head-content" style={{ marginTop: "-3%" }}>
-        <h1>
-          MY <span style={{ color: "#fe5d5d" }}>BOOKING </span>
-        </h1>
-        <img
-          src="https://premiumlayers.com/html/hotelbooking/img/nice-title.png"
-          alt=""
+    <div style={{ padding: 24 }}>
+      {header}
+
+      {loading ? (
+        <Skeleton
+          active
+          paragraph={{ rows: 8 }}
+          title={false}
+          style={{ padding: 24 }}
         />
-      </div>
-      <table>
-        <tr>
-          <th>Hotel Name</th>
-          <th>Room Name</th>
-          <th>Phone</th>
-          <th>Booking Date</th>
-          <th>Booking ID</th>
-          <th>Price</th>
-          <th>Room Numbers</th>
-        </tr>
-        {booking.length < 1 && (
-          <div style={{ width: "400px", margin: "auto", textAlign: "center" }}>
-            <h1 style={{ color: "red" }}>
-              Sorry, You hve no booking ! &#127979;
-            </h1>
-            <Link to="/">
-              <button className="btn-secondary">Let's Book a Room</button>
-            </Link>
-          </div>
-        )}
-        {booking?.map(
-          ({ hotel, phone, date, _id, price, roomName, roomNumbers }) => (
-            <tr key={_id}>
-              <td>{hotel}</td>
-              <td>{roomName}</td>
-              <td>{phone}</td>
-              <td>{new Date(date).toLocaleDateString()}</td>
-              <td>{_id.slice(0, 10)}</td>
-              <td>${price}</td>
-              <td>
-                {roomNumbers.map((room) => (
-                  <Button type="default" style={{ marginRight: "3px" }}>
-                    {" "}
-                    {room}
-                  </Button>
-                ))}
-              </td>
-            </tr>
-          )
-        )}
-      </table>
+      ) : booking.length === 0 ? (
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          description={
+            <>
+              <Title level={4} style={{ color: "red" }}>
+                Sorry, You have no bookings! 🏨
+              </Title>
+              <Link to='/'>
+                <Button type='primary' style={{ marginTop: 12 }}>
+                  Let's Book a Room
+                </Button>
+              </Link>
+            </>
+          }
+        />
+      ) : (
+        <Table
+          rowKey='_id'
+          dataSource={booking}
+          columns={columns}
+          pagination={{ pageSize: 8 }}
+          bordered
+        />
+      )}
     </div>
   );
 };

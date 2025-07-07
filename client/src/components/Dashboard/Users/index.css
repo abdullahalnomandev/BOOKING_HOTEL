@@ -1,4 +1,5 @@
-.user-table td, th {
+.user-table td,
+th {
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
@@ -6,4 +7,57 @@
 
 .user-table tr:nth-child(even) {
   background-color: #dddddd;
+}
+
+.custom-skeleton-table {
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.skeleton-row {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.skeleton-cell {
+  height: 20px;
+  background: #f0f0f0;
+  border-radius: 4px;
+  margin-right: 16px;
+}
+
+.avatar-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 220px;
+}
+
+.skeleton-avatar {
+  width: 48px;
+  height: 48px;
+  background: #e0e0e0;
+  border-radius: 50%;
+}
+
+.skeleton-name {
+  width: 80px;
+  height: 16px;
+  background: #e0e0e0;
+  border-radius: 4px;
+}
+
+.short {
+  width: 80px;
+}
+
+.medium {
+  width: 180px;
+}
+
+.tag {
+  width: 60px;
 }
