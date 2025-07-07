@@ -30,7 +30,7 @@ app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 });
 app.use(globalErrorHandler);
-// console.log(satisfies)
+// console.log(satisfiess)
 // Connection
 const connection = async () => {
   try {
