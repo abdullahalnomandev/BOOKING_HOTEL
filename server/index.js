@@ -25,6 +25,13 @@ app.use("/api/auth", AuthRoutes);
 app.use("/api/users", UserRoutes);
 app.use("/api/booking", BookingRoutes);
 
+app.get("/api/test", (req, res) => {
+  res.status(200).json({
+    status: "success",
+    message: "API is working correctly",
+  });
+});
+
 // Error Handler
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
