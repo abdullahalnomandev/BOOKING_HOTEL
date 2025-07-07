@@ -50,11 +50,10 @@ const BookingRoomModal = ({
     const status = room?.roomNumbers?.map((roomNo) => isAvailable(roomNo));
     setIsBooked(status);
   };
-
+  // class
   useEffect(() => {
     handleDisabled();
   }, [isBookingModalVisible]);
-
   const handleChange = (roomId, e, isUnavailable) => {
     if (isUnavailable) return;
 
