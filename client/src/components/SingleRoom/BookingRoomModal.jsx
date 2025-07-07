@@ -1,141 +1,119 @@
 import { Alert, Card, Col, Form, Input, Modal, Row, Tooltip } from "antd";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 import { CHECK_ROOM_AVAILABILITY, CREATE_BOOKING } from "../../Api/ApiConstant";
 import { patchData, postData } from "../../Api/commonServices";
 import { useBookingContext } from "../../context/BookingContext";
 import useAuth from "./../../hooks/useAuth";
-import "./singleRoom.css";
-import swal from "sweetalert";
 
-import { GrCheckboxSelected } from "react-icons/gr";
 const BookingRoomModal = ({
   isBookingModalVisible,
   setIsBookingModalVisible,
   room,
-  hotel
+  hotel,
 }) => {
   const [selectedRooms, setSelectedRooms] = useState([]);
-  const [error, setError] = useState(" Select at least one room");
-  const [boo, setBoo] = useState(null);
+  const [error, setError] = useState("Please select at least one room.");
+  const [isBooked, setIsBooked] = useState([]);
   const { booking } = useBookingContext();
+  const { isLogin, name, phone, address, id } = useAuth();
+  const navigate = useNavigate();
 
-  const { isLogin } = useAuth();
   const getDateInRange = (startDate, endDate) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
-
     const date = new Date(start.getTime());
-    let list = [];
+    const list = [];
     while (date <= end) {
       list.push(new Date(date).getTime());
       date.setDate(date.getDate() + 1);
     }
     return list;
   };
-  const allDates = getDateInRange(
-    booking?.arrival._d || new Date(),
-    booking?.departure._d || new Date()
-  );
-  console.log(allDates);
 
-  const [isBooked, setIsBooked] = useState([]);
+  const allDates = getDateInRange(
+    booking?.arrival?._d || new Date(),
+    booking?.departure?._d || new Date()
+  );
 
   const isAvailable = (roomNumber) => {
-    const allDateList = allDates?.map((date) => new Date(date).toDateString());
-    const isFound = roomNumber?.unavailableDates?.some((date) => {
-      return allDateList.includes(new Date(date).toDateString());
-    });
-    roomNumber.isTrue = isFound;
-    setIsBooked(isFound);
-    return isFound;
-  };
-
-  const navigate = useNavigate();
-  const handleChange = (roomId, e, isTrue) => {
-    const isChecked = selectedRooms.includes(roomId);
-
-    if (!isChecked && !isTrue) {
-      e.target.style.border = "3px solid #FE5D5D";
-      e.target.style.background = "rgb(87 159 57)";
-    }
-    if (isChecked && !isTrue) {
-      e.target.style.background = "rgb(87 159 57)";
-      e.target.style.border = "";
-    }
-    if (!isTrue) {
-      setSelectedRooms(
-        !isChecked
-          ? [...selectedRooms, roomId]
-          : selectedRooms?.filter((id) => id !== roomId)
-      );
-    }
-  };
-  const handleClick = async () => {
-    if (!selectedRooms.length) {
-      setError(error);
-    } else {
-      try {
-        await Promise.all(
-          selectedRooms?.map((roomId) => {
-            const { res } = patchData(CHECK_ROOM_AVAILABILITY, {
-              roomId,
-              dates: allDates
-            });
-            // return res;
-            console.log("res", res);
-          })
-        );
-      } catch (errors) {
-        console.log(errors);
-      }
-      if (!isLogin) {
-        navigate("/login");
-      }
-    }
+    const dateStrings = allDates.map((date) => new Date(date).toDateString());
+    const found = roomNumber?.unavailableDates?.some((date) =>
+      dateStrings.includes(new Date(date).toDateString())
+    );
+    roomNumber.isTrue = found;
+    return found;
   };
 
   const handleDisabled = () => {
-    room?.roomNumbers?.map((roomNo) => isAvailable(roomNo));
-    setIsBooked(room?.roomNumbers?.map((roomNo) => isAvailable(roomNo)));
+    const status = room?.roomNumbers?.map((roomNo) => isAvailable(roomNo));
+    setIsBooked(status);
   };
+
   useEffect(() => {
     handleDisabled();
   }, [isBookingModalVisible]);
 
-  const { name, phone, address, id } = useAuth();
+  const handleChange = (roomId, e, isUnavailable) => {
+    if (isUnavailable) return;
+
+    const alreadySelected = selectedRooms.includes(roomId);
+    const updated = alreadySelected
+      ? selectedRooms.filter((id) => id !== roomId)
+      : [...selectedRooms, roomId];
+
+    setSelectedRooms(updated);
+  };
+
+  const handleClick = async () => {
+    if (!selectedRooms.length) {
+      setError("Please select at least one room.");
+    } else {
+      try {
+        await Promise.all(
+          selectedRooms.map((roomId) =>
+            patchData(CHECK_ROOM_AVAILABILITY, {
+              roomId,
+              dates: allDates,
+            })
+          )
+        );
+      } catch (err) {
+        console.error(err);
+      }
+
+      if (!isLogin) navigate("/login");
+    }
+  };
 
   const createNewBooking = async (bookingData) => {
-    console.log(bookingData);
     try {
       const { data } = await postData(CREATE_BOOKING, bookingData);
       if (data) {
         swal(
-          `Congratulations, ${name.split(" ")[0]}`,
-          "You Booking Success!",
+          `Congratulations, ${name?.split(" ")[0]}!`,
+          "Your booking was successful.",
           "success"
         );
         setIsBookingModalVisible(false);
         navigate("/dashboard/my-bookings");
       }
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.error(err);
     }
   };
 
   const onFinish = (values) => {
     handleClick();
-    console.log(values);
-    const selectRoom = selectedRooms.map((roomId) => {
-      const roomsNumber = room?.roomNumbers.find((room) => room._id === roomId);
-      return roomsNumber;
-    });
 
-    const allRoom = selectRoom.map((room) => room.number);
-    console.log("SELECTED ROOM", allRoom);
+    const selectedRoomData = selectedRooms.map((roomId) =>
+      room?.roomNumbers.find((r) => r._id === roomId)
+    );
+    const selectedRoomNumbers = selectedRoomData.map((r) => r.number);
 
-    const booking = {
-      name: name,
+    const bookingPayload = {
+      name,
       date: new Date(),
       phone: values.phone,
       address: values.address,
@@ -146,108 +124,131 @@ const BookingRoomModal = ({
       maxPeople: room.maxPeople,
       price: room.price,
       roomName: room.title,
-      roomNumbers: allRoom
+      roomNumbers: selectedRoomNumbers,
     };
+
     if (selectedRooms.length > 0) {
-      createNewBooking(booking);
+      createNewBooking(bookingPayload);
     }
   };
 
   return (
-    <div>
-      <Modal
-        title="Select your rooms:"
-        visible={isBookingModalVisible}
-        onCancel={() => setIsBookingModalVisible(false)}
-        footer={null}
-      >
-        <Form
-          layout="vertical"
-          initialValues={{
-            phone: phone,
-            address: address
-          }}
-          onFinish={onFinish}
-        >
-          <Row gutter={[14, 14]}>
-            <Col span={12}>
-              <h5>King size bed, 1 bathroom,balcony</h5>
-              <p>Max People:{room.maxPeople}</p>
+    <Modal
+      title={
+        <span style={{ fontWeight: 600, fontSize: 18 }}>
+          🛏️ Reserve Your Stay at {hotel?.name}
+        </span>
+      }
+      visible={isBookingModalVisible}
+      onCancel={() => setIsBookingModalVisible(false)}
+      footer={null}>
+      <Form
+        layout='vertical'
+        initialValues={{ phone, address }}
+        onFinish={onFinish}>
+        <Row gutter={[16, 16]}>
+          <Col span={12}>
+            <h3 style={{ fontWeight: 600, fontSize: 16 }}>🏨 Room Overview</h3>
+            <p style={{ color: "#555", fontSize: 14, marginBottom: 8 }}>
+              {room.title} —{" "}
+              {room.description || "King-size bed, 1 bathroom, balcony"}
+            </p>
+            <p style={{ fontSize: 14, marginBottom: 16 }}>
+              👥 <strong>Max Guests:</strong> {room.maxPeople}
+            </p>
 
-              <Form.Item
-                name="phone"
-                label="Mobile No."
-                rules={[{ required: true }]}
-              >
-                <Input placeholder="Mobile Number" />
-              </Form.Item>
-              <Form.Item
-                name="address"
-                label="Address"
-                rules={[{ required: true }]}
-              >
-                <Input.TextArea placeholder="Address" />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Row>
-                <Col span={24}>
-                  <Card style={{ marginBottom: "15px" }}>
-                    <p className="select">
-                      Select Room <GrCheckboxSelected />
-                    </p>
-                    {room?.roomNumbers?.map((roomNumber) => (
+            <Form.Item
+              name='phone'
+              label='📞 Contact Number'
+              rules={[
+                { required: true, message: "Please enter your mobile number" },
+              ]}>
+              <Input placeholder='Enter your mobile number' />
+            </Form.Item>
+
+            <Form.Item
+              name='address'
+              label='📍 Address'
+              rules={[
+                { required: true, message: "Please enter your address" },
+              ]}>
+              <Input.TextArea placeholder='Your full address' />
+            </Form.Item>
+          </Col>
+
+          <Col span={12}>
+            <Card style={{ marginBottom: "15px" }}>
+              <p style={{ fontWeight: 500, marginBottom: 10 }}>
+                🗝️ Select Available Rooms
+              </p>
+
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+                {room?.roomNumbers?.map((roomNumber) => {
+                  const isUnavailable = roomNumber.isTrue;
+                  const isSelected = selectedRooms.includes(roomNumber._id);
+
+                  return (
+                    <Tooltip
+                      title={
+                        isUnavailable ? "Currently Unavailable" : "Available"
+                      }
+                      color={isUnavailable ? "red" : "green"}
+                      key={roomNumber._id}>
                       <div
-                        className="room-number"
+                        style={{
+                          padding: "8px 12px",
+                          borderRadius: "6px",
+                          fontSize: 13,
+                          color: "#fff",
+                          cursor: isUnavailable ? "not-allowed" : "pointer",
+                          backgroundColor: isUnavailable
+                            ? "#ccc"
+                            : isSelected
+                            ? "#1677ff"
+                            : "#52c41a",
+                          transition: "all 0.2s",
+                        }}
                         onClick={(e) =>
-                          handleChange(roomNumber._id, e, roomNumber.isTrue)
-                        }
-                      >
-                        <Tooltip
-                          title={
-                            roomNumber.isTrue ? "Unavailable" : "Available"
-                          }
-                          color={roomNumber.isTrue ? "red" : "green"}
-                        >
-                          <p
-                            onClick={() => setBoo(roomNumber)}
-                            style={{
-                              backgroundColor: roomNumber.isTrue
-                                ? "#ddd"
-                                : "rgb(87 159 57)",
-                              cursor: roomNumber.isTrue ? "no-drop" : ""
-                            }}
-                          >
-                            Room No.({roomNumber.number})
-                          </p>
-                        </Tooltip>
-
-                        <input
-                          // disable={ handleDisabled(roomNumber)}
-                          type="checkbox"
-                          name=""
-                          id=""
-                        />
+                          handleChange(roomNumber._id, e, isUnavailable)
+                        }>
+                        Room {roomNumber.number}
                       </div>
-                    ))}
-                    {!selectedRooms.length && (
-                      <Alert type="error" message={error} banner />
-                    )}
-                  </Card>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-          <button
-            className="btn-secondary "
-            style={{ width: "100%" }}
-            htmlType="submit"
-          >
-            Reserve Now !
-          </button>{" "}
-        </Form>
-      </Modal>
-    </div>
+                    </Tooltip>
+                  );
+                })}
+              </div>
+
+              {!selectedRooms.length && (
+                <Alert
+                  style={{ marginTop: 15 }}
+                  type='error'
+                  message={error}
+                  banner
+                />
+              )}
+            </Card>
+          </Col>
+        </Row>
+
+        <button
+          style={{
+            width: "100%",
+            marginTop: 10,
+            padding: "10px 0",
+            backgroundColor: "#1677ff",
+            color: "#fff",
+            border: "none",
+            borderRadius: "5px",
+            fontWeight: 600,
+            fontSize: 16,
+            cursor: "pointer",
+            transition: "background-color 0.2s",
+          }}
+          type='submit'>
+          ✅ Confirm My Booking
+        </button>
+      </Form>
+    </Modal>
   );
 };
 
