@@ -1,6 +1,5 @@
 import React, { Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import loaderZif from "../assets/project-idea.gif";
 import useAuth from "../hooks/useAuth";
 const Register = React.lazy(() => import("../components/Auth/Register"));
 const DashBoard = React.lazy(() => import("../components/Dashboard"));
@@ -37,8 +36,37 @@ const Routers = () => {
   return (
     <Suspense
       fallback={
-        <div style={{ margin: "auto", width: "400px" }}>
-          <img style={{ maxWidth: "100%" }} src={loaderZif} alt='' />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100vh",
+            backgroundColor: "#fff",
+            fontFamily: "Segoe UI, sans-serif",
+          }}>
+          <div
+            style={{ fontSize: "20px", marginBottom: "1rem", color: "#333" }}>
+            Finding your perfect stay<span className='dots'>...</span>
+          </div>
+          <div
+            style={{
+              width: "48px",
+              height: "48px",
+              border: "4px dashed #ccc",
+              borderRadius: "50%",
+              animation: "spin 1s linear infinite",
+            }}
+          />
+          <style>
+            {`
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    `}
+          </style>
         </div>
       }>
       <Routes>
