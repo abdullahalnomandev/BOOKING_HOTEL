@@ -126,6 +126,12 @@ const NavBar = () => {
         </span>
       }
       extra={[
+        // <div className='items' key='dashboard'>
+        //   <Link to='/about'>ABOUT</Link>
+        // </div>,
+        // <div className='items' key='dashboard'>
+        //   <Link to='/services'>SERVICES</Link>
+        // </div>,
         <div className='items' key='dashboard'>
           <Link to='/dashboard'>DASHBOARD</Link>
         </div>,

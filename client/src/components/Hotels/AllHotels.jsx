@@ -70,49 +70,105 @@ const AllHotels = () => {
             </Row>
           )}
           <Row gutter={[14, 14]}>
-            {hotels?.map(({ _id, name, photo, city }) => (
-              <Col
-                key={_id}
-                xs={{ span: 24 }}
-                sm={{ span: 12 }}
-                lg={{ span: 6 }}
-                md={{ span: 8 }}>
+            {hotels?.map(({ _id, name, photo, city, desc, address }) => (
+              <Col key={_id} xs={24} sm={12} md={8} lg={6}>
                 <Card
                   hoverable
+                  className='hotel-card'
+                  style={{
+                    borderRadius: 16,
+                    overflow: "hidden",
+                    boxShadow: "0 10px 30px rgba(0,0,0,0.06)",
+                    transition: "transform 0.3s ease",
+                    height: "100%",
+                  }}
                   cover={
                     <img
-                      src={photo}
                       alt={name}
+                      src={photo}
                       style={{
                         height: 200,
+                        width: "100%",
                         objectFit: "cover",
-                        borderRadius: "8px 8px 0 0",
+                        transition: "0.3s",
                       }}
                     />
                   }
-                  bodyStyle={{ padding: 16 }}>
-                  <h3
-                    style={{ fontSize: 18, fontWeight: 600, marginBottom: 8 }}>
-                    {name.slice(0, 14)} {name.length > 14 ? "..." : ""}
-                  </h3>
-                  <p style={{ fontSize: 14, color: "#555", marginBottom: 12 }}>
-                    City: <span style={{ color: "#888" }}>{city}</span>
-                  </p>
+                  bodyStyle={{
+                    padding: "20px 20px 16px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    backgroundColor: "#fff",
+                    height: 260,
+                  }}>
+                  <div>
+                    <h3
+                      style={{
+                        fontSize: 18,
+                        fontWeight: 600,
+                        marginBottom: 6,
+                        color: "#1f1f1f",
+                        lineHeight: 1.3,
+                      }}
+                      title={name}>
+                      {name.length > 30 ? `${name.slice(0, 25)}...` : name}
+                    </h3>
+
+                    <p
+                      style={{
+                        fontSize: 13.2,
+                        color: "#888",
+                        marginBottom: 4,
+                        display: "flex",
+                        alignItems: "center",
+                      }}>
+                      <i
+                        className='fas fa-map-marker-alt'
+                        style={{ color: "#fe5d5d", marginRight: 6 }}
+                      />
+                      {city.charAt(0).toUpperCase() + city.slice(1)} •{" "}
+                      {address?.split("•")[0] || "Bangladesh"}
+                    </p>
+
+                    <p
+                      style={{
+                        fontSize: 13.5,
+                        color: "#555",
+                        lineHeight: 1.5,
+                        marginBottom: 8,
+                      }}>
+                      {desc.length > 90 ? desc.slice(0, 87) + "..." : desc}
+                    </p>
+
+                    <div
+                      style={{
+                        fontSize: 13,
+                        color: "#52c41a",
+                        fontWeight: 500,
+                        marginBottom: 12,
+                      }}>
+                      From <span style={{ fontWeight: 600 }}>৳4,500</span> /
+                      night
+                    </div>
+                  </div>
+
                   <button
-                    className='btn-secondary'
+                    className='view-rooms-btn'
                     onClick={() => handleClickRooms(_id)}
                     style={{
-                      background: "#1890ff",
-                      color: "#fff",
+                      backgroundColor: "#1890ff",
+                      color: "white",
                       border: "none",
-                      padding: "8px 16px",
-                      borderRadius: 6,
+                      padding: "10px",
+                      borderRadius: 8,
                       cursor: "pointer",
+                      fontSize: 14,
+                      fontWeight: 600,
+                      transition: "all 0.3s ease",
                       width: "100%",
-                      fontWeight: 500,
-                      transition: "0.3s",
                     }}>
-                    See Available Rooms
+                    View Available Rooms
                   </button>
                 </Card>
               </Col>

@@ -1,51 +1,39 @@
-import {
-  Button,
-  Card,
-  Col,
-  Input,
-  message,
-  Pagination,
-  Row,
-  Skeleton,
-  Space,
-  Typography,
-} from "antd";
+import { Avatar, Button, Input, message, Space, Table, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { GET_ROOMS } from "../../../Api/ApiConstant";
 import { getData } from "../../../Api/commonServices";
 import AddRoomModal from "./AddRoomModal";
 
 const { Title, Text } = Typography;
+const { Search } = Input;
 
 const ManageRoom = () => {
   const [rooms, setRooms] = useState([]);
   const [filteredRooms, setFilteredRooms] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(""); // <-- controlled input
+  const [searchTerm, setSearchTerm] = useState("");
   const [isRoomModalVisible, setIsRoomModalVisible] = useState(false);
-  const [render, setRender] = useState(false);
+  const [refreshFlag, setRefreshFlag] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 6;
-
-  const getPost = async () => {
+  /** ───────────────────────────────────────
+   *  Fetch rooms
+   * ─────────────────────────────────────── */
+  const fetchRooms = async () => {
     setLoading(true);
     try {
       const { data } = await getData(GET_ROOMS, {
         lowestPrice: 0,
         heightPrice: 500,
       });
-      const reversedRooms = data.rooms.slice().reverse();
-      setRooms(reversedRooms);
-      // Apply search filter if any
-      if (searchTerm.trim() !== "") {
-        const filtered = reversedRooms.filter((room) =>
-          room.title.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        setFilteredRooms(filtered);
-      } else {
-        setFilteredRooms(reversedRooms);
-      }
+      const reversed = data.rooms.slice().reverse();
+      setRooms(reversed);
+      setFilteredRooms(
+        searchTerm
+          ? reversed.filter((r) =>
+              r.title.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+          : reversed
+      );
     } catch (err) {
       message.error("Failed to fetch rooms.");
       console.error(err);
@@ -55,178 +43,135 @@ const ManageRoom = () => {
   };
 
   useEffect(() => {
-    getPost();
+    fetchRooms();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /* re‑fetch after add / edit actions */
   useEffect(() => {
-    if (render) {
-      getPost();
-      setRender(false);
+    if (refreshFlag) {
+      fetchRooms();
+      setRefreshFlag(false);
     }
-  }, [render, getPost]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshFlag]);
 
-  // Filter rooms as user types
-  const onSearchChange = (e) => {
-    const value = e.target.value;
+  /** ───────────────────────────────────────
+   *  Search
+   * ─────────────────────────────────────── */
+  const onSearch = (value: string) => {
     setSearchTerm(value);
-    if (value.trim() === "") {
-      setFilteredRooms(rooms);
-    } else {
-      const filtered = rooms.filter((room) =>
-        room.title.toLowerCase().includes(value.toLowerCase())
-      );
-      setFilteredRooms(filtered);
-    }
-    setCurrentPage(1);
+    setFilteredRooms(
+      value
+        ? rooms.filter((room) =>
+            room.title.toLowerCase().includes(value.toLowerCase())
+          )
+        : rooms
+    );
   };
 
-  const onPageChange = (page) => {
-    setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const startIndex = (currentPage - 1) * pageSize;
-  const currentRooms = filteredRooms.slice(startIndex, startIndex + pageSize);
-
-  const skeletonCards = Array(pageSize).fill(null);
+  /** ───────────────────────────────────────
+   *  Table definition
+   * ─────────────────────────────────────── */
+  const columns = [
+    {
+      title: "Image",
+      dataIndex: "photo",
+      key: "photo",
+      render: (src: string) => (
+        <Avatar
+          shape='square'
+          size={50}
+          src={src}
+          style={{ borderRadius: 8 }}
+        />
+      ),
+    },
+    {
+      title: "Room Title",
+      dataIndex: "title",
+      key: "title",
+      render: (text: string) => <Text strong>{text}</Text>,
+    },
+    {
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
+      sorter: (a: any, b: any) => a.price - b.price,
+      render: (p: number) => `$${p}`,
+    },
+    {
+      title: "Actions",
+      key: "actions",
+      render: (_: any, record: any) => (
+        <Space size='middle'>
+          <Button
+            danger
+            onClick={() => message.info("Delete feature coming soon")}>
+            Delete
+          </Button>
+          <Button
+            onClick={() => message.info("Update feature coming very soon")}>
+            Update
+          </Button>
+        </Space>
+      ),
+    },
+  ];
 
   return (
-    <div>
+    <div style={{ padding: 24 }}>
+      {/* ────────────── Add / Search bar ────────────── */}
       <AddRoomModal
         isRoomModalVisible={isRoomModalVisible}
         setIsRoomModalVisible={setIsRoomModalVisible}
-        setRender={setRender}
+        setRender={setRefreshFlag}
       />
 
       <div
-        className='d-flex justify-between align-center'
-        style={{ marginBottom: 24, flexWrap: "wrap", gap: 12 }}>
-        {/* Controlled Input */}
-        <Input
+        style={{
+          marginBottom: 24,
+          display: "flex",
+          gap: 12,
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+        }}>
+        <Search
           placeholder='Search Room'
-          value={searchTerm}
-          onChange={onSearchChange}
           allowClear
-          style={{ maxWidth: 400, flexGrow: 1 }}
           disabled={loading}
+          onSearch={onSearch}
+          onChange={(e) => onSearch(e.target.value)}
+          style={{ maxWidth: 400, flexGrow: 1 }}
         />
         <Button
           type='primary'
-          onClick={() => setIsRoomModalVisible(true)}
           style={{ minWidth: 140 }}
+          onClick={() => setIsRoomModalVisible(true)}
           disabled={loading}>
           + Add New Room
         </Button>
       </div>
 
-      {loading ? (
-        <Row gutter={[16, 24]}>
-          {skeletonCards.map((_, idx) => (
-            <Col
-              key={idx}
-              xs={24}
-              sm={12}
-              md={8}
-              lg={6}
-              style={{ display: "flex" }}>
-              <Card style={{ width: "100%", borderRadius: 8 }}>
-                <div
-                  style={{
-                    width: "100%",
-                    height: 160,
-                    backgroundColor: "#f0f0f0",
-                    borderRadius: 8,
-                    marginBottom: 12,
-                  }}
-                />
-                <Skeleton
-                  active
-                  paragraph={{ rows: 3, width: ["60%", "80%", "40%"] }}
-                  title={false}
-                />
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      ) : filteredRooms.length === 0 ? (
+      {/* ────────────── Table / Empty State ────────────── */}
+      {filteredRooms.length === 0 && !loading ? (
         <div style={{ textAlign: "center", padding: 60 }}>
-          <Title level={4} style={{ marginTop: 24 }}>
-            No rooms found.
-          </Title>
+          <Title level={4}>No rooms found.</Title>
           <Text type='secondary'>
             Try adding a new room or adjust your search.
           </Text>
         </div>
       ) : (
-        <div>
-          <Row gutter={[16, 24]}>
-            {currentRooms.map(({ title, photo, price, _id }) => (
-              <Col
-                key={_id}
-                xs={24}
-                sm={12}
-                md={8}
-                lg={6}
-                style={{ display: "flex" }}>
-                <Card
-                  hoverable
-                  style={{ width: "100%", borderRadius: 8 }}
-                  cover={
-                    <img
-                      alt={title}
-                      src={photo}
-                      style={{
-                        height: 160,
-                        objectFit: "cover",
-                        borderRadius: "8px 8px 0 0",
-                      }}
-                    />
-                  }>
-                  <Title level={5} style={{ marginBottom: 4 }}>
-                    {title}
-                  </Title>
-                  <Text type='secondary' style={{ fontWeight: "600" }}>
-                    Price: ${price}
-                  </Text>
-
-                  <Space size='middle' style={{ marginTop: 12 }}>
-                    <Button
-                      danger
-                      onClick={() =>
-                        message.info("Delete feature coming soon")
-                      }>
-                      Delete
-                    </Button>
-                    <Button
-                      type='default'
-                      onClick={() =>
-                        message.info("Update feature coming very soon")
-                      }>
-                      Update
-                    </Button>
-                  </Space>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-
-          {filteredRooms.length > pageSize && (
-            <div
-              style={{
-                marginTop: 32,
-                paddingBottom: 32,
-                textAlign: "center",
-              }}>
-              <Pagination
-                current={currentPage}
-                pageSize={pageSize}
-                total={filteredRooms.length}
-                onChange={onPageChange}
-                showSizeChanger={false}
-              />
-            </div>
-          )}
-        </div>
+        <Table
+          rowKey='_id'
+          loading={loading}
+          columns={columns}
+          dataSource={filteredRooms}
+          pagination={{
+            pageSize: 6,
+            showSizeChanger: false,
+          }}
+        />
       )}
     </div>
   );

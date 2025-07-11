@@ -360,9 +360,11 @@ const Header = () => {
                 <h1>
                   BOOK YOUR SUMMER HOLIDAYS <br /> WITH HOTEL BOOKING TEMPLATE
                 </h1>
-                {/* <div className="carousel-button">
-                  <button>EXPLORE IT</button>
-                </div> */}
+                <div className='carousel-button'>
+                  <button onClick={() => navigate("/dashboard")}>
+                    EXPLORE IT
+                  </button>
+                </div>
               </Col>
               <Col span={6}>
                 <div className='image-logo'>
@@ -380,9 +382,11 @@ const Header = () => {
                 <h1>
                   A BRAND NEW HOTEL <br /> BEYOND ORDINARY
                 </h1>
-                {/* <div className="carousel-button">
-                  <button>EXPLORE IT</button>
-                </div> */}
+                <div className='carousel-button'>
+                  <button onClick={() => navigate("/dashboard")}>
+                    EXPLORE IT
+                  </button>
+                </div>
               </Col>
               <Col span={6}>
                 <div className='image-logo'>

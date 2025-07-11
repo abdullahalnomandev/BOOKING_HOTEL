@@ -1,6 +1,6 @@
-import { Card, Col, Form, Row, Select, Skeleton } from "antd";
+import { Card, Col, Form, Rate, Row, Select, Skeleton, Tag } from "antd";
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GET_ROOMS_BY_Hotel_ID } from "../../Api/ApiConstant";
 import { getData } from "../../Api/commonServices";
 import { useBookingContext } from "../../context/BookingContext";
@@ -58,7 +58,7 @@ const AllRooms = () => {
   }, [hotelID, inputRange, page]);
 
   // PAGINATION
-  console.log(page);
+  const navigate = useNavigate();
 
   const paginationCount = Math.ceil(totalPage / paginationLimit);
   return (
@@ -183,49 +183,166 @@ const AllRooms = () => {
             </Row>
           )}
           <Row gutter={[20, 20]}>
-            {rooms.map(({ _id, photo, title, price }) => (
-              <Col key={_id} xs={24} sm={12} md={8} lg={6}>
-                <Card
-                  hoverable
-                  cover={
+            {rooms.map(
+              ({
+                _id,
+                photos,
+                maxPeople,
+                photo,
+                title,
+                price,
+                availableRooms,
+              }) => (
+                <Col key={_id} xs={24} sm={12} md={8} lg={6}>
+                  <Card
+                    onClick={() => navigate(`/room/${_id}/${hotelID}`)}
+                    hoverable
+                    style={{
+                      borderRadius: 16,
+                      overflow: "hidden",
+                      boxShadow: "0 8px 28px rgba(0,0,0,0.06)",
+                      transition: "transform 0.3s ease",
+                      maxHeight: 450,
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                    bodyStyle={{
+                      padding: 0,
+                      flex: "1 1 auto",
+                      display: "flex",
+                      flexDirection: "column",
+                    }}>
+                    {/* IMAGE */}
                     <img
                       src={photo}
                       alt={title}
                       style={{
-                        height: 200,
+                        height: 180,
+                        width: "100%",
                         objectFit: "cover",
-                        borderRadius: "8px 8px 0 0",
+                        borderTopLeftRadius: 16,
+                        borderTopRightRadius: 16,
                       }}
                     />
-                  }
-                  bodyStyle={{ padding: 16 }}>
-                  <h3
-                    style={{ fontSize: 18, fontWeight: 600, marginBottom: 8 }}>
-                    {title}
-                  </h3>
-                  <p style={{ fontSize: 14, color: "#555", marginBottom: 12 }}>
-                    ${price} <span style={{ color: "#888" }}>/ night</span>
-                  </p>
-                  <Link to={`/room/${_id}/${hotelID}`}>
-                    <button
-                      className='btn-secondary'
+
+                    {/* CARD CONTENT */}
+                    <div
                       style={{
-                        background: "#1890ff",
-                        color: "#fff",
-                        border: "none",
-                        padding: "8px 16px",
-                        borderRadius: 6,
-                        cursor: "pointer",
-                        width: "100%",
-                        fontWeight: 500,
-                        transition: "0.3s",
+                        padding: 16,
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 10,
+                        flex: 1,
+                        overflow: "hidden",
                       }}>
-                      See Availability
-                    </button>
-                  </Link>
-                </Card>
-              </Col>
-            ))}
+                      {/* Header */}
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "flex-start",
+                        }}>
+                        <h3
+                          style={{
+                            margin: 0,
+                            fontSize: 18,
+                            fontWeight: 600,
+                            color: "#1f1f1f",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                            maxWidth: "80%",
+                          }}
+                          title={title}>
+                          {title}
+                        </h3>
+                      </div>
+
+                      {/* Rating */}
+                      <Rate
+                        allowHalf
+                        disabled
+                        defaultValue={4.5}
+                        style={{ fontSize: 14, color: "#faad14" }}
+                      />
+
+                      {/* Amenities tags */}
+                      <div
+                        style={{
+                          display: "flex",
+                          flexWrap: "wrap",
+                          gap: 6,
+                        }}>
+                        {["Free Wi-Fi", "Breakfast", "AC"].map((tag) => (
+                          <Tag key={tag} color='blue'>
+                            {tag}
+                          </Tag>
+                        ))}
+                      </div>
+
+                      {/* Max people */}
+                      <p style={{ margin: 0, fontSize: 13.5, color: "#666" }}>
+                        <i
+                          className='fas fa-users'
+                          style={{ marginRight: 6 }}
+                        />
+                        <strong>{maxPeople}</strong> guests
+                      </p>
+
+                      {/* Price */}
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "baseline",
+                          gap: 8,
+                          marginTop: "auto",
+                        }}>
+                        {price < 150 && (
+                          <span
+                            style={{
+                              textDecoration: "line-through",
+                              color: "#999",
+                              fontSize: 13,
+                            }}>
+                            ৳{price + 40}
+                          </span>
+                        )}
+                        <span
+                          style={{
+                            fontSize: 20,
+                            fontWeight: 700,
+                            color: "#1677ff",
+                          }}>
+                          ৳{price}
+                        </span>
+                        <span style={{ fontSize: 13, color: "#888" }}>
+                          / night
+                        </span>
+                      </div>
+
+                      {/* Button */}
+                      <Link to={`/room/${_id}/${hotelID}`} style={{ flex: 1 }}>
+                        <button
+                          style={{
+                            width: "100%",
+                            padding: "8px",
+                            border: "1px solid #1677ff",
+                            borderRadius: 8,
+                            background: "#fff",
+                            color: "#1677ff",
+                            fontWeight: 600,
+                            cursor: "pointer",
+                            transition: "all .25s",
+                            marginTop: 10,
+                          }}>
+                          See Details
+                        </button>
+                      </Link>
+                    </div>
+                  </Card>
+                </Col>
+              )
+            )}
           </Row>
         </div>
 

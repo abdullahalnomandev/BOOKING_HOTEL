@@ -1,17 +1,16 @@
-import { Avatar, Table, Tag, Typography } from "antd";
+import { Avatar, Card, Space, Table, Tag, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { GET_USERS } from "../../../Api/ApiConstant";
 import { getData } from "../../../Api/commonServices";
-import "./index.css";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const getRoomDetails = async () => {
+    const fetchUsers = async () => {
       try {
         const { data } = await getData(GET_USERS);
         setUsers(data.users.reverse());
@@ -21,74 +20,73 @@ const Users = () => {
         setLoading(false);
       }
     };
-    getRoomDetails();
+    fetchUsers();
   }, []);
 
   const columns = [
     {
-      title: "Name",
+      title: "User",
       dataIndex: "name",
       key: "name",
-      render: (_, record) => (
-        <div className='flex items-center gap-2'>
-          <Avatar src={record.photo} size={48} />
-          <span>{record.name}</span>
-        </div>
+      render: (_: any, record: any) => (
+        <Space>
+          <Avatar src={record.photo} size={40} />
+          <Text strong>{record.name}</Text>
+        </Space>
       ),
     },
-
     {
-      title: "E-mail",
+      title: "Email",
       dataIndex: "email",
       key: "email",
+      render: (email: string) => <Text type='secondary'>{email}</Text>,
     },
     {
       title: "Role",
       dataIndex: "isAdmin",
       key: "role",
-      render: (isAdmin) =>
+      render: (isAdmin: boolean) =>
         isAdmin ? <Tag color='red'>Admin</Tag> : <Tag color='blue'>User</Tag>,
     },
     {
-      title: "Registration Date",
+      title: "Registered",
       dataIndex: "registration",
       key: "registration",
-      render: (reg) => new Date(Number(reg)).toLocaleDateString(),
+      render: (reg: string | number) => (
+        <Text>
+          {new Date(Number(reg)).toLocaleDateString(undefined, {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          })}
+        </Text>
+      ),
     },
   ];
 
   return (
-    <div style={{ padding: 24 }}>
-      <div className='text-center mb-6'>
-        <Title level={2}>
-          All <span style={{ color: "#fe5d5d" }}>USERS</span>
-        </Title>
-      </div>
-
-      {loading ? (
-        <div className='custom-skeleton-table'>
-          {[...Array(6)].map((_, i) => (
-            <div className='skeleton-row' key={i}>
-              <div className='skeleton-cell avatar-cell'>
-                <div className='skeleton-avatar' />
-                <div className='skeleton-name' />
-              </div>
-              <div className='skeleton-cell short' />
-              <div className='skeleton-cell medium' />
-              <div className='skeleton-cell tag' />
-              <div className='skeleton-cell short' />
-            </div>
-          ))}
+    <div
+      style={{
+        padding: "",
+        backgroundColor: "#f9fafb",
+        minHeight: "100vh",
+      }}>
+      <Card bordered={false} style={{ margin: "0 auto" }}>
+        <div>
+          <Title level={2}>
+            All <span style={{ color: "#fe5d5d" }}>Users</span>
+          </Title>
         </div>
-      ) : (
+
         <Table
           rowKey='_id'
           columns={columns}
           dataSource={users}
-          pagination={{ pageSize: 8 }}
-          bordered
+          loading={loading}
+          pagination={{ pageSize: 8, showSizeChanger: false }}
+          size='middle'
         />
-      )}
+      </Card>
     </div>
   );
 };

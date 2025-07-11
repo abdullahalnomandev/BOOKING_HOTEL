@@ -116,7 +116,6 @@ const AllBooking = () => {
           dataSource={booking}
           columns={columns}
           pagination={{ pageSize: 8 }}
-          bordered
         />
       )}
     </div>

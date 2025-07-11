@@ -12,6 +12,8 @@ const SomeHotels = () => {
   const [citys, setCitys] = useState("dhaka");
   const [loading, setLoading] = useState(true);
 
+  console.log({ hotels });
+
   const navigate = useNavigate();
 
   const handleClickRooms = (id) => {
@@ -125,81 +127,111 @@ const SomeHotels = () => {
       <Row gutter={[16, 16]}>
         {loading
           ? renderSkeletonCards()
-          : hotels.slice(0, 4).map(({ _id, name, photo, city }) => (
-              <Col key={_id} xs={24} sm={12} md={8} lg={6}>
-                <Card
-                  hoverable
-                  className='hotel-card'
-                  cover={
-                    <div className='card-image-container'>
+          : hotels
+              .slice(0, 4)
+              .map(({ _id, name, photo, city, desc, address }) => (
+                <Col key={_id} xs={24} sm={12} md={8} lg={6}>
+                  <Card
+                    hoverable
+                    className='hotel-card'
+                    style={{
+                      borderRadius: 16,
+                      overflow: "hidden",
+                      boxShadow: "0 10px 30px rgba(0,0,0,0.06)",
+                      transition: "transform 0.3s ease",
+                      height: "100%",
+                    }}
+                    cover={
                       <img
                         alt={name}
                         src={photo}
                         style={{
-                          height: 240,
+                          height: 200,
                           width: "100%",
                           objectFit: "cover",
-                          borderRadius: "8px 8px 0 0",
+                          transition: "0.3s",
                         }}
                       />
-                    </div>
-                  }
-                  bodyStyle={{
-                    padding: "16px 20px",
-                    backgroundColor: "#fff",
-                  }}>
-                  <div className='card-content'>
-                    <h3
-                      style={{
-                        fontSize: "18px",
-                        fontWeight: 600,
-                        marginBottom: 8,
-                        color: "#2c3e50",
-                      }}>
-                      {name.length > 20 ? `${name.slice(0, 20)}...` : name}
-                    </h3>
-                    <p
-                      style={{
-                        margin: "0 0 12px",
-                        color: "#7f8c8d",
-                        fontSize: "14px",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "4px",
-                      }}>
-                      <i className='fas fa-map-marker-alt' />
-                      <span>
-                        Located in <strong>{city}</strong>
-                      </span>
-                    </p>
-                    <div
-                      style={{
-                        marginTop: 16,
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                      }}>
-                      <button
-                        className='view-rooms-btn'
-                        onClick={() => handleClickRooms(_id)}
+                    }
+                    bodyStyle={{
+                      padding: "20px 20px 16px",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                      backgroundColor: "#fff",
+                      height: 260,
+                    }}>
+                    <div>
+                      <h3
                         style={{
-                          backgroundColor: "#1890ff",
-                          color: "white",
-                          border: "none",
-                          padding: "8px 16px",
-                          borderRadius: "6px",
-                          cursor: "pointer",
-                          transition: "all 0.3s ease",
-                          fontWeight: 500,
-                          width: "100%",
+                          fontSize: 18,
+                          fontWeight: 600,
+                          marginBottom: 6,
+                          color: "#1f1f1f",
+                          lineHeight: 1.3,
+                        }}
+                        title={name}>
+                        {name.length > 30 ? `${name.slice(0, 30)}...` : name}
+                      </h3>
+
+                      <p
+                        style={{
+                          fontSize: 13.2,
+                          color: "#888",
+                          marginBottom: 4,
+                          display: "flex",
+                          alignItems: "center",
                         }}>
-                        View Available Rooms
-                      </button>
+                        <i
+                          className='fas fa-map-marker-alt'
+                          style={{ color: "#fe5d5d", marginRight: 6 }}
+                        />
+                        {city.charAt(0).toUpperCase() + city.slice(1)} •{" "}
+                        {address?.split("•")[0] || "Bangladesh"}
+                      </p>
+
+                      <p
+                        style={{
+                          fontSize: 13.5,
+                          color: "#555",
+                          lineHeight: 1.5,
+                          marginBottom: 8,
+                        }}>
+                        {desc.length > 90 ? desc.slice(0, 87) + "..." : desc}
+                      </p>
+
+                      <div
+                        style={{
+                          fontSize: 13,
+                          color: "#52c41a",
+                          fontWeight: 500,
+                          marginBottom: 12,
+                        }}>
+                        From <span style={{ fontWeight: 600 }}>৳4,500</span> /
+                        night
+                      </div>
                     </div>
-                  </div>
-                </Card>
-              </Col>
-            ))}
+
+                    <button
+                      className='view-rooms-btn'
+                      onClick={() => handleClickRooms(_id)}
+                      style={{
+                        backgroundColor: "#1890ff",
+                        color: "white",
+                        border: "none",
+                        padding: "10px",
+                        borderRadius: 8,
+                        cursor: "pointer",
+                        fontSize: 14,
+                        fontWeight: 600,
+                        transition: "all 0.3s ease",
+                        width: "100%",
+                      }}>
+                      View Available Rooms
+                    </button>
+                  </Card>
+                </Col>
+              ))}
       </Row>
     </div>
   );
