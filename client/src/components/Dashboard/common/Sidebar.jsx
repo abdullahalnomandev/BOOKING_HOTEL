@@ -46,9 +46,9 @@ const Sidebar = () => {
     },
     {
       id: 6,
-      title: "Settings",
-      path: "/dashboard/settings",
-      icon: <AiOutlineSetting />,
+      title: "Bookings",
+      path: "/dashboard/all-bookings",
+      icon: <DiGhostSmall />,
     },
     {
       id: 7,
@@ -58,9 +58,9 @@ const Sidebar = () => {
     },
     {
       id: 8,
-      title: "Bookings",
-      path: "/dashboard/all-bookings",
-      icon: <DiGhostSmall />,
+      title: "Settings",
+      path: "/dashboard/settings",
+      icon: <AiOutlineSetting />,
     },
   ];
 
@@ -68,7 +68,8 @@ const Sidebar = () => {
     return (
       path !== "/dashboard/rooms" &&
       path !== "/dashboard/hotels" &&
-      path !== "/dashboard/all-bookings"
+      path !== "/dashboard/all-bookings" &&
+      path !== "/dashboard/users"
     );
   });
 

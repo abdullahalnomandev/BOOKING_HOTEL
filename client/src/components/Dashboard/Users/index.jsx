@@ -34,12 +34,14 @@ const Users = () => {
           <Text strong>{record.name}</Text>
         </Space>
       ),
+      sorter: (a: any, b: any) => a.name.localeCompare(b.name),
     },
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
       render: (email: string) => <Text type='secondary'>{email}</Text>,
+      sorter: (a: any, b: any) => a.email.localeCompare(b.email),
     },
     {
       title: "Role",
@@ -47,6 +49,7 @@ const Users = () => {
       key: "role",
       render: (isAdmin: boolean) =>
         isAdmin ? <Tag color='red'>Admin</Tag> : <Tag color='blue'>User</Tag>,
+      sorter: (a: any, b: any) => a.isAdmin - b.isAdmin,
     },
     {
       title: "Registered",
@@ -61,6 +64,7 @@ const Users = () => {
           })}
         </Text>
       ),
+      sorter: (a: any, b: any) => a.registration - b.registration,
     },
   ];
 

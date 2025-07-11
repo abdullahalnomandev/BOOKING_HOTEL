@@ -39,14 +39,13 @@ const Citys = () => {
         zIndex: "-5 !important",
       }}>
       <div className='head-content'>
-        <h1>BOOK HOTEL BY CITY </h1>
-        <img
-          src='https://premiumlayers.com/html/hotelbooking/img/nice-title.png'
-          alt=''
-        />
+        <h1>
+          BOOK HOTEL <span style={{ color: "#fe5d5d" }}> BY CITY</span>
+        </h1>
+
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. <br /> Atque
-          recusandae quidem aspernatua!
+          Discover comfortable and luxurious hotels in every major city. <br />
+          Find the perfect accommodation for your stay!
         </p>
       </div>
       <Row gutter={[14, 14]}>

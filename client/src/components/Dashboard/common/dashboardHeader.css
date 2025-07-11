@@ -1,13 +1,13 @@
 .hmbger {
-color: #111;
-font-size: 29px;
-float: right;
- cursor: pointer;
- 
-
+  color: #111;
+  font-size: 29px;
+  float: right;
+  cursor: pointer;
 }
-.sidebar-container{
-    width: 15%;
+.sidebar-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 @media screen and (max-width: 768px) {
@@ -19,7 +19,7 @@ float: right;
     padding-left: 12px;
     cursor: pointer;
   }
-  .sidebar-container{
+  .sidebar-container {
     width: 100%;
-}
+  }
 }

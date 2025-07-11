@@ -1,44 +1,87 @@
-.footer{
-    background-color: #313A45;
-    padding: 15px 5%;
-}
-.footer h4 {
-    color: white;
-    font-family: fangsong;
-    font-size: 23px;
-    font-weight: 900;
-    padding-bottom: 20px;
+/* ---------- Layout ---------- */
+.footer {
+  background: #0f172a; /* very‑dark slate */
+  color: #94a3b8; /* slate‑300 */
+  padding: 4rem 5%;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.list ul li {
-    list-style: none;
-    color: white;
-    font-size: 15px;
-    font-family: revert;
+.footer__container {
+  max-width: 1140px;
+  margin: 0 auto;
 }
 
-.list {
-    display: flex;
-    align-items: center;
-    gap: 12%;
-    line-height: 35px;
+.footer__logo {
+  width: 180px;
+  margin-bottom: 1.5rem;
 }
 
-.first-part-of-footer {
-    padding-top: 20px;
-    color: white;
+/* ---------- Typography ---------- */
+.footer__heading {
+  color: #fff;
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
 
-.first-part-of-footer p {
-    font-size: 17px;
-    line-height: 28px;
-    font-family: system-ui;
+.footer__text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
 }
 
-.fText {
-    width: 450px;
-    margin: auto;
-    color: white;
-    font-size: 15px;
-    padding-top: 15px;
+/* ---------- Links ---------- */
+.footer__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer__link {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+  padding: 0.25rem 0;
+  transition: color 0.2s;
+}
+
+.footer__link:hover,
+.footer__link:focus {
+  color: #fff;
+}
+
+/* ---------- Social icons ---------- */
+.footer__social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+  background: #1e293b; /* slate‑800 */
+  color: #94a3b8;
+  transition: background 0.2s, color 0.2s;
+}
+
+.footer__social a:hover,
+.footer__social a:focus {
+  background: #2563eb; /* blue‑600 */
+  color: #fff;
+}
+
+/* ---------- Map ---------- */
+.footer__map {
+  width: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* ---------- Copyright ---------- */
+.footer__copy {
+  text-align: center;
+  font-size: 0.875rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #1e293b;
 }

@@ -8,28 +8,28 @@ export default class Example extends React.PureComponent {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
     };
   }
   toggle() {
     this.setState({
-      isOpen: !this.state.isOpen
+      isOpen: !this.state.isOpen,
     });
   }
   render() {
     const { ontoggleNav } = this.props;
     return (
-      <div className="sidebar-container">
-        <span className="hmbger" onClick={ontoggleNav}>
-          &#9776;
-        </span>
-        <Link to="/">
+      <div className='sidebar-container'>
+        <Link to='/'>
           <img
             src={logo}
-            alt=""
+            alt=''
             style={{ marginTop: "10px", paddingLeft: "10px" }}
           />
         </Link>
+        <div className='hmbger' onClick={ontoggleNav}>
+          &#9776;
+        </div>
       </div>
     );
   }

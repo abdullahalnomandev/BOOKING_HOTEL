@@ -88,17 +88,20 @@ const ManageHotels = () => {
       dataIndex: "name",
       key: "name",
       render: (text) => <Text strong>{text}</Text>,
+      sorter: (a: any, b: any) => a.name.localeCompare(b.name),
     },
     {
       title: "City",
       dataIndex: "city",
       key: "city",
       render: (text) => text?.toUpperCase(),
+      sorter: (a: any, b: any) => a.city.localeCompare(b.city),
     },
     {
       title: "Address",
       dataIndex: "address",
       key: "address",
+      sorter: (a: any, b: any) => a.address.localeCompare(b.address),
     },
 
     {

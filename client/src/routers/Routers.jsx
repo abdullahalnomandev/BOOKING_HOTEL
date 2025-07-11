@@ -1,6 +1,8 @@
 import React, { Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import AboutPage from "../pages/About";
+import ServicesPage from "../pages/Services";
 const Register = React.lazy(() => import("../components/Auth/Register"));
 const DashBoard = React.lazy(() => import("../components/Dashboard"));
 const ManageHotels = React.lazy(() =>
@@ -74,6 +76,8 @@ const Routers = () => {
         <Route path='/rooms' element={<Rooms />} />
         <Route path='/room/:id/:hotelId' element={<Room />} />
         <Route path='/hoteles' element={<Hotels />} />
+        <Route path='/about' element={<AboutPage />} />
+        <Route path='/services' element={<ServicesPage />} />
         <Route
           path='/auth/register'
           element={isLogin ? <Navigate replace to='/' /> : <Register />}

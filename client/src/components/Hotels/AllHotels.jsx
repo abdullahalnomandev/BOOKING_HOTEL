@@ -45,13 +45,11 @@ const AllHotels = () => {
             HOTELES BY{" "}
             <span style={{ color: "#fe5d5d" }}>{name.toUpperCase()}</span>
           </h1>
-          <img
-            src='https://premiumlayers.com/html/hotelbooking/img/nice-title.png'
-            alt=''
-          />
         </div>
 
-        <div className='rooms' style={{ padding: " 0 5%" }}>
+        <div
+          className='rooms'
+          style={{ padding: "0 5%", paddingBottom: "2rem" }}>
           {hotels.length < 1 && (
             <Row gutter={[20, 20]}>
               {[1, 2, 3, 4].map((item) => (

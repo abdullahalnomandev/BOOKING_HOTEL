@@ -92,6 +92,7 @@ const ManageRoom = () => {
       dataIndex: "title",
       key: "title",
       render: (text: string) => <Text strong>{text}</Text>,
+      sorter: (a: any, b: any) => a.title.localeCompare(b.title),
     },
     {
       title: "Price",
@@ -99,6 +100,13 @@ const ManageRoom = () => {
       key: "price",
       sorter: (a: any, b: any) => a.price - b.price,
       render: (p: number) => `$${p}`,
+    },
+    {
+      title: "Max People",
+      dataIndex: "maxPeople",
+      key: "maxPeople",
+      sorter: (a: any, b: any) => a.maxpeople - b.maxpeople,
+      render: (p: number) => p,
     },
     {
       title: "Actions",
@@ -118,6 +126,8 @@ const ManageRoom = () => {
       ),
     },
   ];
+
+  console.log({ rooms });
 
   return (
     <div style={{ padding: 24 }}>

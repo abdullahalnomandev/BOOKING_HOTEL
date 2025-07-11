@@ -158,7 +158,7 @@ const BookingRoomModal = ({
 
             <Form.Item
               name='phone'
-              label='📞 Contact Number'
+              label=' Contact Number'
               rules={[
                 { required: true, message: "Please enter your mobile number" },
               ]}>
@@ -167,7 +167,7 @@ const BookingRoomModal = ({
 
             <Form.Item
               name='address'
-              label='📍 Address'
+              label='Address'
               rules={[
                 { required: true, message: "Please enter your address" },
               ]}>
@@ -178,7 +178,7 @@ const BookingRoomModal = ({
           <Col span={12}>
             <Card style={{ marginBottom: "15px" }}>
               <p style={{ fontWeight: 500, marginBottom: 10 }}>
-                🗝️ Select Available Rooms
+                Select Available Rooms
               </p>
 
               <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
@@ -244,7 +244,7 @@ const BookingRoomModal = ({
             transition: "background-color 0.2s",
           }}
           type='submit'>
-          ✅ Confirm My Booking
+          Confirm Book
         </button>
       </Form>
     </Modal>

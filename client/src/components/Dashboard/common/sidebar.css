@@ -130,7 +130,14 @@
 .sidenav,
 .sidenavOpen,
 .sidenavClose {
-  height: 500px;
+  height: 90%;
+}
+@media screen and (max-width: 768px) {
+  .sidenav,
+  .sidenavOpen,
+  .sidenavClose {
+    height: 100%;
+  }
 }
 
 .sidenav a:hover {
@@ -209,4 +216,35 @@
 }
 .nav-b a.none-active:hover {
   background: #1890ff40;
+}
+
+/* Scrollbar change style  */
+/* Webkit Browsers (Chrome, Safari, Edge) */
+.sidenav::-webkit-scrollbar,
+.main::-webkit-scrollbar {
+  width: 6px; /* width of the scrollbar */
+}
+
+.sidenav::-webkit-scrollbar-track,
+.main::-webkit-scrollbar-track {
+  background: transparent; /* or any light color */
+}
+
+.sidenav::-webkit-scrollbar-thumb,
+.main::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2); /* Scrollbar thumb color */
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.sidenav::-webkit-scrollbar-thumb:hover,
+.main::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Firefox */
+.sidenav,
+.main {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
 }

@@ -7,7 +7,7 @@ import "./HotelHeroWithModalVideo.css"; // animation + layout
 
 const { Title, Text } = Typography;
 
-const HotelHeroWithModalVideo = () => {
+const HotelHeroWithModalVideo = ({ url }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -28,7 +28,10 @@ const HotelHeroWithModalVideo = () => {
       {/* ─────────── Video banner ─────────── */}
       <section className='hero-video-section'>
         <img
-          src='https://www.trulyclassy.com/wp-content/uploads/2022/03/IMG_1697.jpg'
+          src={
+            url ??
+            "https://www.trulyclassy.com/wp-content/uploads/2022/03/IMG_1697.jpg"
+          }
           alt='Luxury cabin in the snow'
           className='hero-banner'
           onClick={() => setOpen(true)}
