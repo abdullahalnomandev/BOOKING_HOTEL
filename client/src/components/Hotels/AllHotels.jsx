@@ -26,6 +26,9 @@ const AllHotels = () => {
     };
     getPost();
   }, [name]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const navigate = useNavigate();
 

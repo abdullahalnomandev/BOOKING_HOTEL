@@ -171,7 +171,7 @@ const SomeHotels = () => {
                           lineHeight: 1.3,
                         }}
                         title={name}>
-                        {name.length > 30 ? `${name.slice(0, 30)}...` : name}
+                        {name.length > 30 ? `${name.slice(0, 25)}...` : name}
                       </h3>
 
                       <p

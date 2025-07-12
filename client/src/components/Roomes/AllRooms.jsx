@@ -61,6 +61,10 @@ const AllRooms = () => {
   const navigate = useNavigate();
 
   const paginationCount = Math.ceil(totalPage / paginationLimit);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <div style={{ background: "white", padding: "0 5%" }}>
@@ -68,11 +72,10 @@ const AllRooms = () => {
       </div>
       <div style={{ padding: "0 5%" }}>
         <div className='head-content'>
-          <h1>OTHER DECENT ROOM</h1>
-          <img
-            src='https://premiumlayers.com/html/hotelbooking/img/nice-title.png'
-            alt=''
-          />
+          <h1>
+            OTHER
+            <span style={{ color: "#fe5d5d" }}> DECENT ROOM</span>
+          </h1>
         </div>
         <Form
           initialValues={{
